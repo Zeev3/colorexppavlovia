@@ -11,6 +11,9 @@
 <script src="jsPsych/plugins/jspsych-external-html.js"></script>
 <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/jspsych.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-7.3.4/css/jspsych.css"/>
+<script type="text/javascript" src="lib/vendors/jspsych-7.1.2/jspsych.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-7.3.4/css/jspsych.css"/>
+<script type="text/javascript" src="lib/jspsych-7-pavlovia-2022.1.1.js"></script>
 
 <script src="jquery-3.3.1.min.js"></script>
 
@@ -75,6 +78,14 @@
 </body>
 
 <script>
+  /* create timeline */
+var timeline = [];
+/* init connection with pavlovia.org */
+const pavlovia_init = {
+    type: "jsPsychPavlovia",
+    command: "init"
+};
+timeline.push(pavlovia_init);
 /* Require a new-ish browser:
 ------------------------------------------ */
 function supportsLiterals() {
@@ -732,5 +743,11 @@ jsPsych.init({
     console.log("Experiment completed and data saved");
   }
 });
+/* finish connection with pavlovia.org */
+var pavlovia_finish = {
+    type: "pavlovia",
+    command: "finish"
+    };
+timeline.push(pavlovia_finish);
 </script>
 </html>
