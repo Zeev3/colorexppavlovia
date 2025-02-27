@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Estimate average colour presented in the matrix</title>
+<script src="jsPsych/jspsych.js"></script>
+<script src="jsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+<script src="jsPsych/plugins/jspsych-image-button-response.js"></script>
+<script src="jsPsych/plugins/jspsych-image-slider-response_noButton.js"></script>
+<script src="jsPsych/plugins/jspsych-instructions.js"></script>
+<script src="jsPsych/plugins/jspsych-survey-text.js"></script>
+<script src="jsPsych/plugins/jspsych-external-html.js"></script>
+<script type="text/javascript" src="lib/vendors/jspsych-7.1.2/jspsych.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-7.3.4/css/jspsych.css"/>
+
+<script src="jquery-3.3.1.min.js"></script>
+
+<script src="sad_sequential_task_functions.js"></script>
+
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.713.0.min.js"></script>
+<link	href="jsPsych/css/jspsych.css"	rel="stylesheet" type="text/css"></link>
+
+</head>
+
+<style>
+	.instructions_img {
+		border: solid 5px black;
+		width:  700px;
+	}
+	span.grid {
+		display: grid;
+		grid-template-columns: 120px 120px 120px 120px 120px;
+		grid-template-rows: 130px 130px 130px 130px 130px;
+	}
+
+	
+	body {
+		background-color: #AAAAAA;
+	}
+	
+	.jspsych-instructions-nav { margin-bottom: 100px; }
+	#consentDiv { font-size: 9pt; text-align: justify; }
+
+	.red {
+		display: inline-block;
+		width: 53px;
+		height: 68px;
+		background-size: 5000% 100%;
+		background-image: url('red_scale.jpg');
+		padding: 20px;
+	}
+	
+	.blue {
+		display: inline-block;
+		width: 53px;
+		height: 68px;
+		background-size: 5000% 100%;
+		background-image: url('blue_scale.jpg');
+		padding: 20px;
+	}
+	
+	div.preload {
+		display: none;
+	}
+
+	span div {
+		width: 100px;
+	}
+</style>
+
+<body>
+	<div class="preload">
+		<img src="red_scale.jpg" />
+		<img src="blue_scale.jpg" />
+	</div>
+</body>
+
+<script>
+/* Require a new-ish browser:
+------------------------------------------ */
+function supportsLiterals() {
+  try { return eval("''===``") }
+  catch(e) { return false; }
+}
+if (!supportsLiterals()) {
+	var txt = "Sorry, this experiment requires a newer browser, so yours is not able to be used. The latest Chrome, Firefox, Safari or Edge all work.";
+	alert(txt);
+	document.body.onload = function() { document.body.innerHTML = txt; };
+}
+
+/* IMPROVED DATA SAVING FUNCTION
+------------------------------------------ */
+function saveDataWithID() {
+  // Get the participant ID (if available, otherwise use timestamp)
+  var id = (typeof Face.subject_id !== 'undefined' && Face.subject_id) ? 
+            Face.subject_id : 
+            'participant_' + new Date().toISOString().replace(/[-:.]/g, "_");
+  
+  // Get all data
+  var csv = jsPsych.data.get().csv();
+  
+  // Create filename with ID
+  var filename = id + "_data.csv";
+  
+  // Create and trigger download
+  var blob = new Blob([csv], { type: "text/csv" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  console.log("Data saved as: " + filename);
+}
+
+/* MODIFIED getFaceSample FUNCTION
+------------------------------------------ */
+function getFaceSample(array_length, meanVal, personX) {
+  console.log("Creating stimulus: length=" + array_length + ", mean=" + meanVal + ", color=" + personX);
+  
+  // Store these values in the Face object so they're accessible later
+  Face.array_length = array_length;
+  Face.meanVal = meanVal;
+  Face.personX = personX;
+  
+  // Define the fixed arrays
+  const arraySix = [-5, -3, -1, 1, 3, 5];
+  const arrayTwo = [-3, 3];
+  const arrayEight = [-6, -4, -3, -1, 1, 3, 4, 6];
+  const arrayTwelve = [-7,-4,-6,-2,0,-1,1,1,2,4,5,7];
+
+  // Choose array based on array_length and add meanVal to each element
+  let emotion_value;
+  if (array_length === 2){
+     emotion_value = arrayTwo.map(x => x + meanVal);}
+  else if (array_length === 6) {
+    emotion_value = arraySix.map(x => x + meanVal);
+  }
+  else if (array_length === 8) {
+    emotion_value = arrayEight.map(x => x + meanVal);
+  }
+  else if (array_length === 12) {
+    emotion_value = arrayTwelve.map(x => x + meanVal);
+  }
+  
+  // Store the calculated array values
+  Face.array_values = emotion_value;
+  
+  return make_stim(emotion_value, personX);
+}
+
+/* MODIFIED getFaceSamplelearning FUNCTION
+------------------------------------------ */
+function getFaceSampleLearning(personX) {
+  console.log("Creating learning stimulus for color: " + personX);
+  
+  // Store personX in Face object
+  Face.personX = personX;
+  
+  var emotion_value;
+  if (getRandomInt(1,2) == 1) {  
+    emotion_value = [...Array(15).keys()].map(function(item) { 
+      return item + 5; 
+    });
+    Face.array_length = getRandomInt(2,12);
+    Face.array_values = getRandom(emotion_value, Face.array_length);
+  } else {
+    emotion_value = [...Array(15).keys()].map(function(item) {
+      return item + 34;
+    });
+    Face.array_length = getRandomInt(2,12);
+    Face.array_values = getRandom(emotion_value, Face.array_length);
+  }
+  
+  // Calculate mean value
+  Face.meanVal = Face.array_values.reduce((a, b) => a + b, 0) / Face.array_values.length;
+  
+  return make_stim_learning(Face.array_values, personX);
+}
+
+/* Variables
+------------------------------------------ */
+var Face = {}; //create a data dictionary that will capture all of the data
+var pool = loadccolorPool(1,50);
+Face.wordList = ['but','rock','sky','our','course','we','table','house','here','mouth','tree', 'hello'];
+var trialList = [];
+var total_trials = 48;
+var falseAnswer = 0; var falseAllowance = 4;  //attention check - the amount of time participants rate the same picture before they get an alert
+var repeatAlert = 0; var repeatAllowance = 2; //how many times they can get alerts before they are cicked out
+
+var trialCount = 0;
+function updateCounter() {
+	trialCount = trialCount+1;
+}
+
+var attentionStimulus = loadStimulus(2); 
+var imageTestDescription = attentionStimulus; 
+
+/* Instructions
+------------------------------------------ */
+trialList.push({ //comment out consent when testing locally
+    type:'external-html',
+    url: "external_page.html",
+    cont_btn: "start",
+    check_fn: check_consent
+});
+
+trialList.push({
+	type: "instructions",
+	pages: [
+	"<p>This study aims to examine whether people can <b>estimate the <span style='color:red'>average</span> colour</b> of multiple colours. In each trial, up to 12 squares of colours expressing various shades of main colours will appear on the screen.</p> <br> <img class = 'instructions_img' src='ins/colorexp.png'>",
+	"After the colour group is displayed, one square will appear in the center of the screen. As you move your mouse, the colour of the square will change gradually, from <b>pale to dark</b>. You must move the mouse until the colour of the square matches the  <b>average</b> colour in the squares  you just saw. <br> <img class='instructions_img' src='ins/colorpicexp.gif'>",
+	"Once you have reached your estimate, <b>click the mouse</b> to select your estimate and advance to the next trial.",
+	"Remember, the goal here is provide <strong>YOUR ESTIMATION of the <span style='color:red'>AVERAGE </span>COLOUR </strong> of the squares you just saw.",
+	],  
+	show_clickable_nav: true,
+});
+
+trialList.push({
+    type: 'survey-text',
+    questions: [{prompt: "Please enter your Prolific ID (this will be used for validation purposes)"}],
+    on_finish: function(data){
+      Face.subject_id = JSON.parse(data.responses).Q0; // save id as global variable
+      jsPsych.data.addProperties({participant_id: Face.subject_id});} // add the participant column to all current and future data entries
+});
+
+var emotion_value = [...Array(50).keys()].map(function(item) { 
+    return item + 1; 
+});
+
+/* PRACTICE TRIALS
+------------------------------------------ */
+//word attentionCheck
+var askTypeWord = { //attention check - participants are asked to copy a word that appears on the screen
+    type: 'survey-text',
+    questions: function (){return [{prompt:'Please type the word: '+ getWord().bold() + '  (pay attention to capital letters)'}]},
+};
+
+var attentionCheck = { //function for the attention check
+    timeline: [askTypeWord],
+    loop_function: checkTyping
+};
+
+var imageDescription = {
+    type: 'survey-text',
+    questions: [{prompt: "Please describe the picture in your own words"}],
+    preamble: function() {
+      var curr_stim = imageTestDescription.shift()
+      return '<img src='+curr_stim+'></img>';
+    },
+    on_finish: function(data){
+      Face.description = JSON.parse(data.responses).Q0;
+    }
+};
+
+trialList.push({
+	type:"instructions",
+	pages:['You will begin with 20 practice trials.'],
+	show_clickable_nav: true
+});
+
+trialList.push(imageDescription);
+
+// Practice Trials
+for (let dd = 0; dd < 5; dd++) {
+  if (dd == 0) {
+    trialList.push(attentionCheck);
+  }
+
+  // Create practice configuration
+  const practiceConfig = {
+    index: dd,
+    type: "practice",
+    color: "red"
+  };
+
+  trialList.push({
+    type: 'html-keyboard-response',
+    stimulus: '<p style="font-size: 48px;"> + </p>',
+    trial_duration: getTimeAndFace,
+    data: {Name: 'fixation', trial_type: 'practice', trial_index: dd}
+  });
+
+  trialList.push({
+    type: 'html-keyboard-response',
+    stimulus: '<div id="stim-container"></div>',
+    trial_duration: 1500,
+    choices: jsPsych.NO_KEYS,
+    on_start: function(trial) {
+      // Store current configuration
+      Face.currentConfig = practiceConfig;
+      
+      // Generate stimulus
+      trial.stimulus = getFaceSampleLearning("red");
+    },
+    data: function() {
+      return {
+        Name: 'stimulus', 
+        trial_type: 'practice',
+        trial_index: dd,
+        config: JSON.stringify(Face.currentConfig)
+      };
+    }
+  });
+
+  trialList.push({
+    type: 'image-slider-response_noButton',
+    stimulus: getScaleRed,
+    prompt: "<p>how red was the stimulus in your opinion?</p>",
+    step: 1,
+    max: 50,
+    start: 0,
+    on_load: morphedScaleRed,
+    data: function() {
+      updateCounter();
+      return {
+        Name: 'response',
+        trial_type: 'practice',
+        trial_index: dd,
+        fixationTime: Face.fixationTime,
+        faceIdentity: Face.personX,
+        array_length: Face.array_length,
+        array_values: JSON.stringify(Face.array_values),
+        meanVal: Face.meanVal,
+        description: Face.description,
+        trial: trialCount,
+        config: JSON.stringify(Face.currentConfig)
+      };
+    }
+  });
+}
+
+trialList.push({
+	type: "instructions",
+	pages: ['You completed the practice. Now you will complete 50 real trials.'],
+	show_clickable_nav: true
+});
+
+// Experimental trials
+if (getRandomInt(1,2) == 1) {
+  // Create and shuffle array configurations
+  var faceArrayValues = [...Array(12).fill(2), ...Array(12).fill(6), ...Array(12).fill(8), ...Array(12).fill(12)]
+    .sort(() => Math.random() - 0.5);
+
+  var uniformArray = Array(48).fill(0).map(() => Math.floor(Math.random() * (41 - 9 + 1) + 9))
+    .sort(() => Math.random() - 0.5);
+
+  // Create trial configurations
+  var redTrialConfigs = [];
+  for (let i = 0; i < faceArrayValues.length; i++) {
+    redTrialConfigs.push({
+      index: i,
+      type: "experimental",
+      array_length: faceArrayValues[i],
+      meanVal: uniformArray[i],
+      color: "red"
+    });
+  }
+
+  // Create and add RED trials
+  for (let i = 0; i < redTrialConfigs.length; i++) {
+    // Store the current configuration to avoid closure issues
+    const thisConfig = redTrialConfigs[i];
+    
+    if (i % 10 == 0) {
+      trialList.push(attentionCheck);
+    }
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<p style="font-size: 48px;"> + </p>',
+      trial_duration: getTimeAndFace,
+      data: {Name: 'fixation', trial_type: 'experimental', color: 'red', trial_index: i}
+    });
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<div id="stim-container"></div>',
+      trial_duration: 1500,
+      choices: jsPsych.NO_KEYS,
+      on_start: function(trial) {
+        // Store current configuration
+        Face.currentConfig = thisConfig;
+        
+        // Generate stimulus with the specific parameters for this trial
+        trial.stimulus = getFaceSample(
+          thisConfig.array_length, 
+          thisConfig.meanVal, 
+          thisConfig.color
+        );
+      },
+      data: function() {
+        return {
+          Name: 'stimulus',
+          trial_type: 'experimental',
+          color: 'red',
+          trial_index: i,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+
+    trialList.push({
+      type: 'image-slider-response_noButton',
+      stimulus: getScaleRed,
+      prompt: "<p>how red was the stimulus in your opinion?</p>",
+      step: 1,
+      max: 50,
+      start: 0,
+      on_load: morphedScaleRed,
+      data: function() {
+        updateCounter();
+        return {
+          Name: 'response',
+          trial_type: 'experimental',
+          color: 'red',
+          trial_index: i,
+          fixationTime: Face.fixationTime,
+          faceIdentity: Face.personX,
+          array_length: Face.array_length,
+          array_values: JSON.stringify(Face.array_values),
+          meanVal: Face.meanVal,
+          description: Face.description,
+          trial: trialCount,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+  }
+
+  // Create and shuffle array configurations for BLUE trials
+  var faceArrayValues = [...Array(12).fill(2), ...Array(12).fill(6), ...Array(12).fill(8), ...Array(12).fill(12)]
+    .sort(() => Math.random() - 0.5);
+
+  var uniformArray = Array(48).fill(0).map(() => Math.floor(Math.random() * (41 - 9 + 1) + 9))
+    .sort(() => Math.random() - 0.5);
+
+  // Create trial configurations
+  var blueTrialConfigs = [];
+  for (let i = 0; i < faceArrayValues.length; i++) {
+    blueTrialConfigs.push({
+      index: i + redTrialConfigs.length,
+      type: "experimental",
+      array_length: faceArrayValues[i],
+      meanVal: uniformArray[i],
+      color: "blue"
+    });
+  }
+
+  // Create and add BLUE trials
+  for (let i = 0; i < blueTrialConfigs.length; i++) {
+    // Store the current configuration to avoid closure issues
+    const thisConfig = blueTrialConfigs[i];
+    
+    if (i % 10 == 0) {
+      trialList.push(attentionCheck);
+    }
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<p style="font-size: 48px;"> + </p>',
+      trial_duration: getTimeAndFace,
+      data: {Name: 'fixation', trial_type: 'experimental', color: 'blue', trial_index: thisConfig.index}
+    });
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<div id="stim-container"></div>',
+      trial_duration: 1500,
+      choices: jsPsych.NO_KEYS,
+      on_start: function(trial) {
+        // Store current configuration
+        Face.currentConfig = thisConfig;
+        
+        // Generate stimulus with the specific parameters for this trial
+        trial.stimulus = getFaceSample(
+          thisConfig.array_length, 
+          thisConfig.meanVal, 
+          thisConfig.color
+        );
+      },
+      data: function() {
+        return {
+          Name: 'stimulus',
+          trial_type: 'experimental',
+          color: 'blue',
+          trial_index: thisConfig.index,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+
+    trialList.push({
+      type: 'image-slider-response_noButton',
+      stimulus: getScaleBlue,
+      prompt: "<p>how blue was the stimulus in your opinion?</p>",
+      step: 1,
+      max: 50,
+      start: 0,
+      on_load: morphedScaleBlue,
+      data: function() {
+        updateCounter();
+        return {
+          Name: 'response',
+          trial_type: 'experimental',
+          color: 'blue',
+          trial_index: thisConfig.index,
+          fixationTime: Face.fixationTime,
+          faceIdentity: Face.personX,
+          array_length: Face.array_length,
+          array_values: JSON.stringify(Face.array_values),
+          meanVal: Face.meanVal,
+          description: Face.description,
+          trial: trialCount,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+  }
+
+} else {
+  // BLUE FIRST CONDITION
+  // Create and shuffle array configurations for BLUE trials
+  var faceArrayValues = [...Array(12).fill(2), ...Array(12).fill(6), ...Array(12).fill(8), ...Array(12).fill(12)]
+    .sort(() => Math.random() - 0.5);
+
+  var uniformArray = Array(48).fill(0).map(() => Math.floor(Math.random() * (41 - 9 + 1) + 9))
+    .sort(() => Math.random() - 0.5);
+
+  // Create trial configurations
+  var blueTrialConfigs = [];
+  for (let i = 0; i < faceArrayValues.length; i++) {
+    blueTrialConfigs.push({
+      index: i,
+      type: "experimental",
+      array_length: faceArrayValues[i],
+      meanVal: uniformArray[i],
+      color: "blue"
+    });
+  }
+
+  // Create and add BLUE trials
+  for (let i = 0; i < blueTrialConfigs.length; i++) {
+    // Store the current configuration to avoid closure issues
+    const thisConfig = blueTrialConfigs[i];
+    
+    if (i % 10 == 0) {
+      trialList.push(attentionCheck);
+    }
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<p style="font-size: 48px;"> + </p>',
+      trial_duration: getTimeAndFace,
+      data: {Name: 'fixation', trial_type: 'experimental', color: 'blue', trial_index: i}
+    });
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<div id="stim-container"></div>',
+      trial_duration: 1500,
+      choices: jsPsych.NO_KEYS,
+      on_start: function(trial) {
+        // Store current configuration
+        Face.currentConfig = thisConfig;
+        
+        // Generate stimulus with the specific parameters for this trial
+        trial.stimulus = getFaceSample(
+          thisConfig.array_length, 
+          thisConfig.meanVal, 
+          thisConfig.color
+        );
+      },
+      data: function() {
+        return {
+          Name: 'stimulus',
+          trial_type: 'experimental',
+          color: 'blue',
+          trial_index: i,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+
+    trialList.push({
+      type: 'image-slider-response_noButton',
+      stimulus: getScaleBlue,
+      prompt: "<p>how blue was the stimulus in your opinion?</p>",
+      step: 1,
+      max: 50,
+      start: 0,
+      on_load: morphedScaleBlue,
+      data: function() {
+        updateCounter();
+        return {
+          Name: 'response',
+          trial_type: 'experimental',
+          color: 'blue',
+          trial_index: i,
+          fixationTime: Face.fixationTime,
+          faceIdentity: Face.personX,
+          array_length: Face.array_length,
+          array_values: JSON.stringify(Face.array_values),
+          meanVal: Face.meanVal,
+          description: Face.description,
+          trial: trialCount,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+  }
+
+  // Create and shuffle array configurations for RED trials
+  var faceArrayValues = [...Array(12).fill(2), ...Array(12).fill(6), ...Array(12).fill(8), ...Array(12).fill(12)]
+    .sort(() => Math.random() - 0.5);
+
+  var uniformArray = Array(48).fill(0).map(() => Math.floor(Math.random() * (41 - 9 + 1) + 9))
+    .sort(() => Math.random() - 0.5);
+
+  // Create trial configurations
+  var redTrialConfigs = [];
+  for (let i = 0; i < faceArrayValues.length; i++) {
+    redTrialConfigs.push({
+      index: i + blueTrialConfigs.length,
+      type: "experimental",
+      array_length: faceArrayValues[i],
+      meanVal: uniformArray[i],
+      color: "red"
+    });
+  }
+
+  // Create and add RED trials
+  for (let i = 0; i < redTrialConfigs.length; i++) {
+    // Store the current configuration to avoid closure issues
+    const thisConfig = redTrialConfigs[i];
+    
+    if (i % 10 == 0) {
+      trialList.push(attentionCheck);
+    }
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<p style="font-size: 48px;"> + </p>',
+      trial_duration: getTimeAndFace,
+      data: {Name: 'fixation', trial_type: 'experimental', color: 'red', trial_index: thisConfig.index}
+    });
+
+    trialList.push({
+      type: 'html-keyboard-response',
+      stimulus: '<div id="stim-container"></div>',
+      trial_duration: 1500,
+      choices: jsPsych.NO_KEYS,
+      on_start: function(trial) {
+        // Store current configuration
+        Face.currentConfig = thisConfig;
+        
+        // Generate stimulus with the specific parameters for this trial
+        trial.stimulus = getFaceSample(
+          thisConfig.array_length, 
+          thisConfig.meanVal, 
+          thisConfig.color
+        );
+      },
+      data: function() {
+        return {
+          Name: 'stimulus',
+          trial_type: 'experimental',
+          color: 'red',
+          trial_index: thisConfig.index,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+
+    trialList.push({
+      type: 'image-slider-response_noButton',
+      stimulus: getScaleRed,
+      prompt: "<p>how red was the stimulus in your opinion?</p>",
+      step: 1,
+      max: 50,
+      start: 0,
+      on_load: morphedScaleRed,
+      data: function() {
+        updateCounter();
+        return {
+          Name: 'response',
+          trial_type: 'experimental',
+          color: 'red',
+          trial_index: thisConfig.index,
+          fixationTime: Face.fixationTime,
+          faceIdentity: Face.personX,
+          array_length: Face.array_length,
+          array_values: JSON.stringify(Face.array_values),
+          meanVal: Face.meanVal,
+          description: Face.description,
+          trial: trialCount,
+          config: JSON.stringify(Face.currentConfig)
+        };
+      }
+    });
+  }
+}
+
+// Final description and finishing trials
+trialList.push(imageDescription);
+trialList.push({
+  type: "instructions",
+  pages: ["You're done with the task! Click 'next' to finish"],
+  show_clickable_nav: true
+});
+
+/******************************************/
+/*           run the study                */
+/******************************************/
+  
+jsPsych.init({
+  timeline: trialList,
+  preload_images: pool,
+  use_webaudio: false,
+  experiment_width: 750,
+  exclusions: {
+    min_width: 700,
+    min_height: 500
+  },
+  on_close: function() {
+    saveDataWithID(); // Save data if window is closed
+  },
+  on_finish: function() {
+    saveDataWithID(); // Save data when experiment is finished
+    console.log("Experiment completed and data saved");
+  }
+});
+</script>
+</html>
