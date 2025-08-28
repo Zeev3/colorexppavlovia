@@ -1,0 +1,550 @@
+"trial_type","trial_index","time_elapsed","internal_node_id","participant_id","rt","url","view_history","responses","stimulus","key_press","Name","config","type","prompt","step","max","start","on_load","data","min","labels","button_label","stimulus_duration","trial_duration","response_ends_trial","imageSelected","indexSelected","exp_type","fixationTime","faceIdentity","array_length","array_values","meanVal","description","trial"
+"pavlovia","0","5","0.0-0.0","5bbf523d83f9790001ce549a","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"external-html","1","51025","0.0-1.0","5bbf523d83f9790001ce549a","50882.299999952316","external_page.html","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"instructions","2","165076","0.0-2.0","5bbf523d83f9790001ce549a","114048.79999995232","","[{""page_index"":0,""viewing_time"":24224.599999904633},{""page_index"":1,""viewing_time"":24727.200000047684},{""page_index"":2,""viewing_time"":50926.60000014305},{""page_index"":3,""viewing_time"":14169.799999952316}]","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"survey-text","3","173445","0.0-3.0","5bbf523d83f9790001ce549a","8360.5","","","{""Q0"":""5bbf523d83f9790001ce549a""}","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"instructions","4","175250","0.0-4.0","5bbf523d83f9790001ce549a","1804","","[{""page_index"":0,""viewing_time"":1803.7000000476837}]","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"survey-text","5","273571","0.0-5.0","5bbf523d83f9790001ce549a","98317","","","{""Q0"":""There are three giraffe standing close together in a open field of golden grass ""}","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"survey-text","6","286355","0.0-6.0-0.0","5bbf523d83f9790001ce549a","12775","","","{""Q0"":""but""}","","","","","","","","","","","","","","","","","","","","","","","","","","",""
+"html-keyboard-response","7","286762","0.0-7.0","5bbf523d83f9790001ce549a","null","","","","<p style=""font-size: 48px;""> + </p>","null","fixation","","","","","","","","","","","","","","","","","","","","","","","",""
+"html-keyboard-response","8","288271","0.0-8.0","5bbf523d83f9790001ce549a","null","","","","<span class='grid'><div> </div> <div> </div> <div> </div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:3400% 0%;margin-top:36px'></div> <div> </div> <div> </div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:4500% 0%;margin-top:45px'></div> <div class='red' style='background-position:4400% 0%;margin-top:29px'></div> <div> </div></span>","null","stimulus","","","","","","","","","","","","","","","","","","","","","","","",""
+"image-slider-response_noButton","9","314644","0.0-9.0","5bbf523d83f9790001ce549a","26368","","","","img/red1.jpg,img/red2.jpg,img/red3.jpg,img/red4.jpg,img/red5.jpg,img/red6.jpg,img/red7.jpg,img/red8.jpg,img/red9.jpg,img/red10.jpg,img/red11.jpg,img/red12.jpg,img/red13.jpg,img/red14.jpg,img/red15.jpg,img/red16.jpg,img/red17.jpg,img/red18.jpg,img/red19.jpg,img/red20.jpg,img/red21.jpg,img/red22.jpg,img/red23.jpg,img/red24.jpg,img/red25.jpg,img/red26.jpg,img/red27.jpg,img/red28.jpg,img/red29.jpg,img/red30.jpg,img/red31.jpg,img/red32.jpg,img/red33.jpg,img/red34.jpg,img/red35.jpg,img/red36.jpg,img/red37.jpg,img/red38.jpg,img/red39.jpg,img/red40.jpg,img/red41.jpg,img/red42.jpg,img/red43.jpg,img/red44.jpg,img/red45.jpg,img/red46.jpg,img/red47.jpg,img/red48.jpg,img/red49.jpg,img/red50.jpg","","response","{""index"":0,""type"":""practice"",""color"":""red""}","image-slider-response_noButton","<p>what was the average redness of the array?</p>","1","50","0","function morphedScaleRed() {
+    // defining a few helper functions
+    function nrange(size, startAt = 0) {
+      return [...Array(size).keys()].map(i => i + startAt);
+    };
+  
+    function fillArray(value, len) {
+      var arr = [];
+      for (var i = 0; i < len; i++) {
+        arr.push(value);
+      }
+      return arr;
+    };
+  
+    function generateSlices(vWidth, nSlices) {
+      var step = vWidth*0.6/(nSlices-2);
+      var stepArray = fillArray(step,nSlices-2)
+      stepArray.unshift(0.2*vWidth)
+      stepArray.push(0.2*vWidth)
+  
+      var bounds = [];
+      
+      for (var i = 0; i < nSlices; i++) {
+        if (i==0) {
+          bounds.push([(i*stepArray[i]), (i*stepArray[i])+stepArray[i]])
+        } else if (i>0 && i!=nSlices-1) {
+          bounds.push([(i*stepArray[i]+0.2*vWidth), (i*stepArray[i])+stepArray[i]+0.2*vWidth])
+        } else {
+          bounds.push([(vWidth-0.2*vWidth), vWidth])  
+        }
+      };
+      return bounds;
+    };
+    
+    // start trial timer
+    var startTime = (new Date()).getTime();
+    // get trial data
+    var trialData = jsPsych.currentTrial();
+  
+    // remove the picture scales and the slider
+    $('.jspsych-image-slider-response_noButton-container').css(""visibility"", ""hidden"");
+    $('img').remove();
+    var imgScale = getScaleRed();
+    
+    // derive the letter of the image filenames
+    var imgBase = imgScale[0].split('img/')[1].split('.jpg')[0].replace(/\d+/g, '');
+    
+    // split the number of the image filenames off from the rest of it
+    var nScale = [];
+    for (var i = 0; i < imgScale.length-1; i++) {
+      var n = imgScale[i].split('img/')[1].split('.jpg')[0].split(imgBase)[1];
+      nScale.push(n);
+    };
+    
+    // calculate the element width, and slice it up into sections
+    var vWidth = $(document).width();
+    var nSlices = nScale.length;
+    var slices = generateSlices(vWidth, nSlices);
+  
+    // setting up initial vertical line to start the mousemove functionality
+    var vHeight = $(document).height()-8;
+    var lineSlice = vWidth / 10;
+    var vertLine = `<div style=""border-left:black;border-style:solid;margin-left:${lineSlice}px; height:${vHeight}px;width:0px;position:absolute;"" id=""vertLine""></div>`;
+    var linePrompt = `<div id=""linePrompt""><div style=""font-size:50px;position:absolute;margin-left:${lineSlice*1.3}px;margin-top:${vHeight/2}px""></div><div style=""position:absolute;margin-left:${lineSlice*1.2}px;margin-top:${vHeight/2}px;z-index:5;"">Move mouse left of the line to begin</div></div>`;
+    $("".jspsych-content-wrapper"").prepend(vertLine);
+    $("".jspsych-content-wrapper"").prepend(linePrompt);
+    
+    // hide prompt until the trial is begun
+    $('#jspsych-content > p').css(""visibility"", ""hidden"");
+  
+    // initialize the central image with the most neutral one (i.e. from
+    // the middle of the scale) and set the image to be blurred
+    var initialImage = imgScale[0];
+    $('#jspsych-image-slider-response_noButton-stimulus').append(`<img src=""${initialImage}"" style=""filter:blur(4px);visibility:hidden;"" id=""changeable-image""/>`);
+  
+    // ADD VISUAL SCALE SHOWING MIN/MAX
+    var scaleWidth = vWidth * 0.6;
+    var scaleLeft = vWidth * 0.2;
+    var scaleHtml = `
+      <div id=""scale-container"" style=""position:absolute; bottom:120px; left:${scaleLeft}px; width:${scaleWidth}px; height:30px; background-color:rgba(220,220,220,0.7); border-radius:5px; display:none; z-index:10;"">
+        <div style=""position:absolute; left:0px; width:2px; height:30px; background-color:black;""></div>
+        <div style=""position:absolute; left:0px; top:32px; font-size:12px; color:black;"">Min (1)</div>
+        <div style=""position:absolute; right:0px; width:2px; height:30px; background-color:black;""></div>
+        <div style=""position:absolute; right:0px; top:32px; font-size:12px; color:black;"">Max (50)</div>
+        <div id=""current-marker"" style=""position:absolute; left:0px; width:2px; height:30px; background-color:red; display:none;""></div>
+      </div>
+    `;
+    $("".jspsych-content-wrapper"").append(scaleHtml);
+  
+    // workaround with a global variable
+    window.__imageMouseOver = {
+      lineSlice: lineSlice,
+      slices: slices,
+      nScale: nScale,
+      imgBase: imgBase,
+      startTime: startTime,
+      trialData: trialData,
+      sliceSelected: 0,
+    };
+    var __listenerBools = {};
+  
+    // define mousemove event listener that changes image
+    function changeImg(event) {
+      var mouseX = Math.floor(event.pageX);
+      
+      // Show the scale after interaction begins
+      $(""#scale-container"").css(""display"", ""block"");
+      
+      // Update current marker position based on mouse position
+      var scaleWidth = $(""#scale-container"").width();
+      var relativePos = Math.max(0, Math.min(mouseX - scaleLeft, scaleWidth));
+      var percentPos = (relativePos / scaleWidth) * 100;
+      
+      $(""#current-marker"").css({
+        ""left"": `${relativePos}px`,
+        ""display"": ""block""
+      });
+      
+      for (var i = 0; i < __imageMouseOver.slices.length; i++) {
+        // if mouse X position is within the bounds of the X axis slice,
+        // change the image to one that is indexed to that slice
+        if (mouseX >= __imageMouseOver.slices[i][0] && mouseX <= __imageMouseOver.slices[i][1]) {
+          // capture which slice is selected
+          __imageMouseOver.sliceSelected = i;
+          // update img src to the picture that corresponds to that slice
+          $('#changeable-image').attr('src', `img/${__imageMouseOver.imgBase}${__imageMouseOver.nScale[i]}.jpg`);
+        }
+      };
+    };
+    
+    // define the click listener that ends trial
+    function clickHandler(event) {
+      if (__listenerBools['mousemove']) {
+        // derive trial data
+        var trialData = __imageMouseOver.trialData;
+        var end_time = (new Date()).getTime();
+        var rt = end_time - __imageMouseOver.startTime;
+        trialData['rt'] = rt;
+        trialData['stimulus_duration'] = rt;
+        trialData['trial_duration'] = rt;
+        trialData['imageSelected'] = `${__imageMouseOver.imgBase}${__imageMouseOver.nScale[__imageMouseOver.sliceSelected]}.jpg`
+        trialData['indexSelected'] = __imageMouseOver.sliceSelected;
+        // turn off listeners
+        $(document).off('mousemove');
+        $(document).off('click');
+        // clean up variable namespaces
+        delete window.__imageMouseOver
+        delete __listenerBools;
+        // clean up scale
+        $(""#scale-container"").remove();
+        // finish the trial with trial data
+        jsPsych.finishTrial(trialData);
+      };
+    };
+  
+    function verticalLineInit(event) {
+      var mouseX = Math.floor(event.pageX);
+      if (mouseX <= __imageMouseOver.lineSlice) {
+        $(""#vertLine"").remove();
+        $(""#linePrompt"").remove();
+        $(""#jspsych-image-slider-response_noButton-stimulus > img"").css({
+          ""filter"":""blur(0px)"",
+          ""visibility"": ""visible"",
+        });
+        $('#jspsych-content > p').css(""visibility"", ""visible"");
+        __listenerBools['mousemove'] = true;
+        // turn off THIS mouse move listener
+        $(document).off(""mousemove"");
+        // turn on the mouse move listener that changes the image
+        $(document).mousemove(changeImg);
+        // add mouse click listener
+        $(document).on('click', clickHandler);
+      };
+    };
+  
+    // turn on the vertical line mouse move listener
+    $(document).mousemove(verticalLineInit);
+  }","[object Object]","0","","Continue","26368","26368","true","red37.jpg","36","avg","400","red","3","[44,45,34]","41","There are three giraffe standing close together in a open field of golden grass ","1"
+"html-keyboard-response","10","315256","0.0-10.0","5bbf523d83f9790001ce549a","null","","","","<p style=""font-size: 48px;""> + </p>","null","fixation","","","","","","","","","","","","","","","","","","","","","","","",""
+"html-keyboard-response","11","316765","0.0-11.0","5bbf523d83f9790001ce549a","null","","","","<span class='grid'><div class='red' style='background-position:400% 0%;margin-top:49px'></div> <div> </div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:100% 0%;margin-top:48px'></div> <div class='red' style='background-position:1100% 0%;margin-top:20px'></div> <div> </div> <div> </div> <div class='red' style='background-position:200% 0%;margin-top:41px'></div> <div> </div> <div class='red' style='background-position:1900% 0%;margin-top:30px'></div> <div class='red' style='background-position:2000% 0%;margin-top:27px'></div> <div class='red' style='background-position:1400% 0%;margin-top:23px'></div> <div> </div> <div class='red' style='background-position:500% 0%;margin-top:50px'></div> <div class='red' style='background-position:1300% 0%;margin-top:41px'></div> <div> </div></span>","null","stimulus","{""index"":0,""type"":""practice"",""color"":""red""}","","","","","","","","","","","","","","","","","","","","","","",""
+"image-slider-response_noButton","12","352144","0.0-12.0","5bbf523d83f9790001ce549a","35377","","","","img/red1.jpg,img/red2.jpg,img/red3.jpg,img/red4.jpg,img/red5.jpg,img/red6.jpg,img/red7.jpg,img/red8.jpg,img/red9.jpg,img/red10.jpg,img/red11.jpg,img/red12.jpg,img/red13.jpg,img/red14.jpg,img/red15.jpg,img/red16.jpg,img/red17.jpg,img/red18.jpg,img/red19.jpg,img/red20.jpg,img/red21.jpg,img/red22.jpg,img/red23.jpg,img/red24.jpg,img/red25.jpg,img/red26.jpg,img/red27.jpg,img/red28.jpg,img/red29.jpg,img/red30.jpg,img/red31.jpg,img/red32.jpg,img/red33.jpg,img/red34.jpg,img/red35.jpg,img/red36.jpg,img/red37.jpg,img/red38.jpg,img/red39.jpg,img/red40.jpg,img/red41.jpg,img/red42.jpg,img/red43.jpg,img/red44.jpg,img/red45.jpg,img/red46.jpg,img/red47.jpg,img/red48.jpg,img/red49.jpg,img/red50.jpg","","response","{""index"":1,""type"":""practice"",""color"":""red""}","image-slider-response_noButton","<p>what was the average redness of the array?</p>","1","50","0","function morphedScaleRed() {
+    // defining a few helper functions
+    function nrange(size, startAt = 0) {
+      return [...Array(size).keys()].map(i => i + startAt);
+    };
+  
+    function fillArray(value, len) {
+      var arr = [];
+      for (var i = 0; i < len; i++) {
+        arr.push(value);
+      }
+      return arr;
+    };
+  
+    function generateSlices(vWidth, nSlices) {
+      var step = vWidth*0.6/(nSlices-2);
+      var stepArray = fillArray(step,nSlices-2)
+      stepArray.unshift(0.2*vWidth)
+      stepArray.push(0.2*vWidth)
+  
+      var bounds = [];
+      
+      for (var i = 0; i < nSlices; i++) {
+        if (i==0) {
+          bounds.push([(i*stepArray[i]), (i*stepArray[i])+stepArray[i]])
+        } else if (i>0 && i!=nSlices-1) {
+          bounds.push([(i*stepArray[i]+0.2*vWidth), (i*stepArray[i])+stepArray[i]+0.2*vWidth])
+        } else {
+          bounds.push([(vWidth-0.2*vWidth), vWidth])  
+        }
+      };
+      return bounds;
+    };
+    
+    // start trial timer
+    var startTime = (new Date()).getTime();
+    // get trial data
+    var trialData = jsPsych.currentTrial();
+  
+    // remove the picture scales and the slider
+    $('.jspsych-image-slider-response_noButton-container').css(""visibility"", ""hidden"");
+    $('img').remove();
+    var imgScale = getScaleRed();
+    
+    // derive the letter of the image filenames
+    var imgBase = imgScale[0].split('img/')[1].split('.jpg')[0].replace(/\d+/g, '');
+    
+    // split the number of the image filenames off from the rest of it
+    var nScale = [];
+    for (var i = 0; i < imgScale.length-1; i++) {
+      var n = imgScale[i].split('img/')[1].split('.jpg')[0].split(imgBase)[1];
+      nScale.push(n);
+    };
+    
+    // calculate the element width, and slice it up into sections
+    var vWidth = $(document).width();
+    var nSlices = nScale.length;
+    var slices = generateSlices(vWidth, nSlices);
+  
+    // setting up initial vertical line to start the mousemove functionality
+    var vHeight = $(document).height()-8;
+    var lineSlice = vWidth / 10;
+    var vertLine = `<div style=""border-left:black;border-style:solid;margin-left:${lineSlice}px; height:${vHeight}px;width:0px;position:absolute;"" id=""vertLine""></div>`;
+    var linePrompt = `<div id=""linePrompt""><div style=""font-size:50px;position:absolute;margin-left:${lineSlice*1.3}px;margin-top:${vHeight/2}px""></div><div style=""position:absolute;margin-left:${lineSlice*1.2}px;margin-top:${vHeight/2}px;z-index:5;"">Move mouse left of the line to begin</div></div>`;
+    $("".jspsych-content-wrapper"").prepend(vertLine);
+    $("".jspsych-content-wrapper"").prepend(linePrompt);
+    
+    // hide prompt until the trial is begun
+    $('#jspsych-content > p').css(""visibility"", ""hidden"");
+  
+    // initialize the central image with the most neutral one (i.e. from
+    // the middle of the scale) and set the image to be blurred
+    var initialImage = imgScale[0];
+    $('#jspsych-image-slider-response_noButton-stimulus').append(`<img src=""${initialImage}"" style=""filter:blur(4px);visibility:hidden;"" id=""changeable-image""/>`);
+  
+    // ADD VISUAL SCALE SHOWING MIN/MAX
+    var scaleWidth = vWidth * 0.6;
+    var scaleLeft = vWidth * 0.2;
+    var scaleHtml = `
+      <div id=""scale-container"" style=""position:absolute; bottom:120px; left:${scaleLeft}px; width:${scaleWidth}px; height:30px; background-color:rgba(220,220,220,0.7); border-radius:5px; display:none; z-index:10;"">
+        <div style=""position:absolute; left:0px; width:2px; height:30px; background-color:black;""></div>
+        <div style=""position:absolute; left:0px; top:32px; font-size:12px; color:black;"">Min (1)</div>
+        <div style=""position:absolute; right:0px; width:2px; height:30px; background-color:black;""></div>
+        <div style=""position:absolute; right:0px; top:32px; font-size:12px; color:black;"">Max (50)</div>
+        <div id=""current-marker"" style=""position:absolute; left:0px; width:2px; height:30px; background-color:red; display:none;""></div>
+      </div>
+    `;
+    $("".jspsych-content-wrapper"").append(scaleHtml);
+  
+    // workaround with a global variable
+    window.__imageMouseOver = {
+      lineSlice: lineSlice,
+      slices: slices,
+      nScale: nScale,
+      imgBase: imgBase,
+      startTime: startTime,
+      trialData: trialData,
+      sliceSelected: 0,
+    };
+    var __listenerBools = {};
+  
+    // define mousemove event listener that changes image
+    function changeImg(event) {
+      var mouseX = Math.floor(event.pageX);
+      
+      // Show the scale after interaction begins
+      $(""#scale-container"").css(""display"", ""block"");
+      
+      // Update current marker position based on mouse position
+      var scaleWidth = $(""#scale-container"").width();
+      var relativePos = Math.max(0, Math.min(mouseX - scaleLeft, scaleWidth));
+      var percentPos = (relativePos / scaleWidth) * 100;
+      
+      $(""#current-marker"").css({
+        ""left"": `${relativePos}px`,
+        ""display"": ""block""
+      });
+      
+      for (var i = 0; i < __imageMouseOver.slices.length; i++) {
+        // if mouse X position is within the bounds of the X axis slice,
+        // change the image to one that is indexed to that slice
+        if (mouseX >= __imageMouseOver.slices[i][0] && mouseX <= __imageMouseOver.slices[i][1]) {
+          // capture which slice is selected
+          __imageMouseOver.sliceSelected = i;
+          // update img src to the picture that corresponds to that slice
+          $('#changeable-image').attr('src', `img/${__imageMouseOver.imgBase}${__imageMouseOver.nScale[i]}.jpg`);
+        }
+      };
+    };
+    
+    // define the click listener that ends trial
+    function clickHandler(event) {
+      if (__listenerBools['mousemove']) {
+        // derive trial data
+        var trialData = __imageMouseOver.trialData;
+        var end_time = (new Date()).getTime();
+        var rt = end_time - __imageMouseOver.startTime;
+        trialData['rt'] = rt;
+        trialData['stimulus_duration'] = rt;
+        trialData['trial_duration'] = rt;
+        trialData['imageSelected'] = `${__imageMouseOver.imgBase}${__imageMouseOver.nScale[__imageMouseOver.sliceSelected]}.jpg`
+        trialData['indexSelected'] = __imageMouseOver.sliceSelected;
+        // turn off listeners
+        $(document).off('mousemove');
+        $(document).off('click');
+        // clean up variable namespaces
+        delete window.__imageMouseOver
+        delete __listenerBools;
+        // clean up scale
+        $(""#scale-container"").remove();
+        // finish the trial with trial data
+        jsPsych.finishTrial(trialData);
+      };
+    };
+  
+    function verticalLineInit(event) {
+      var mouseX = Math.floor(event.pageX);
+      if (mouseX <= __imageMouseOver.lineSlice) {
+        $(""#vertLine"").remove();
+        $(""#linePrompt"").remove();
+        $(""#jspsych-image-slider-response_noButton-stimulus > img"").css({
+          ""filter"":""blur(0px)"",
+          ""visibility"": ""visible"",
+        });
+        $('#jspsych-content > p').css(""visibility"", ""visible"");
+        __listenerBools['mousemove'] = true;
+        // turn off THIS mouse move listener
+        $(document).off(""mousemove"");
+        // turn on the mouse move listener that changes the image
+        $(document).mousemove(changeImg);
+        // add mouse click listener
+        $(document).on('click', clickHandler);
+      };
+    };
+  
+    // turn on the vertical line mouse move listener
+    $(document).mousemove(verticalLineInit);
+  }","[object Object]","0","","Continue","35377","35377","true","red36.jpg","35","avg","600","red","9","[5,11,19,1,2,14,4,13,20]","9.88888888888889","There are three giraffe standing close together in a open field of golden grass ","2"
+"html-keyboard-response","13","352645","0.0-13.0","5bbf523d83f9790001ce549a","null","","","","<p style=""font-size: 48px;""> + </p>","null","fixation","","","","","","","","","","","","","","","","","","","","","","","",""
+"html-keyboard-response","14","354154","0.0-14.0","5bbf523d83f9790001ce549a","null","","","","<span class='grid'><div class='red' style='background-position:600% 0%;margin-top:38px'></div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:2000% 0%;margin-top:28px'></div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:800% 0%;margin-top:30px'></div> <div> </div> <div> </div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:500% 0%;margin-top:28px'></div></span>","null","stimulus","{""index"":1,""type"":""practice"",""color"":""red""}","","","","","","","","","","","","","","","","","","","","","","",""
+"image-slider-response_noButton","15","374475","0.0-15.0","5bbf523d83f9790001ce549a","20318","","","","img/red1.jpg,img/red2.jpg,img/red3.jpg,img/red4.jpg,img/red5.jpg,img/red6.jpg,img/red7.jpg,img/red8.jpg,img/red9.jpg,img/red10.jpg,img/red11.jpg,img/red12.jpg,img/red13.jpg,img/red14.jpg,img/red15.jpg,img/red16.jpg,img/red17.jpg,img/red18.jpg,img/red19.jpg,img/red20.jpg,img/red21.jpg,img/red22.jpg,img/red23.jpg,img/red24.jpg,img/red25.jpg,img/red26.jpg,img/red27.jpg,img/red28.jpg,img/red29.jpg,img/red30.jpg,img/red31.jpg,img/red32.jpg,img/red33.jpg,img/red34.jpg,img/red35.jpg,img/red36.jpg,img/red37.jpg,img/red38.jpg,img/red39.jpg,img/red40.jpg,img/red41.jpg,img/red42.jpg,img/red43.jpg,img/red44.jpg,img/red45.jpg,img/red46.jpg,img/red47.jpg,img/red48.jpg,img/red49.jpg,img/red50.jpg","","response","{""index"":2,""type"":""practice"",""color"":""red""}","image-slider-response_noButton","<p>what was the average redness of the array?</p>","1","50","0","function morphedScaleRed() {
+    // defining a few helper functions
+    function nrange(size, startAt = 0) {
+      return [...Array(size).keys()].map(i => i + startAt);
+    };
+  
+    function fillArray(value, len) {
+      var arr = [];
+      for (var i = 0; i < len; i++) {
+        arr.push(value);
+      }
+      return arr;
+    };
+  
+    function generateSlices(vWidth, nSlices) {
+      var step = vWidth*0.6/(nSlices-2);
+      var stepArray = fillArray(step,nSlices-2)
+      stepArray.unshift(0.2*vWidth)
+      stepArray.push(0.2*vWidth)
+  
+      var bounds = [];
+      
+      for (var i = 0; i < nSlices; i++) {
+        if (i==0) {
+          bounds.push([(i*stepArray[i]), (i*stepArray[i])+stepArray[i]])
+        } else if (i>0 && i!=nSlices-1) {
+          bounds.push([(i*stepArray[i]+0.2*vWidth), (i*stepArray[i])+stepArray[i]+0.2*vWidth])
+        } else {
+          bounds.push([(vWidth-0.2*vWidth), vWidth])  
+        }
+      };
+      return bounds;
+    };
+    
+    // start trial timer
+    var startTime = (new Date()).getTime();
+    // get trial data
+    var trialData = jsPsych.currentTrial();
+  
+    // remove the picture scales and the slider
+    $('.jspsych-image-slider-response_noButton-container').css(""visibility"", ""hidden"");
+    $('img').remove();
+    var imgScale = getScaleRed();
+    
+    // derive the letter of the image filenames
+    var imgBase = imgScale[0].split('img/')[1].split('.jpg')[0].replace(/\d+/g, '');
+    
+    // split the number of the image filenames off from the rest of it
+    var nScale = [];
+    for (var i = 0; i < imgScale.length-1; i++) {
+      var n = imgScale[i].split('img/')[1].split('.jpg')[0].split(imgBase)[1];
+      nScale.push(n);
+    };
+    
+    // calculate the element width, and slice it up into sections
+    var vWidth = $(document).width();
+    var nSlices = nScale.length;
+    var slices = generateSlices(vWidth, nSlices);
+  
+    // setting up initial vertical line to start the mousemove functionality
+    var vHeight = $(document).height()-8;
+    var lineSlice = vWidth / 10;
+    var vertLine = `<div style=""border-left:black;border-style:solid;margin-left:${lineSlice}px; height:${vHeight}px;width:0px;position:absolute;"" id=""vertLine""></div>`;
+    var linePrompt = `<div id=""linePrompt""><div style=""font-size:50px;position:absolute;margin-left:${lineSlice*1.3}px;margin-top:${vHeight/2}px""></div><div style=""position:absolute;margin-left:${lineSlice*1.2}px;margin-top:${vHeight/2}px;z-index:5;"">Move mouse left of the line to begin</div></div>`;
+    $("".jspsych-content-wrapper"").prepend(vertLine);
+    $("".jspsych-content-wrapper"").prepend(linePrompt);
+    
+    // hide prompt until the trial is begun
+    $('#jspsych-content > p').css(""visibility"", ""hidden"");
+  
+    // initialize the central image with the most neutral one (i.e. from
+    // the middle of the scale) and set the image to be blurred
+    var initialImage = imgScale[0];
+    $('#jspsych-image-slider-response_noButton-stimulus').append(`<img src=""${initialImage}"" style=""filter:blur(4px);visibility:hidden;"" id=""changeable-image""/>`);
+  
+    // ADD VISUAL SCALE SHOWING MIN/MAX
+    var scaleWidth = vWidth * 0.6;
+    var scaleLeft = vWidth * 0.2;
+    var scaleHtml = `
+      <div id=""scale-container"" style=""position:absolute; bottom:120px; left:${scaleLeft}px; width:${scaleWidth}px; height:30px; background-color:rgba(220,220,220,0.7); border-radius:5px; display:none; z-index:10;"">
+        <div style=""position:absolute; left:0px; width:2px; height:30px; background-color:black;""></div>
+        <div style=""position:absolute; left:0px; top:32px; font-size:12px; color:black;"">Min (1)</div>
+        <div style=""position:absolute; right:0px; width:2px; height:30px; background-color:black;""></div>
+        <div style=""position:absolute; right:0px; top:32px; font-size:12px; color:black;"">Max (50)</div>
+        <div id=""current-marker"" style=""position:absolute; left:0px; width:2px; height:30px; background-color:red; display:none;""></div>
+      </div>
+    `;
+    $("".jspsych-content-wrapper"").append(scaleHtml);
+  
+    // workaround with a global variable
+    window.__imageMouseOver = {
+      lineSlice: lineSlice,
+      slices: slices,
+      nScale: nScale,
+      imgBase: imgBase,
+      startTime: startTime,
+      trialData: trialData,
+      sliceSelected: 0,
+    };
+    var __listenerBools = {};
+  
+    // define mousemove event listener that changes image
+    function changeImg(event) {
+      var mouseX = Math.floor(event.pageX);
+      
+      // Show the scale after interaction begins
+      $(""#scale-container"").css(""display"", ""block"");
+      
+      // Update current marker position based on mouse position
+      var scaleWidth = $(""#scale-container"").width();
+      var relativePos = Math.max(0, Math.min(mouseX - scaleLeft, scaleWidth));
+      var percentPos = (relativePos / scaleWidth) * 100;
+      
+      $(""#current-marker"").css({
+        ""left"": `${relativePos}px`,
+        ""display"": ""block""
+      });
+      
+      for (var i = 0; i < __imageMouseOver.slices.length; i++) {
+        // if mouse X position is within the bounds of the X axis slice,
+        // change the image to one that is indexed to that slice
+        if (mouseX >= __imageMouseOver.slices[i][0] && mouseX <= __imageMouseOver.slices[i][1]) {
+          // capture which slice is selected
+          __imageMouseOver.sliceSelected = i;
+          // update img src to the picture that corresponds to that slice
+          $('#changeable-image').attr('src', `img/${__imageMouseOver.imgBase}${__imageMouseOver.nScale[i]}.jpg`);
+        }
+      };
+    };
+    
+    // define the click listener that ends trial
+    function clickHandler(event) {
+      if (__listenerBools['mousemove']) {
+        // derive trial data
+        var trialData = __imageMouseOver.trialData;
+        var end_time = (new Date()).getTime();
+        var rt = end_time - __imageMouseOver.startTime;
+        trialData['rt'] = rt;
+        trialData['stimulus_duration'] = rt;
+        trialData['trial_duration'] = rt;
+        trialData['imageSelected'] = `${__imageMouseOver.imgBase}${__imageMouseOver.nScale[__imageMouseOver.sliceSelected]}.jpg`
+        trialData['indexSelected'] = __imageMouseOver.sliceSelected;
+        // turn off listeners
+        $(document).off('mousemove');
+        $(document).off('click');
+        // clean up variable namespaces
+        delete window.__imageMouseOver
+        delete __listenerBools;
+        // clean up scale
+        $(""#scale-container"").remove();
+        // finish the trial with trial data
+        jsPsych.finishTrial(trialData);
+      };
+    };
+  
+    function verticalLineInit(event) {
+      var mouseX = Math.floor(event.pageX);
+      if (mouseX <= __imageMouseOver.lineSlice) {
+        $(""#vertLine"").remove();
+        $(""#linePrompt"").remove();
+        $(""#jspsych-image-slider-response_noButton-stimulus > img"").css({
+          ""filter"":""blur(0px)"",
+          ""visibility"": ""visible"",
+        });
+        $('#jspsych-content > p').css(""visibility"", ""visible"");
+        __listenerBools['mousemove'] = true;
+        // turn off THIS mouse move listener
+        $(document).off(""mousemove"");
+        // turn on the mouse move listener that changes the image
+        $(document).mousemove(changeImg);
+        // add mouse click listener
+        $(document).on('click', clickHandler);
+      };
+    };
+  
+    // turn on the vertical line mouse move listener
+    $(document).mousemove(verticalLineInit);
+  }","[object Object]","0","","Continue","20318","20318","true","red1.jpg","0","avg","500","red","4","[20,5,6,8]","9.75","There are three giraffe standing close together in a open field of golden grass ","3"
+"html-keyboard-response","16","374980","0.0-16.0","5bbf523d83f9790001ce549a","null","","","","<p style=""font-size: 48px;""> + </p>","null","fixation","","","","","","","","","","","","","","","","","","","","","","","",""
+"html-keyboard-response","17","376485","0.0-17.0","5bbf523d83f9790001ce549a","null","","","","<span class='grid'><div> </div> <div> </div> <div> </div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:1100% 0%;margin-top:45px'></div> <div> </div> <div class='red' style='background-position:400% 0%;margin-top:26px'></div> <div class='red' style='background-position:1200% 0%;margin-top:49px'></div> <div> </div> <div> </div> <div> </div> <div class='red' style='background-position:300% 0%;margin-top:25px'></div> <div class='red' style='background-position:200% 0%;margin-top:46px'></div> <div> </div></span>","null","stimulus","{""index"":2,""type"":""practice"",""color"":""red""}","","","","","","","","","","","","","","","","","","","","","","",""
