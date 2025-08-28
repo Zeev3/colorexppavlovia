@@ -1,7 +1,7 @@
 library(dplyr)
 
 # Set your folder path where all files are located
-data_folder <- "/Users/zeevbenamos/Documents/GitHub/colorexppavlovia/data/exp_data"  # ⬅️ change this to your actual folder path
+data_folder <- "/Users/zeevbenamos/Documents/GitHub/colorexppavlovia/data/avg_data"  # ⬅️ change this to your actual folder path
 
 #Get list of all CSV files
 files <- list.files(data_folder, pattern = "\\.csv$", full.names = TRUE)
