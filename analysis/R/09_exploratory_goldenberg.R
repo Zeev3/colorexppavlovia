@@ -128,7 +128,7 @@ epoc_goldenberg <- function(dir = file.path(OUT, "exp0_goldenberg")) {
     }
     w("")
     sl <- slopes %>% filter(valence == cond)
-    w("Slope of the objective mean on the rating (comparable with Experiments 1-4):")
+    w("Slope of the rating on the objective mean (forward direction, from model b; comparable with Experiments 1-4):")
     w("")
     for (i in seq_len(nrow(sl))) {
       w("- ", sl$numberFaces[i], " faces: b = ", fmt_num(sl$slope[i], 3),

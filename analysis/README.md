@@ -291,6 +291,19 @@ SD of the true array means across trials. Output: `slope_decomposition.csv` /
 and `output/exploratory/all_slope_decomposition.csv` / `.md` with every
 experiment in one table.
 
+`R/20_exploratory_goldenberg_directions.R` runs the Goldenberg et al. (2021)
+data in both directions: forward (rating on true mean) and reverse (true mean
+on rating), each as a figure of binned means per cluster plus the mixed-model
+slope at every set size (per valence), and r, the SDs and the SD ratio by
+number of faces. Noise here is the number of faces, with each crowd's spread
+constant by design; as a by-product the spread of true means across trials is
+wider for small set sizes, so every descriptive is also given on the range of
+true means that all set sizes cover, reweighted to the same distribution
+("matched"), as in Experiments 1-3 where that spread is flat. Also tests, at the same
+extreme true value, whether ratings are pulled toward the middle more with more
+faces. Output: `directions_*` and `directions.md` in
+`output/exp0_goldenberg/exploratory/`.
+
 `R/19_exploratory_narrowing.R` asks why reports spread less at higher noise
 (noise alone would widen them). Between the lowest and highest noise level,
 within participant: the change in mean (report - true) in the bottom and top

@@ -260,6 +260,8 @@ if (!length(args) || identical(args, "all") || "exp0" %in% args) {
   epoc_goldenberg_report_to_true()
   gb_split <- epoc_goldenberg_slope_decomposition()
   epoc_goldenberg_regression_panels()
+  message("  exploratory: forward and reverse directions")
+  epoc_goldenberg_directions()
 }
 
 # combined exploratory slope table: every experiment run here, plus Goldenberg by cluster
