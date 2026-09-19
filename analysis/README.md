@@ -299,9 +299,12 @@ number of faces. Noise here is the number of faces, with each crowd's spread
 constant by design; as a by-product the spread of true means across trials is
 wider for small set sizes, so every descriptive is also given on the range of
 true means that all set sizes cover, reweighted to the same distribution
-("matched"), as in Experiments 1-3 where that spread is flat. Also tests, at the same
-extreme true value, whether ratings are pulled toward the middle more with more
-faces. Output: `directions_*` and `directions.md` in
+("matched"), as in Experiments 1-3 where that spread is flat. The extremes,
+which matching drops, are analysed on all trials in both directions: at the
+same extreme true value (forward: pull toward the middle) and at the same
+extreme rating (reverse: exaggeration), per side and with a constant rating
+shift removed, and again with the matching correction (same-value means
+averaged over shared values, participant bootstrap). Output: `directions_*` (including `directions_extremes.png`) and `directions.md` in
 `output/exp0_goldenberg/exploratory/`.
 
 `R/19_exploratory_narrowing.R` asks why reports spread less at higher noise

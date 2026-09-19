@@ -29,7 +29,7 @@
 # with faces as a factor (slope at each set size) and as a number (linear test).
 #
 # Output: output/exp0_goldenberg/exploratory/directions_*.png / .csv and
-# directions.md.
+# directions.md. The extremes (both directions) are analysed on all trials.
 # =========================================================
 
 GBD_BIN   <- 2    # bin width (scale units) for binned plots and for matching distributions
@@ -126,21 +126,130 @@ gbd_models <- function(d) {
   list(slopes = bind_rows(out), tests = bind_rows(tests))
 }
 
-# forward at the extremes: same true value, is the rating pulled toward the middle more with more faces?
-gbd_forward_extremes <- function(d) {
+# The extremes, on all trials (no matching; matching drops most extreme trials).
+#   forward  same extreme TRUE value (<= GB_TAIL_LOW or >= GB_TAIL_HIGH):
+#            pull toward the middle = rating - true (low side), true - rating (high side)
+#   reverse  same extreme RATING: exaggeration = how much less extreme the true
+#            value is than the rating = true - rating (low side), rating - true (high side)
+# Clusters are compared at the same rounded value (value as a factor) with a
+# random intercept per participant, per side, and for both sides together,
+# where a constant shift of the ratings cancels out (the average of the two sides).
+gbd_extremes <- function(d) {
+  one <- function(direction) {
+    x <- d %>% mutate(v = if (direction == "forward") meanGroup else rating,
+                      side = case_when(v <= GB_TAIL_LOW ~ "low", v >= GB_TAIL_HIGH ~ "high")) %>%
+      filter(!is.na(side)) %>%
+      mutate(sgn = ifelse(side == "low", 1, -1),
+             effect = if (direction == "forward") sgn * (rating - meanGroup) else sgn * (meanGroup - rating),
+             value = factor(paste(side, round(v))))
+    cells <- x %>% group_by(side, cluster) %>%
+      summarise(n_trials = n(), n_participants = n_distinct(id), mean_true = mean(meanGroup),
+                mean_rating = mean(rating), effect = mean(effect), .groups = "drop")
+    ps <- lapply(c("low", "high"), function(s) {
+      m <- lmerTest::lmer(effect ~ cluster + value + (1 | id), data = x %>% filter(side == s))
+      em <- emmeans(m, ~ cluster, lmer.df = "satterthwaite")
+      list(contrasts = as.data.frame(summary(pairs(em, reverse = TRUE))) %>%
+             mutate(side = s, cluster_effect_p = anova(m)["cluster", "Pr(>F)"], .before = 1),
+           means = as.data.frame(summary(em)) %>% mutate(side = s, .before = 1))
+    })
+    per_side <- list(contrasts = bind_rows(lapply(ps, `[[`, "contrasts")), means = bind_rows(lapply(ps, `[[`, "means")))
+    mb <- lmerTest::lmer(effect ~ cluster * side + value + (1 | id), data = x)
+    emb <- emmeans(mb, ~ cluster, lmer.df = "satterthwaite")   # averaged over the two sides
+    both <- list(contrasts = as.data.frame(summary(pairs(emb, reverse = TRUE))) %>%
+                   mutate(side = "both, shift removed", cluster_effect_p = anova(mb)["cluster", "Pr(>F)"], .before = 1),
+                 means = as.data.frame(summary(emb)) %>% mutate(side = "both, shift removed", .before = 1))
+    rn <- function(z) z %>% rename_with(~ "ci_low", any_of(c("lower.CL", "asymp.LCL"))) %>% rename_with(~ "ci_high", any_of(c("upper.CL", "asymp.UCL")))
+    list(cells = cells %>% mutate(direction = direction, .before = 1),
+         tests = bind_rows(per_side$contrasts, both$contrasts) %>% mutate(direction = direction, .before = 1),
+         means = rn(bind_rows(per_side$means, both$means)) %>% mutate(direction = direction, .before = 1))
+  }
+  r <- lapply(c("forward", "reverse"), one)
+  list(cells = bind_rows(lapply(r, `[[`, "cells")), tests = bind_rows(lapply(r, `[[`, "tests")),
+       means = bind_rows(lapply(r, `[[`, "means")))
+}
+
+# The extremes with and without the correction, by one method so that the only
+# difference is the matching. Within each extreme value (true value for forward,
+# rating for reverse) the clusters' mean effect is taken, then averaged over the
+# values every cluster has, weighted by how often each value occurs overall.
+# "matched" = trials within the range of true means every cluster covers,
+# weighted so every cluster has the same distribution of true means (as in the
+# descriptives). CIs and p from a participant bootstrap.
+GBD_BOOT <- 1000
+gbd_extremes_std <- function(d, seed = 1) {
+  wm <- gbd_match_weights(d, "cluster")
+  est <- function(dd, w) {
+    out <- list()
+    for (direction in c("forward", "reverse")) {
+      v <- if (direction == "forward") dd$meanGroup else dd$rating
+      side <- ifelse(v <= GB_TAIL_LOW, "low", ifelse(v >= GB_TAIL_HIGH, "high", NA))
+      sgn <- ifelse(side == "low", 1, -1)
+      eff <- if (direction == "forward") sgn * (dd$rating - dd$meanGroup) else sgn * (dd$meanGroup - dd$rating)
+      val <- round(v)
+      res <- c()
+      for (s in c("low", "high")) {
+        k <- which(side == s & w > 0)
+        cl <- dd$cluster[k]; vv <- val[k]; ee <- eff[k]; ww <- w[k]
+        sw  <- tapply(ww, list(vv, cl), sum); swe <- tapply(ww * ee, list(vv, cl), sum)
+        ok  <- rowSums(is.na(sw)) == 0
+        if (!any(ok)) { res[paste(s, levels(dd$cluster))] <- NA; next }
+        m <- swe[ok, , drop = FALSE] / sw[ok, , drop = FALSE]
+        pw <- rowSums(sw[ok, , drop = FALSE]); pw <- pw / sum(pw)
+        res[paste(s, colnames(m))] <- colSums(m * pw)
+      }
+      for (c_ in levels(dd$cluster)) res[paste("both", c_)] <- mean(res[paste(c("low", "high"), c_)])
+      out[[direction]] <- res
+    }
+    unlist(out)
+  }
+  ids <- unique(d$id); rows <- split(seq_len(nrow(d)), d$id)
+  run <- function(w_all) {
+    point <- est(d, w_all)
+    set.seed(seed)
+    boot <- t(replicate(GBD_BOOT, { s <- unlist(rows[sample(length(ids), replace = TRUE)], use.names = FALSE); est(d[s, ], w_all[s]) }))
+    list(point = point, boot = boot)
+  }
   labs_ <- levels(d$cluster)
-  x <- d %>% mutate(side = case_when(meanGroup <= GB_TAIL_LOW ~ "low", meanGroup >= GB_TAIL_HIGH ~ "high")) %>%
-    filter(!is.na(side)) %>%
-    mutate(pull = ifelse(side == "low", rating - meanGroup, meanGroup - rating), tv = factor(round(meanGroup)))
-  cells <- x %>% group_by(side, cluster) %>%
-    summarise(n_trials = n(), n_participants = n_distinct(id), mean_true = mean(meanGroup),
-              mean_rating = mean(rating), pull = mean(pull), .groups = "drop")
-  tests <- bind_rows(lapply(c("low", "high"), function(s) {
-    m <- lmerTest::lmer(pull ~ cluster + tv + (1 | id), data = x %>% filter(side == s))
-    as.data.frame(summary(pairs(emmeans(m, ~ cluster, lmer.df = "satterthwaite"), reverse = TRUE))) %>%
-      mutate(side = s, cluster_effect_p = anova(m)["cluster", "Pr(>F)"], .before = 1)
+  bind_rows(lapply(c("as shown", "matched"), function(wt) {
+    r <- run(if (wt == "matched") wm else rep(1, nrow(d)))
+    bind_rows(lapply(c("forward", "reverse"), function(dir_) bind_rows(lapply(c("low", "high", "both"), function(s) {
+      key <- function(c_) paste0(dir_, ".", s, " ", c_)
+      bind_rows(
+        tibble(weighting = wt, direction = dir_, side = s, term = labs_,
+               estimate = r$point[key(labs_)],
+               ci_low = apply(r$boot[, key(labs_), drop = FALSE], 2, quantile, .025, na.rm = TRUE),
+               ci_high = apply(r$boot[, key(labs_), drop = FALSE], 2, quantile, .975, na.rm = TRUE), p = NA_real_),
+        bind_rows(lapply(list(c(2, 1), c(3, 1), c(3, 2)), function(ij) {
+          db <- r$boot[, key(labs_[ij[1]])] - r$boot[, key(labs_[ij[2]])]
+          tibble(weighting = wt, direction = dir_, side = s, term = paste(labs_[ij[1]], "-", labs_[ij[2]]),
+                 estimate = r$point[key(labs_[ij[1]])] - r$point[key(labs_[ij[2]])],
+                 ci_low = quantile(db, .025, na.rm = TRUE), ci_high = quantile(db, .975, na.rm = TRUE),
+                 p = min(1, 2 * min(mean(db <= 0, na.rm = TRUE), mean(db >= 0, na.rm = TRUE))))
+        })))
+    }))))
   }))
-  list(cells = cells, tests = tests)
+}
+
+gbd_extremes_figure <- function(ext) {
+  labs_ <- levels(ext$means$cluster)
+  x <- ext$means %>% mutate(side = factor(side, levels = c("low", "high", "both, shift removed")),
+                            direction = factor(direction, levels = c("forward", "reverse"),
+                                               labels = c("Forward: same extreme true value
+(pull toward the middle)",
+                                                          "Reverse: same extreme rating
+(exaggeration: true value less extreme)")))
+  ggplot(x, aes(side, emmean, colour = cluster)) +
+    geom_hline(yintercept = 0, colour = "grey55") +
+    geom_pointrange(aes(ymin = ci_low, ymax = ci_high), position = position_dodge(width = .5), size = .35) +
+    facet_wrap(~ direction) +
+    scale_colour_manual(values = setNames(c("#2a78d6", "#eb6834", "#1baf7a"), labs_), name = NULL) +
+    labs(x = NULL, y = "Scale units (model mean, 95% CI)",
+         title = "Goldenberg et al. (2021), Exp. 1: the extremes, all trials (no matching)",
+         subtitle = paste0("EXPLORATORY. Low side <= ", GB_TAIL_LOW, ", high side >= ", GB_TAIL_HIGH,
+                           ". Clusters compared at the same value; 'both' averages the two sides, so a constant rating shift cancels")) +
+    theme_minimal(base_size = 11) +
+    theme(panel.grid.minor = element_blank(), legend.position = "top",
+          plot.title = element_text(face = "bold", size = 13), plot.subtitle = element_text(colour = "grey40", size = 9.5))
 }
 
 gbd_figure <- function(d, slopes, direction) {
@@ -210,18 +319,22 @@ epoc_goldenberg_directions <- function(dir = file.path(OUT, "exp0_goldenberg", "
   desc <- gbd_descriptives(d)
   pt   <- gbd_participant_tests(d)
   mods <- gbd_models(d)
-  ext  <- gbd_forward_extremes(d)
+  ext  <- gbd_extremes(d)
+  exs  <- gbd_extremes_std(d)
 
   write.csv(desc,        file.path(dir, "directions_descriptives.csv"),       row.names = FALSE)
   write.csv(pt,          file.path(dir, "directions_participant_tests.csv"),  row.names = FALSE)
   write.csv(mods$slopes, file.path(dir, "directions_model_slopes.csv"),       row.names = FALSE)
   write.csv(mods$tests,  file.path(dir, "directions_model_tests.csv"),        row.names = FALSE)
-  write.csv(ext$cells,   file.path(dir, "directions_forward_extremes.csv"),   row.names = FALSE)
-  write.csv(ext$tests,   file.path(dir, "directions_forward_extremes_tests.csv"), row.names = FALSE)
+  write.csv(ext$cells,   file.path(dir, "directions_extremes.csv"),           row.names = FALSE)
+  write.csv(ext$tests,   file.path(dir, "directions_extremes_tests.csv"),     row.names = FALSE)
+  write.csv(ext$means,   file.path(dir, "directions_extremes_means.csv"),     row.names = FALSE)
+  write.csv(exs,         file.path(dir, "directions_extremes_matched.csv"),   row.names = FALSE)
 
   epoc_save(gbd_figure(d, mods$slopes, "forward"), file.path(dir, "directions_forward.png"), width = 12, height = 6, dpi = 170)
   epoc_save(gbd_figure(d, mods$slopes, "reverse"), file.path(dir, "directions_reverse.png"), width = 12, height = 6, dpi = 170)
   epoc_save(gbd_r_ratio_figure(desc), file.path(dir, "directions_r_sd_ratio.png"), width = 10, height = 10, dpi = 170)
+  epoc_save(gbd_extremes_figure(ext), file.path(dir, "directions_extremes.png"), width = 11, height = 5.5, dpi = 170)
 
   con <- file(file.path(dir, "directions.md"), open = "wt"); on.exit(close(con))
   w <- function(...) log_line(con, ...)
@@ -271,20 +384,51 @@ epoc_goldenberg_directions <- function(dir = file.path(OUT, "exp0_goldenberg", "
     w("- ", dir_, ", ", v, ": ", paste(sprintf("%.2f", s$slope), collapse = " / "), ".")
   }
   w("")
-  w("## Forward at the extremes: same true value")
+  w("## The extremes, all trials (no matching)")
   w("")
-  w("Pull toward the middle = rating - true on the low side (true <= ", GB_TAIL_LOW, "), true - rating on the high side (true >= ",
-    GB_TAIL_HIGH, "); compared between clusters at the same (rounded) true value, with a random intercept per participant.")
+  w("Matching drops most extreme trials, so the extremes are analysed on all trials. Forward: at the same extreme true value ",
+    "(<= ", GB_TAIL_LOW, " or >= ", GB_TAIL_HIGH, "), pull toward the middle = rating - true on the low side, true - rating on the high side. ",
+    "Reverse: at the same extreme rating, exaggeration = true - rating on the low side, rating - true on the high side (positive = the rating ",
+    "was more extreme than the group). Clusters are compared at the same rounded value with a random intercept per participant; ",
+    "'both, shift removed' averages the two sides, so a constant shift of the ratings cancels.")
   w("")
-  w("| side | cluster | trials | participants | mean true | mean rating | pull toward middle |")
-  w("|---|---|---|---|---|---|---|")
-  for (i in seq_len(nrow(ext$cells))) with(ext$cells[i, ], w("| ", side, " | ", as.character(cluster), " | ", n_trials, " | ", n_participants, " | ",
-                                                             f(mean_true, 1), " | ", f(mean_rating, 1), " | ", sprintf("%+.2f", pull), " |"))
-  w("")
-  for (s in c("low", "high")) {
-    tt <- ext$tests %>% filter(side == s)
-    w("- ", s, " side: effect of cluster ", fmt_p(tt$cluster_effect_p[1]), ".")
-    for (i in seq_len(nrow(tt))) w("  - ", tt$contrast[i], ": ", sprintf("%+.2f", tt$estimate[i]), ", ", fmt_p(tt$p.value[i]), ".")
+  for (dir_ in c("forward", "reverse")) {
+    w("### ", if (dir_ == "forward") "Forward: same extreme true value" else "Reverse: same extreme rating")
+    w("")
+    w("| side | cluster | trials | participants | mean true | mean rating | ", if (dir_ == "forward") "pull toward middle" else "exaggeration", " |")
+    w("|---|---|---|---|---|---|---|")
+    cc <- ext$cells %>% filter(direction == dir_)
+    for (i in seq_len(nrow(cc))) with(cc[i, ], w("| ", side, " | ", as.character(cluster), " | ", n_trials, " | ", n_participants, " | ",
+                                                 f(mean_true, 1), " | ", f(mean_rating, 1), " | ", sprintf("%+.2f", effect), " |"))
+    w("")
+    for (s in c("low", "high", "both, shift removed")) {
+      tt <- ext$tests %>% filter(direction == dir_, side == s)
+      w("- ", s, ": effect of cluster ", fmt_p(tt$cluster_effect_p[1]), ".")
+      for (i in seq_len(nrow(tt))) w("  - ", tt$contrast[i], ": ", sprintf("%+.2f", tt$estimate[i]), ", ", fmt_p(tt$p.value[i]), ".")
+    }
+    w("")
   }
-  invisible(list(descriptives = desc, participant_tests = pt, models = mods, extremes = ext))
+  w("## The extremes with and without the correction")
+  w("")
+  w("Same quantities as above, by one method so that the matching is the only difference: within each extreme value the clusters' ",
+    "mean is taken, then averaged over the values all clusters share. 'Matched' keeps trials in the range of true means every ",
+    "cluster covers, weighted to the same distribution of true means. 95% CIs and p from a participant bootstrap (", GBD_BOOT, " resamples).")
+  w("")
+  for (dir_ in c("forward", "reverse")) {
+    w("### ", if (dir_ == "forward") "Forward: pull toward the middle at the same extreme true value" else "Reverse: exaggeration at the same extreme rating")
+    w("")
+    w("| side | comparison | as shown | matched |")
+    w("|---|---|---|---|")
+    for (s in c("low", "high", "both")) {
+      xs <- exs %>% filter(direction == dir_, side == s)
+      for (tm in unique(xs$term)) {
+        a <- xs %>% filter(term == tm, weighting == "as shown"); b <- xs %>% filter(term == tm, weighting == "matched")
+        cell <- function(z) if (is.na(z$estimate)) "n/a" else paste0(sprintf("%+.2f", z$estimate), " [", sprintf("%.2f", z$ci_low), ", ",
+                                                                   sprintf("%.2f", z$ci_high), "]", ifelse(is.na(z$p), "", paste0(", ", fmt_p(z$p))))
+        w("| ", ifelse(s == "both", "both, shift removed", s), " | ", tm, " | ", cell(a), " | ", cell(b), " |")
+      }
+    }
+    w("")
+  }
+  invisible(list(descriptives = desc, participant_tests = pt, models = mods, extremes = ext, extremes_std = exs))
 }
