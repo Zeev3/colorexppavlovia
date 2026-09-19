@@ -291,6 +291,16 @@ SD of the true array means across trials. Output: `slope_decomposition.csv` /
 and `output/exploratory/all_slope_decomposition.csv` / `.md` with every
 experiment in one table.
 
+`R/19_exploratory_narrowing.R` asks why reports spread less at higher noise
+(noise alone would widen them). Between the lowest and highest noise level,
+within participant: the change in mean (report - true) in the bottom and top
+band of true means (narrowing = bottom up, top down; a compressed stimulus
+scale at one end would pull only at that end), the same with a shift common
+to both ends removed, and whether the change in SD ratio grows over the
+session (first vs second half of each colour block, first vs second block).
+Output: `narrowing.md` / `narrowing_*.csv` in each `exploratory/` folder and
+`output/exploratory/all_narrowing_tests.csv`.
+
 `regression_panels.png` / `.csv` in each `exploratory/` folder show the
 regression lines per noise level in four panels: forward and reverse, in
 z-scores (where both directions have slope r and look identical) and in raw

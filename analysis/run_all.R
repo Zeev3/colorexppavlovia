@@ -58,6 +58,7 @@ all_cond_slopes <- list(); all_rev_slopes <- list(); all_tails <- list()
 all_compression <- list()
 all_anovas <- list()
 all_expl_r2t <- list(); all_expl_split <- list(); all_expl_pw <- list(); all_expl_bands <- list(); all_expl_t2r <- list()   # exploratory only
+all_expl_narrow <- list()
 
 for (id in targets) {
 
@@ -114,6 +115,7 @@ for (id in targets) {
   all_expl_pw[[id]] <- epoc_piecewise_reverse(dat, exp, dir)$tests
   all_expl_bands[[id]] <- epoc_report_bands(dat, exp, dir)$tests
   all_expl_t2r[[id]] <- epoc_true_to_report(dat, exp, dir)$tests
+  all_expl_narrow[[id]] <- epoc_narrowing(dat, exp, dir)$tests
 
   # ---- tables ----
   write.csv(desc,                    file.path(dir, "descriptives.csv"), row.names = FALSE)
@@ -207,6 +209,8 @@ write.csv(bind_rows(all_expl_pw), file.path(OUT, "exploratory", "all_piecewise_r
 write.csv(bind_rows(all_expl_bands), file.path(OUT, "exploratory", "all_report_bands_tests.csv"),
           row.names = FALSE)
 write.csv(bind_rows(all_expl_t2r), file.path(OUT, "exploratory", "all_true_to_report_tests.csv"),
+          row.names = FALSE)
+write.csv(bind_rows(all_expl_narrow), file.path(OUT, "exploratory", "all_narrowing_tests.csv"),
           row.names = FALSE)
 # the Goldenberg split is computed further down; the combined table is written there
 
