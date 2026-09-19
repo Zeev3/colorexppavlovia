@@ -1,0 +1,4 @@
+"level","n_trials","slope_without","slope_with","features"
+"2 squares",2570,0.848437351319738,NA,"none vary within level"
+"10 squares",2578,0.744989314605054,NA,"none vary within level"
+"20 squares",2560,0.807696188541385,NA,"none vary within level"

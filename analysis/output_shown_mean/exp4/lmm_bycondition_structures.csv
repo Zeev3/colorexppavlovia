@@ -1,0 +1,3 @@
+"experiment","condition","formula","rand_used","singular"
+"exp4","experience","indexSelected ~ meanVal_c * variance_level + (1 + meanVal_c + variance_level | participant_id)","mean_plus_noise",TRUE
+"exp4","average","indexSelected ~ meanVal_c * variance_level + (1 + meanVal_c + variance_level | participant_id)","mean_plus_noise",TRUE

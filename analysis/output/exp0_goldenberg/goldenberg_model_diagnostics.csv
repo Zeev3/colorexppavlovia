@@ -1,0 +1,5 @@
+"valence","model","singular","messages"
+"positive","meanGroup ~ rating * numberFaces",FALSE,""
+"positive","rating ~ meanGroup_c * numberFaces",FALSE,""
+"negative","meanGroup ~ rating * numberFaces",FALSE,""
+"negative","rating ~ meanGroup_c * numberFaces",FALSE,""

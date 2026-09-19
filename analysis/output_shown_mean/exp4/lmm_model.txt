@@ -1,0 +1,83 @@
+formula: indexSelected ~ meanVal_c * variance_level * condition + (1 + meanVal_c + variance_level | participant_id) 
+random structure used: mean_plus_noise 
+singular: TRUE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: dat
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 129157.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.8823 -0.6094 -0.0029  0.6008  5.1375 
+
+Random effects:
+ Groups         Name            Variance  Std.Dev. Corr             
+ participant_id (Intercept)      4.685826 2.16468                   
+                meanVal_c        0.044492 0.21093   0.21            
+                variance_level1  0.479922 0.69276  -0.19 -0.27      
+                variance_level2  0.002276 0.04771  -0.64  0.48 -0.45
+ Residual                       25.828176 5.08214                   
+Number of obs: 21078, groups:  participant_id, 101
+
+Fixed effects:
+                                       Estimate Std. Error         df t value
+(Intercept)                           2.402e+01  2.182e-01  9.898e+01 110.072
+meanVal_c                             9.477e-01  2.174e-02  9.885e+01  43.594
+variance_level1                      -4.872e-01  8.514e-02  9.956e+01  -5.723
+variance_level2                       5.168e-02  4.990e-02  3.956e+03   1.036
+condition1                           -2.413e-01  2.182e-01  9.898e+01  -1.106
+meanVal_c:variance_level1             1.383e-01  7.993e-03  2.081e+04  17.309
+meanVal_c:variance_level2            -8.704e-03  8.027e-03  2.086e+04  -1.084
+meanVal_c:condition1                 -2.618e-02  2.174e-02  9.885e+01  -1.204
+variance_level1:condition1            7.764e-02  8.514e-02  9.956e+01   0.912
+variance_level2:condition1            6.229e-02  4.990e-02  3.956e+03   1.248
+meanVal_c:variance_level1:condition1  1.528e-02  7.993e-03  2.081e+04   1.912
+meanVal_c:variance_level2:condition1  3.706e-04  8.027e-03  2.086e+04   0.046
+                                     Pr(>|t|)    
+(Intercept)                           < 2e-16 ***
+meanVal_c                             < 2e-16 ***
+variance_level1                      1.11e-07 ***
+variance_level2                         0.300    
+condition1                              0.271    
+meanVal_c:variance_level1             < 2e-16 ***
+meanVal_c:variance_level2               0.278    
+meanVal_c:condition1                    0.231    
+variance_level1:condition1              0.364    
+variance_level2:condition1              0.212    
+meanVal_c:variance_level1:condition1    0.056 .  
+meanVal_c:variance_level2:condition1    0.963    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c vrnc_1 vrnc_2 cndtn1 mnV_:_1 mnV_:_2 mnV_:1 vr_1:1
+meanVal_c    0.202                                                          
+varinc_lvl1 -0.150 -0.209                                                   
+varinc_lvl2 -0.060  0.049 -0.324                                            
+condition1  -0.010 -0.002  0.002  0.001                                     
+mnVl_c:vr_1  0.004 -0.002  0.009 -0.028 -0.001                              
+mnVl_c:vr_2  0.003  0.000 -0.016  0.012  0.000 -0.496                       
+mnVl_c:cnd1 -0.002 -0.010  0.001  0.000  0.202  0.004  -0.002               
+vrnc_lvl1:1  0.002  0.001 -0.010  0.002 -0.150 -0.001   0.000  -0.209       
+vrnc_lvl2:1  0.001  0.000  0.002 -0.006 -0.060  0.002   0.001   0.049 -0.324
+mnVl_c:_1:1 -0.001  0.004 -0.001  0.002  0.004  0.003  -0.002  -0.002  0.009
+mnVl_c:_2:1  0.000 -0.002  0.000  0.001  0.003 -0.002  -0.012   0.000 -0.016
+            vr_2:1 mV_:_1:
+meanVal_c                 
+varinc_lvl1               
+varinc_lvl2               
+condition1                
+mnVl_c:vr_1               
+mnVl_c:vr_2               
+mnVl_c:cnd1               
+vrnc_lvl1:1               
+vrnc_lvl2:1               
+mnVl_c:_1:1 -0.028        
+mnVl_c:_2:1  0.012 -0.496 
+optimizer (bobyqa) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+

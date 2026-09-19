@@ -1,0 +1,10 @@
+"experiment","comparison_set","contrast","condition","estimate","SE","df","t.ratio","p.value","variance_level"
+"exp4","noise_within_condition","variance_level3 - variance_level5","average",0.161958134069046,0.0195772921786086,20831.930348268,8.27275460730019,0,NA
+"exp4","noise_within_condition","variance_level3 - variance_level7","average",0.298916678883223,0.0196038295272788,20792.7194113468,15.2478717725676,0,NA
+"exp4","noise_within_condition","variance_level5 - variance_level7","average",0.136958544814177,0.019540038031833,20851.0765801356,7.009123758667,0,NA
+"exp4","noise_within_condition","variance_level3 - variance_level5","experience",0.132143128242738,0.0196065002974837,20833.8670922209,6.73976111176234,0,NA
+"exp4","noise_within_condition","variance_level3 - variance_level7","experience",0.237063058221967,0.0196634793904843,20796.6970433636,12.05600766346,0,NA
+"exp4","noise_within_condition","variance_level5 - variance_level7","experience",0.104919929979229,0.0198917257349214,20851.464479687,5.27455140782654,3.33030620525143e-07,NA
+"exp4","condition_within_noise","average - experience",NA,-0.0217947348753653,0.0463006509824135,127.095901903939,-0.470721996622546,0.638646138464628,"3"
+"exp4","condition_within_noise","average - experience",NA,-0.0516097407016737,0.0463461829729982,127.591963302859,-1.11357046882895,0.26755691710342,"5"
+"exp4","condition_within_noise","average - experience",NA,-0.083648355536622,0.0463856984331519,128.029821064079,-1.80332210923095,0.0736893447030038,"7"

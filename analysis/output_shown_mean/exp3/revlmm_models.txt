@@ -1,0 +1,166 @@
+
+===== combined =====
+formula: meanVal ~ resp_c * array_length * condition + (1 + array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 44808.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.2973 -0.6664 -0.0209  0.6579  4.2685 
+
+Random effects:
+ Groups         Name          Variance Std.Dev. Corr       
+ participant_id (Intercept)    0.2360  0.4858              
+                array_length1  0.5436  0.7373   -0.12      
+                array_length2  0.1717  0.4144    0.17 -0.69
+ Residual                     19.0736  4.3673              
+Number of obs: 7708, groups:  participant_id, 84
+
+Fixed effects:
+                                  Estimate Std. Error         df t value
+(Intercept)                      2.442e+01  7.340e-02  8.372e+01 332.669
+resp_c                           6.943e-01  7.126e-03  7.609e+03  97.424
+array_length1                    1.379e+00  1.080e-01  8.256e+01  12.767
+array_length2                   -1.707e-01  8.473e-02  8.282e+01  -2.014
+condition1                       3.890e-02  7.340e-02  8.372e+01   0.530
+resp_c:array_length1             6.647e-05  9.946e-03  7.577e+03   0.007
+resp_c:array_length2             1.136e-02  1.030e-02  7.586e+03   1.104
+resp_c:condition1                2.019e-02  7.126e-03  7.609e+03   2.833
+array_length1:condition1        -9.700e-02  1.080e-01  8.256e+01  -0.898
+array_length2:condition1         1.521e-02  8.473e-02  8.282e+01   0.180
+resp_c:array_length1:condition1  1.850e-02  9.946e-03  7.577e+03   1.860
+resp_c:array_length2:condition1 -2.418e-02  1.030e-02  7.586e+03  -2.348
+                                Pr(>|t|)    
+(Intercept)                      < 2e-16 ***
+resp_c                           < 2e-16 ***
+array_length1                    < 2e-16 ***
+array_length2                    0.04722 *  
+condition1                       0.59752    
+resp_c:array_length1             0.99467    
+resp_c:array_length2             0.26982    
+resp_c:condition1                0.00462 ** 
+array_length1:condition1         0.37167    
+array_length2:condition1         0.85796    
+resp_c:array_length1:condition1  0.06289 .  
+resp_c:array_length2:condition1  0.01889 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) resp_c arry_1 arry_2 cndtn1 rs_:_1 rs_:_2 rsp_:1 ar_1:1
+resp_c      -0.003                                                        
+arry_lngth1 -0.063  0.078                                                 
+arry_lngth2  0.069 -0.105 -0.559                                          
+condition1  -0.096 -0.001  0.000 -0.004                                   
+rsp_c:rry_1  0.082 -0.035  0.052  0.007 -0.033                            
+rsp_c:rry_2 -0.084  0.055  0.005 -0.077  0.011 -0.512                     
+rsp_c:cndt1 -0.001 -0.004 -0.031  0.014 -0.003 -0.028 -0.002              
+arry_lng1:1  0.000 -0.031 -0.100  0.057 -0.063 -0.023  0.015  0.078       
+arry_lng2:1 -0.004  0.014  0.057 -0.095  0.069  0.019  0.008 -0.105 -0.559
+rsp_c:r_1:1 -0.033 -0.028 -0.023  0.019  0.082 -0.024  0.023 -0.035  0.052
+rsp_c:r_2:1  0.011 -0.002  0.015  0.008 -0.084  0.023 -0.004  0.055  0.005
+            ar_2:1 r_:_1:
+resp_c                   
+arry_lngth1              
+arry_lngth2              
+condition1               
+rsp_c:rry_1              
+rsp_c:rry_2              
+rsp_c:cndt1              
+arry_lng1:1              
+arry_lng2:1              
+rsp_c:r_1:1  0.007       
+rsp_c:r_2:1 -0.077 -0.512
+
+===== experience =====
+formula: meanVal ~ resp_c * array_length + (1 + array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 20210.5
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.3930 -0.6613 -0.0023  0.6555  4.1024 
+
+Random effects:
+ Groups         Name          Variance Std.Dev. Corr       
+ participant_id (Intercept)    0.1580  0.3975              
+                array_length1  0.5426  0.7366   -0.30      
+                array_length2  0.2906  0.5391    0.30 -0.63
+ Residual                     18.1391  4.2590              
+Number of obs: 3507, groups:  participant_id, 38
+
+Fixed effects:
+                       Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)           2.438e+01  9.738e-02  3.820e+01 250.329  < 2e-16 ***
+resp_c                6.743e-01  9.857e-03  3.462e+03  68.404  < 2e-16 ***
+array_length1         1.475e+00  1.583e-01  3.779e+01   9.316 2.48e-11 ***
+array_length2        -1.858e-01  1.353e-01  3.734e+01  -1.373   0.1778    
+resp_c:array_length1 -1.924e-02  1.386e-02  3.412e+03  -1.388   0.1653    
+resp_c:array_length2  3.580e-02  1.423e-02  3.452e+03   2.515   0.0119 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) resp_c arry_1 arry_2 rs_:_1
+resp_c      -0.003                            
+arry_lngth1 -0.142  0.102                     
+arry_lngth2  0.127 -0.103 -0.562              
+rsp_c:rry_1  0.118 -0.009  0.070 -0.010       
+rsp_c:rry_2 -0.099  0.058 -0.009 -0.074 -0.527
+
+===== average =====
+formula: meanVal ~ resp_c * array_length + (1 + array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 24579.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1734 -0.6712 -0.0377  0.6665  4.1667 
+
+Random effects:
+ Groups         Name          Variance Std.Dev. Corr       
+ participant_id (Intercept)    0.30031 0.5480              
+                array_length1  0.54414 0.7377   -0.02      
+                array_length2  0.07416 0.2723    0.07 -0.88
+ Residual                     19.85335 4.4557              
+Number of obs: 4201, groups:  participant_id, 46
+
+Fixed effects:
+                       Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)            24.45546    0.10641   45.65119 229.829  < 2e-16 ***
+resp_c                  0.71460    0.01025 4132.10588  69.744  < 2e-16 ***
+array_length1           1.28203    0.14621   44.59440   8.768 2.91e-11 ***
+array_length2          -0.15499    0.10610   45.43866  -1.461    0.151    
+resp_c:array_length1    0.01885    0.01418 4143.66903   1.329    0.184    
+resp_c:array_length2   -0.01274    0.01481 4130.61360  -0.860    0.390    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) resp_c arry_1 arry_2 rs_:_1
+resp_c      -0.004                            
+arry_lngth1 -0.013  0.050                     
+arry_lngth2  0.025 -0.105 -0.558              
+rsp_c:rry_1  0.049 -0.061  0.031  0.030       
+rsp_c:rry_2 -0.073  0.051  0.021 -0.079 -0.496

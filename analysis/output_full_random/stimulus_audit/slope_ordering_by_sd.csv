@@ -1,0 +1,12 @@
+"experiment","condition","levels_by_sd","slopes_by_sd","monotonic","worst_inversion","spearman_sd_slope"
+"exp1","average","2 < 6 < 8 < 12","0.899 > 0.813 > 0.751 > 0.705",TRUE,0,-1
+"exp1","experience","2 < 6 < 8 < 12","0.884 > 0.830 > 0.760 > 0.923",FALSE,0.163475184756415,0.2
+"exp2","average","2 < 20 < 10","0.815 > 0.737 > 0.679",TRUE,0,-1
+"exp2","experience","2 < 20 < 10","0.921 > 0.877 > 0.829",TRUE,0,-1
+"exp2_batch2","average","2 < 20 < 10","0.828 > 0.758 > 0.690",TRUE,0,-1
+"exp2_batch2","experience","2 < 20 < 10","0.964 > 0.914 > 0.827",TRUE,0,-1
+"exp3","average","2 < 20 < 10","0.828 > 0.739 > 0.701",TRUE,0,-1
+"exp3","experience","2 < 20 < 10","0.881 > 0.881 > 0.800",FALSE,0.000527481875608915,-0.5
+"exp4","average","3 < 5 < 7","1.074 > 0.914 > 0.777",TRUE,0,-1
+"exp4","experience","3 < 5 < 7","1.095 > 0.965 > 0.855",TRUE,0,-1
+"short_exposure","experience","2 < 20 < 10","0.913 > 0.858 > 0.835",TRUE,0,-1

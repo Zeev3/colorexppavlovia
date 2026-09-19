@@ -1,0 +1,7 @@
+"experiment","window","condition","array_length","n_trials","mean_report","mean_obj","se_obj"
+"short_exposure","high","experience","2",32,39.875,32.40625,0.804297147334042
+"short_exposure","high","experience","10",48,39.375,31.8958333333333,0.644974835490561
+"short_exposure","high","experience","20",55,39.4727272727273,32.1272727272727,0.616307318424665
+"short_exposure","low","experience","2",99,10.5050505050505,16.6464646464646,0.265253340089429
+"short_exposure","low","experience","10",42,10.8571428571429,16.8809523809524,0.527085626615273
+"short_exposure","low","experience","20",63,10.8095238095238,17.7301587301587,0.479057761193072

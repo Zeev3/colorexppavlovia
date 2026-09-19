@@ -1,0 +1,4 @@
+"experiment","comparison_set","contrast","estimate","SE","df","t.ratio","p.value"
+"short_exposure","noise_within_condition","array_length2 - array_length10",0.0788323466286362,0.0528282401661008,70.1133662953449,1.49223874164224,0.300806240533817
+"short_exposure","noise_within_condition","array_length2 - array_length20",0.055770755693994,0.0545728858665841,70.3189112322496,1.02194990806127,0.56559013263582
+"short_exposure","noise_within_condition","array_length10 - array_length20",-0.0230615909346422,0.0518867127356932,72.4252131710859,-0.444460435412744,0.896997206186771

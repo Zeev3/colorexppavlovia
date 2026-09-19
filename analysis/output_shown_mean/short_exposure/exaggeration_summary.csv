@@ -1,0 +1,4 @@
+"experiment","condition","array_length","n","mean_prop","se"
+"short_exposure","experience","2",37,0.143478954880512,0.0129605464526455
+"short_exposure","experience","10",37,0.117595752036798,0.01567791956485
+"short_exposure","experience","20",37,0.11994612799674,0.012971541123644

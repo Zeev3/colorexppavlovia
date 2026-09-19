@@ -1,0 +1,4 @@
+"experiment","tail_prop","condition","array_length","n_trials","mean_abs_resp","mean_abs_obj","ratio"
+"short_exposure",0.1,"experience","2",231,13.0278867347254,8.09470868453993,0.621337047931476
+"short_exposure",0.1,"experience","10",230,12.6244785259246,8.2435576925805,0.652982036101704
+"short_exposure",0.1,"experience","20",229,12.652196010029,7.68895577585118,0.607717092728914

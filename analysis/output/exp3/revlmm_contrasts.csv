@@ -1,0 +1,16 @@
+"experiment","model","comparison_set","contrast","condition","estimate","SE","df","t.ratio","p.value","array_length"
+"exp3","combined","noise_within_condition","array_length2 - array_length10","average",0.0313838950533315,0.0245893111840157,7591.72442378088,1.27632265981215,0.408615680064589,NA
+"exp3","combined","noise_within_condition","array_length2 - array_length20","average",0.0243190876151,0.0241462156315846,7526.08333145221,1.00715938208094,0.572337573828756,NA
+"exp3","combined","noise_within_condition","array_length10 - array_length20","average",-0.00706480743823156,0.0252379436811264,7604.75074884531,-0.27992801345043,0.957725028925861,NA
+"exp3","combined","noise_within_condition","array_length2 - array_length10","experience",-0.053976908883745,0.025185058786719,7592.77580061129,-2.14321155018343,0.0813911727700094,NA
+"exp3","combined","noise_within_condition","array_length2 - array_length20","experience",-0.00132715263855273,0.024192997686137,7477.34330613904,-0.0548568910628717,0.998342284263083,NA
+"exp3","combined","noise_within_condition","array_length10 - array_length20","experience",0.0526497562451922,0.0248334112303072,7608.83107561373,2.12011776219199,0.085846569695509,NA
+"exp3","combined","condition_within_noise","average - experience",NA,0.0773848197354406,0.0240638269023124,7468.03080427066,3.21581517559887,0.00130628626823957,"2"
+"exp3","combined","condition_within_noise","average - experience",NA,-0.00797598420163583,0.0256787091946578,7486.87261761902,-0.310606897767866,0.75610812909101,"10"
+"exp3","combined","condition_within_noise","average - experience",NA,0.051738579481788,0.0243157593398807,7415.25793983043,2.12777971514674,0.0333882470386234,"20"
+"exp3","experience","noise_within_condition","array_length2 - array_length10","experience",-0.0550415105359867,0.0245451322846207,3445.08999775171,-2.24246135232582,0.0643959102845143,NA
+"exp3","experience","noise_within_condition","array_length2 - array_length20","experience",-0.00266696548125078,0.0235686806424813,3384.8211373723,-0.113157181842573,0.992965547055912,NA
+"exp3","experience","noise_within_condition","array_length10 - array_length20","experience",0.0523745450547359,0.0242298018742821,3458.7864285343,2.16157545680665,0.0780617728497371,NA
+"exp3","average","noise_within_condition","array_length2 - array_length10","average",0.0315828645950631,0.0250776525885498,4138.36394930172,1.25940274846472,0.418363927022386,NA
+"exp3","average","noise_within_condition","array_length2 - array_length20","average",0.0249526290479372,0.0246320297148943,4100.69408725241,1.0130155466989,0.568653085845629,NA
+"exp3","average","noise_within_condition","array_length10 - array_length20","average",-0.0066302355471259,0.0257312397191001,4148.20975980367,-0.257672604177106,0.964061569496427,NA

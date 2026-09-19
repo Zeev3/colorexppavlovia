@@ -1,0 +1,9 @@
+"experiment","version","band","comparison","n_participants","gap_diff","gap_p","same_report_diff","same_report_p"
+"exp3","raw","extreme low (1-9)","20 squares vs 2 squares",26,-1.78069291819292,0.00242393729835678,-1.62531529466876,0.00552798599046631
+"exp3","raw","low (10-14)","20 squares vs 2 squares",73,-2.39304831994089,4.74457773046525e-10,-2.25352996866778,2.42289475444159e-09
+"exp3","raw","high (36-40)","20 squares vs 2 squares",22,2.28093434343434,0.00244262590602285,1.87056881617154,0.00748466472114768
+"exp3","raw","extreme high (41-50)","20 squares vs 2 squares",2,NA,NA,NA,NA
+"exp3","shift_removed","extreme low (1-9)","20 squares vs 2 squares",7,-2.67142857142857,0.0876338345501235,-3.07183843537415,0.0435151147389025
+"exp3","shift_removed","low (10-14)","20 squares vs 2 squares",54,-1.26909171075838,0.00757647086514057,-1.36354090459204,0.00124334157588357
+"exp3","shift_removed","high (36-40)","20 squares vs 2 squares",43,1.12264673311185,0.03914912262563,1.20181126789738,0.0245588668078006
+"exp3","shift_removed","extreme high (41-50)","20 squares vs 2 squares",12,1.81944444444444,0.104148855734335,1.26195404087561,0.119929144543208

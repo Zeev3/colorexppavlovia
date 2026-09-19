@@ -1,0 +1,3 @@
+"experiment","condition","formula","rand_used","singular"
+"exp2_batch2","experience","indexSelected ~ meanVal_c * array_length + (1 | participant_id) + (0 + I(meanVal_c * (array_length == ""2"")) | participant_id) + (0 + I(meanVal_c * (array_length == ""10"")) | participant_id) + (0 + I(meanVal_c * (array_length == ""20"")) | participant_id)","slope_by_level_nocorr",FALSE
+"exp2_batch2","average","indexSelected ~ meanVal_c * array_length + (1 | participant_id) + (0 + I(meanVal_c * (array_length == ""2"")) | participant_id) + (0 + I(meanVal_c * (array_length == ""10"")) | participant_id) + (0 + I(meanVal_c * (array_length == ""20"")) | participant_id)","slope_by_level_nocorr",FALSE

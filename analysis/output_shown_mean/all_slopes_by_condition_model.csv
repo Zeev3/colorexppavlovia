@@ -1,0 +1,36 @@
+"experiment","label","noise_var","noise_level","condition","slope","SE","ci_low","ci_high"
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","2","experience",0.885124471800145,0.0655716333308248,0.751691180560195,1.01855776304009
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","6","experience",0.82518137973663,0.0652121784474733,0.692366048176184,0.957996711297075
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","8","experience",0.759318182096417,0.0655566317470543,0.625909849203569,0.892726514989266
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","12","experience",0.92425540404176,0.0660905906267369,0.789924897147359,1.05858591093616
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","2","average",0.902276394716862,0.0573917964119595,0.786719576827668,1.01783321260606
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","6","average",0.804331424351135,0.0568489305425995,0.689748029095385,0.918914819606884
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","8","average",0.751699533794944,0.0574112026928949,0.636108371426249,0.867290696163639
+"exp1","Experiment 1 - array size (2/6/8/12)","array_length","12","average",0.707579047096475,0.0566582045369308,0.59333390747267,0.821824186720281
+"exp2","Experiment 2 - array size (2/10/20)","array_length","2","experience",0.921427122864912,0.0162214657640744,0.889628076751982,0.953226168977843
+"exp2","Experiment 2 - array size (2/10/20)","array_length","10","experience",0.829624638146126,0.0159514655837892,0.798354891864077,0.860894384428175
+"exp2","Experiment 2 - array size (2/10/20)","array_length","20","experience",0.871441299671071,0.0162056239288767,0.839673313091964,0.903209286250179
+"exp2","Experiment 2 - array size (2/10/20)","array_length","2","average",0.811920867317313,0.0132561531299567,0.785935219926907,0.83790651470772
+"exp2","Experiment 2 - array size (2/10/20)","array_length","10","average",0.680465842278473,0.0131271559573037,0.65473307107235,0.706198613484596
+"exp2","Experiment 2 - array size (2/10/20)","array_length","20","average",0.740826625745038,0.0131198423875207,0.715108177708954,0.766545073781121
+"exp3","Experiment 3 - Mondrian frame (2/10/20)","array_length","2","experience",0.880012727186684,0.0437846490391557,0.792181262136826,0.967844192236542
+"exp3","Experiment 3 - Mondrian frame (2/10/20)","array_length","10","experience",0.802131577935093,0.0433204111344462,0.71514271040104,0.889120445469147
+"exp3","Experiment 3 - Mondrian frame (2/10/20)","array_length","20","experience",0.887366185024749,0.0434902661580899,0.80006936695486,0.974663003094638
+"exp3","Experiment 3 - Mondrian frame (2/10/20)","array_length","2","average",0.824888681301834,0.0365425286496842,0.751866233045981,0.897911129557688
+"exp3","Experiment 3 - Mondrian frame (2/10/20)","array_length","10","average",0.700873963691633,0.036826825774929,0.627326729945611,0.774421197437656
+"exp3","Experiment 3 - Mondrian frame (2/10/20)","array_length","20","average",0.741208075083296,0.0367337337913099,0.667833125331289,0.814583024835303
+"exp4","Experiment 4 - stimulus variance (SD 3/5/7)","variance_level","3","experience",1.09686214819424,0.0331786302319099,1.0305523406675,1.16317195572098
+"exp4","Experiment 4 - stimulus variance (SD 3/5/7)","variance_level","5","experience",0.965229422951876,0.033310389926621,0.898676658396999,1.03178218750675
+"exp4","Experiment 4 - stimulus variance (SD 3/5/7)","variance_level","7","experience",0.860397534601443,0.0333500576102551,0.79377163152202,0.927023437680865
+"exp4","Experiment 4 - stimulus variance (SD 3/5/7)","variance_level","3","average",1.0755205658751,0.0323665135479718,1.01086660011505,1.14017453163514
+"exp4","Experiment 4 - stimulus variance (SD 3/5/7)","variance_level","5","average",0.913279927371711,0.032308916430809,0.848732203181121,0.977827651562301
+"exp4","Experiment 4 - stimulus variance (SD 3/5/7)","variance_level","7","average",0.77654888575127,0.0323229900948207,0.711975231310248,0.841122540192292
+"exp2_batch2","Partial snapshot of Experiment 2 (subset, not independent)","array_length","2","experience",0.972133735659159,0.0206028055747227,0.931741406821499,1.01252606449682
+"exp2_batch2","Partial snapshot of Experiment 2 (subset, not independent)","array_length","10","experience",0.820930108371903,0.0200718530435875,0.781578776161993,0.860281440581813
+"exp2_batch2","Partial snapshot of Experiment 2 (subset, not independent)","array_length","20","experience",0.916138829487158,0.0206326945224172,0.875687934057115,0.956589724917202
+"exp2_batch2","Partial snapshot of Experiment 2 (subset, not independent)","array_length","2","average",0.830461844719703,0.0161766492349077,0.798748729386725,0.862174960052681
+"exp2_batch2","Partial snapshot of Experiment 2 (subset, not independent)","array_length","10","average",0.687637552150413,0.0162321634032477,0.655815611265371,0.719459493035454
+"exp2_batch2","Partial snapshot of Experiment 2 (subset, not independent)","array_length","20","average",0.75911294071532,0.0161106980377995,0.727529097952803,0.790696783477836
+"short_exposure","Pilot - short exposure, experience only (2/10/20)","array_length","2","experience",0.916633339282437,0.037135474449095,0.842288734212956,0.990977944351917
+"short_exposure","Pilot - short exposure, experience only (2/10/20)","array_length","10","experience",0.835284191881934,0.0371473754624356,0.760917715988221,0.909650667775646
+"short_exposure","Pilot - short exposure, experience only (2/10/20)","array_length","20","experience",0.858280948328097,0.0374028659004424,0.783446661661881,0.933115234994312

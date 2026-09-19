@@ -1,0 +1,9 @@
+"level","band","n_trials","p","inward_skew"
+"2 squares","14-17",154,NA,0
+"2 squares","32+",231,NA,0
+"6 squares","14-17",155,NA,0
+"6 squares","32+",253,NA,0
+"8 squares","14-17",157,NA,0
+"8 squares","32+",231,NA,0
+"12 squares","14-17",171,NA,-0.206282093856245
+"12 squares","32+",225,NA,0.206282093856247

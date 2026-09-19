@@ -1,0 +1,7 @@
+"experiment","version","segment","n_participants","lowest_minus_highest","p"
+"short_exposure","raw","low",34,1.89500971851352,0.0848571360923723
+"short_exposure","raw","mid",37,0.0747574176007455,0.0325209725122594
+"short_exposure","raw","high",19,-0.17657101030012,0.354647293795272
+"short_exposure","shift_removed","low",25,0.559068933314164,0.331779279062108
+"short_exposure","shift_removed","mid",37,0.0854408421618745,0.0297328660728191
+"short_exposure","shift_removed","high",29,-0.624331347973528,0.232614910687682

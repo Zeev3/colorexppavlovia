@@ -1,0 +1,4 @@
+"experiment","condition","array_length","n","se","signed_err"
+"short_exposure","experience","2",37,0.460740979150112,-2.27545636547185
+"short_exposure","experience","10",37,0.503330205186143,0.310177062499045
+"short_exposure","experience","20",37,0.572349629679043,0.280390382867163

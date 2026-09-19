@@ -1,0 +1,2 @@
+"experiment","condition","formula","rand_used","singular"
+"short_exposure","experience","indexSelected ~ meanVal_c * array_length + (1 + meanVal_c | participant_id)","mean_slope",FALSE

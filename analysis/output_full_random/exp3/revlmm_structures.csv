@@ -1,0 +1,4 @@
+"experiment","model","formula","rand_used","singular"
+"exp3","combined","meanVal ~ resp_c * array_length * condition + (1 | participant_id) + (0 + I(resp_c * (array_length == ""2"")) | participant_id) + (0 + I(resp_c * (array_length == ""10"")) | participant_id) + (0 + I(resp_c * (array_length == ""20"")) | participant_id)","slope_by_level_nocorr",FALSE
+"exp3","experience","meanVal ~ resp_c * array_length + (1 | participant_id) + (0 + I(resp_c * (array_length == ""2"")) | participant_id) + (0 + I(resp_c * (array_length == ""10"")) | participant_id) + (0 + I(resp_c * (array_length == ""20"")) | participant_id)","slope_by_level_nocorr",FALSE
+"exp3","average","meanVal ~ resp_c * array_length + (1 | participant_id) + (0 + I(resp_c * (array_length == ""2"")) | participant_id) + (0 + I(resp_c * (array_length == ""10"")) | participant_id) + (0 + I(resp_c * (array_length == ""20"")) | participant_id)","slope_by_level_nocorr",FALSE

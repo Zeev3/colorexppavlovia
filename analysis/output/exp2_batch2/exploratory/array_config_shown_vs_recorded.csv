@@ -1,0 +1,4 @@
+"level","mean_diff","max_abs_diff","r_true_itemsd","r_true_skew"
+"2 squares",0,0,NA,NA
+"10 squares",0.2,0.200000000000003,NA,-0.720111212290718
+"20 squares",-1.5,1.5,NA,NA

@@ -1,0 +1,12 @@
+"experiment","condition","n_participants","n_trials","trials_per_part","mean_rt","mean_abs_error"
+"exp1","average",23,2111,91.8,2809,5.05
+"exp1","experience",21,1923,91.6,2732,5
+"exp2","average",86,7927,92.2,2697,5.09
+"exp2","experience",77,7107,92.3,2450,4.84
+"exp3","average",46,4201,91.3,2858,4.92
+"exp3","experience",38,3507,92.3,2442,4.92
+"exp4","average",51,10602,207.9,1867,4.41
+"exp4","experience",50,10475,209.5,2128,4.51
+"exp2_batch2","average",57,5266,92.4,2631,5.24
+"exp2_batch2","experience",47,4343,92.4,2484,4.83
+"short_exposure","experience",37,3431,92.7,2343,4.4

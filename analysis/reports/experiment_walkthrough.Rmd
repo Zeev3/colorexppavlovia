@@ -1,0 +1,383 @@
+---
+title: "`r params$title`"
+subtitle: "Regression to the mean in perceptual experience — exploratory, not the main write-up"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+params:
+  exp_id: exp4
+  true_value: shown
+  title: "Experiment walkthrough"
+output:
+  word_document:
+    toc: true
+    toc_depth: 2
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    self_contained: true
+---
+
+```{r setup, include = FALSE}
+# One template for every colour experiment. Render with
+#   rmarkdown::render("experiment_walkthrough.Rmd", params = list(exp_id = "exp2", title = "..."),
+#                     output_file = "exp2_walkthrough", output_format = "all")
+# (render_walkthroughs.R does all of them). Everything is recomputed from the pipeline.
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 200, fig.width = 8, fig.height = 5.5)
+ROOT_DIR <- normalizePath(file.path(getwd(), "..", ".."))
+Sys.setenv(EPOC_ROOT = ROOT_DIR, EPOC_TRUE_VALUE = params$true_value)
+for (f in sort(list.files(file.path(ROOT_DIR, "analysis", "R"), pattern = "[.]R$", full.names = TRUE))) source(f)
+library(knitr)
+ID    <- params$exp_id
+exp   <- EXPERIMENTS[[ID]]
+NV    <- exp$noise_var
+prep  <- suppressMessages(epoc_prepare(exp))
+dat   <- prep$data
+FIG   <- file.path(ROOT_DIR, "analysis", "reports", paste0(ID, "_walkthrough_figures"))
+dir.create(FIG, showWarnings = FALSE, recursive = TRUE)
+ctl   <- lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5))
+p_    <- function(p) sub("^p ", "", fmt_p(p))
+n2    <- function(x, d = 2) formatC(x, format = "f", digits = d)
+tab   <- function(x, ...) kable(x, format = "pipe", ...)
+LABS  <- expl_level_labels(exp); LO <- LABS[1]; HI <- LABS[length(LABS)]
+COLS  <- setNames(c("#2a78d6", "#eb6834", "#1baf7a", "#eda100")[seq_along(LABS)], LABS)
+UNIT  <- if (NV == "variance_level") "SD level" else "array size"
+lv_of <- function(x) factor(LABS[match(as.character(x), as.character(exp$levels))], levels = LABS)
+raw_to_level <- function(al) if (is.null(exp$recode)) al else unname(exp$recode[as.character(al)])
+
+d <- expl_add_versions(dat, exp) %>%
+  mutate(condition = as.character(condition), raw_id = sub("^[^.]+[.]", "", as.character(participant_id)))
+
+# position of each trial within its colour block (full, uncleaned session)
+drop_later <- exp$later_session %||% character(0)
+posi <- bind_rows(lapply(names(exp$dirs), function(cn)
+  read.csv(file.path(DATA, exp$dirs[[cn]], "summary_all_participants.csv"), stringsAsFactors = FALSE) %>%
+    mutate(condition = cn, participant_id = as.character(participant_id)))) %>%
+  filter(!paste(participant_id, condition) %in% paste(names(drop_later), drop_later)) %>%
+  arrange(participant_id, condition, trial) %>%
+  group_by(participant_id, condition, color) %>% mutate(pos = row_number(), n_block = n()) %>% ungroup()
+d <- d %>% left_join(posi %>% select(raw_id = participant_id, condition, trial, pos, n_block), by = c("raw_id", "condition", "trial")) %>%
+  mutate(rel = pos / n_block, pos_c = rel - .5, third = cut(rel, c(0, 1/3, 2/3, 1), labels = c("early", "middle", "late")))
+
+arr0 <- expl_array_trials(exp)
+d <- d %>% left_join(arr0 %>% select(raw_id = participant_id, trial, condition, item_sd), by = c("raw_id", "trial", "condition"))
+
+# weights giving every level the same distribution of true values
+pooled_tv <- d %>% mutate(tv = round(meanVal)) %>% count(tv) %>% mutate(p_all = n / sum(n)) %>% select(-n)
+d <- d %>% mutate(tv = round(meanVal)) %>% group_by(level) %>% mutate(n_l = n()) %>%
+  group_by(level, tv) %>% mutate(p_l = n() / n_l) %>% ungroup() %>%
+  left_join(pooled_tv, by = "tv") %>% mutate(w = p_all / p_l) %>% select(-n_l, -p_l, -p_all)
+
+# strict forward model: each participant's own slope at each level, uncorrelated
+Ilev <- function(v) paste(sprintf("(0 + I(%s * (%s == '%s')) | participant_id)", v, NV, exp$levels), collapse = " + ")
+re_fwd <- paste("(1 | participant_id) +", Ilev("meanVal_c"))
+m_fwd  <- lmerTest::lmer(as.formula(sprintf("indexSelected ~ meanVal_c * %s * condition + %s", NV, re_fwd)), data = dat, control = ctl)
+a_fwd  <- anova(m_fwd)
+sl_fwd <- as.data.frame(summary(emtrends(m_fwd, as.formula(paste("~", NV)), var = "meanVal_c"), infer = TRUE))
+sl_c   <- as.data.frame(summary(emtrends(m_fwd, as.formula(paste("~", NV, "| condition")), var = "meanVal_c"), infer = TRUE))
+row_i  <- function(a, term) a[term, ]
+slx    <- row_i(a_fwd, paste0("meanVal_c:", NV)); slxc <- row_i(a_fwd, paste0("meanVal_c:", NV, ":condition"))
+
+# participant-level slopes
+pl_sl <- d %>% group_by(participant_id, condition, level) %>% summarise(b = coef(lm(indexSelected ~ meanVal))[2], .groups = "drop")
+a2    <- suppressMessages(afex::aov_ez("participant_id", "b", as.data.frame(pl_sl), within = "level", between = "condition"))$anova_table
+
+# slope split
+dc  <- d %>% group_by(participant_id) %>% mutate(x = meanVal - mean(meanVal), y = indexSelected - mean(indexSelected)) %>% ungroup() %>% mutate(group = "all")
+spl <- expl_slope_split(dc, "all")
+
+# exploratory module outputs used below (figures written to FIG/exploratory)
+cfg <- suppressMessages(epoc_array_configurations(dat, exp, FIG))
+arr <- expl_array_trials(exp)
+invisible(epoc_regression_panels(dat, exp, FIG))
+pw  <- epoc_piecewise_reverse(dat, exp, FIG)
+r2t <- epoc_report_to_true(dat, exp, FIG)
+bd  <- epoc_report_bands(dat, exp, FIG)
+t2r <- epoc_true_to_report(dat, exp, FIG)
+cr  <- suppressMessages(epoc_correlations(dat, exp))
+
+# experiment-specific notes (written after inspecting the results)
+NOTES <- list(
+  exp1 = list(
+    design = "Arrays of 2, 6, 8 or 12 coloured squares (24 trials per array size, 96 per session). Noise was manipulated through the number of squares; each array size always used the same fixed offsets around the mean.",
+    problems = c(
+      "**Array size does not track colour dispersion.** The fixed templates give within-array spreads of about 4.0 / 4.3 / 5.5 / 5.5, so 8- and 12-square arrays are equally dispersed. Array size is therefore not a clean noise manipulation.",
+      "**The 12-square template does not average to zero** (the squares shown average 0.33 above the logged mean). This document uses the mean of the squares actually shown as the true value, which removes the problem.",
+      "**2-square arrays read low** (about 2.4 units below the mean shown). This is not explained by the colour scale, and only slightly (if at all) by weighting the lighter square; nearly identical practice pairs read low too.",
+      "**Trial order:** 2-square trials come slightly earlier in each colour block (the same biased-shuffle signature as Experiment 4; the Experiment 1 task code actually run has not been checked).",
+      "**One-step colour offset** between stimulus squares and response images (same images as Experiment 4): a perfect observer would report about 1 unit low; this does not affect slopes or comparisons between levels."),
+    bottom = "**Regression to the mean, but no reliable effect of array size on it.** Reports tracked the stimulus less tightly at some array sizes (correlation .80 / .76 / .72 / .76, p = .001), but not in design order: tracking was worst at 8 squares, and 8- and 12-square arrays are equally dispersed. The forward slope (.89 / .82 / .76 / .81) changes in the participant-level test (p = .013) but not in the strict mixed model (p = .15), and reports do not narrow reliably (p = .27). Extreme reports come from less extreme stimuli at every array size (reverse slope about .6). At the extremes, the differences between 2 and 12 squares point in opposite directions at the two ends (+1.3 units for high reports, −1.7 for low reports, as given): that is the overall shift of 2-square reports (about 2.4 units low), not a change in exaggeration, and nothing remains once each participant's shift is removed."),
+  exp2 = list(
+    design = "Arrays of 2, 10 or 20 coloured squares. Noise was manipulated through the number of squares, each array size using fixed offsets around the mean.",
+    problems = c(
+      "**Array size does not track colour dispersion.** Within-array spreads are about 4.0 / 5.95 / 5.5: the 10-square arrays are the most dispersed, not the 20-square arrays.",
+      "**Two templates do not average to zero** (10 squares +0.2, 20 squares −1.5, and the 20-square template is very lopsided: five squares at −7). This document uses the mean of the squares actually shown as the true value.",
+      "**2-square arrays read low** (about 3 units below the mean shown), not explained by the colour scale.",
+      "**Trial order:** 2-square trials come slightly earlier in each colour block (task code actually run not checked).",
+      "**One-step colour offset** between stimulus squares and response images (about −1 on all reports; no effect on slopes or comparisons)."),
+    bottom = "**Array size changes tracking and the forward slope, but through dispersion, not number.** Tracking (r .81 / .76 / .77) and the forward slope (.86 / .75 / .81) are lowest at 10 squares, the most dispersed arrays, not at 20 (strict model p < .001, participant level p < .001). About two thirds of the slope change comes from the weaker correlation and one third from narrower reports (ratio p = .046). Extreme reports come from less extreme stimuli at every array size (reverse slope about .67). At the extremes, the comparisons of 2 vs 20 squares go in opposite directions at the two ends (+1.6 units for high reports, −1.5 for low, as given; +1.0 / −1.2 with each participant's shift removed): for the same report the stimulus was lower at 20 squares at both ends. That is a difference in where reports sit on the scale (possibly linked to the very lopsided 20-square template), not a change in exaggeration. Because 20 squares is not the noisiest level, the level comparisons in this document (first vs last level) are not the noise contrast; 2 vs 10 squares would be."),
+  exp3 = list(
+    design = "Arrays of 2, 10 or 20 coloured squares surrounded by a Mondrian frame of coloured squares (visual interference); otherwise as Experiment 2.",
+    problems = c(
+      "**Array size does not track colour dispersion** (about 4.0 / 5.95 / 5.5; the 10-square arrays are the most dispersed).",
+      "**Two templates do not average to zero** (10 squares +0.2, 20 squares −1.5). This document uses the mean of the squares actually shown as the true value.",
+      "**2-square arrays read low** (about 4 units below the mean shown), not explained by the colour scale.",
+      "**Trial order:** 2-square trials come slightly earlier in each colour block (task code actually run not checked).",
+      "**One-step colour offset** between stimulus squares and response images (about −1 on all reports; no effect on slopes or comparisons)."),
+    bottom = "**The same pattern as Experiment 2, weaker.** Tracking (r .81 / .76 / .78) and the forward slope (.85 / .75 / .81) are lowest at 10 squares, the most dispersed arrays (strict model p = .035, participant level p < .001); reports do not narrow reliably (p = .14). Extreme reports come from less extreme stimuli at every array size (reverse slope about .69). The comparisons of 2 vs 20 squares at the extremes again go in opposite directions at the two ends (a difference in where reports sit, not in exaggeration). The Mondrian frame did not produce a cleaner or stronger noise manipulation than Experiment 2."),
+  exp4 = list(
+    design = "Arrays of 10 coloured squares whose colours were spread around the mean with SD 3, 5 or 7 (72 trials per level, 216 per session). Only the within-array spread changes; this is the clean noise manipulation.",
+    problems = c(
+      "**The trial list is not properly shuffled** (confirmed in `colorvariance/index.html`): both the SD-level list and the true-value list were built in order and 'shuffled' with `.sort(() => Math.random() - 0.5)`, which leaves items near their starting place. SD 3 trials come earlier in each block and SD 7 later, and SD 3 received slightly more low true values, SD 7 more high ones. Both are controlled below (trial position; reweighting).",
+      "**The top of the value range was cut:** 115 values (14–36) were built and the first 108 kept before shuffling, so 35 appears less often and 36 never.",
+      "**One-step colour offset** between stimulus squares and response images: a square of value p matches response index p − 1, so a perfect observer would report about 1 unit low. No effect on slopes, correlations or comparisons between levels.",
+      "**The logged true value is the rounded target;** the squares shown differ by at most ±0.3 at random."),
+    bottom = "**The clean test, and it supports both directions of the account.** Tracking falls (r .83 / .78 / .71) and the forward slope drops from 1.08 to 0.94 to 0.82 (strict model p < .001; survives trial order, value reweighting and participant-level testing). About 58% of the drop is noise (the weaker correlation) and 42% a genuine narrowing of the reports (p < .001), which noise alone cannot produce. Extreme reports come from less extreme stimuli at every level (reverse slope about .6), and more so at higher noise: reports of the same extreme stimulus were pulled 1.8–2.4 units further toward the middle at SD 7 than at SD 3; and for the same extreme report the stimulus was 0.6–1.0 unit less extreme at SD 7 than at SD 3 (high reports as given; both tails once each participant's shift is removed), in the same direction at both ends, which is the signature of more exaggeration rather than a shift. Average and experience conditions do not differ."))
+N <- NOTES[[ID]]
+```
+
+# About this document
+
+**`r exp$label`.** `r N$design` Participants reported the colour on a 50-step scale, either the *average* colour or *how red/blue the array felt* (experience condition).
+
+This document walks through every result of this experiment: first whether the data and the manipulation are sound, then what they show about regression to the mean (RttM) in perceptual experience. Every number and figure is recomputed from the analysis pipeline when the file is knitted; it is **exploratory** and not part of the main write-up. **True values are the mean of the squares actually shown** (`EPOC_TRUE_VALUE = "`r params$true_value`"`).
+
+**Two directions of RttM.** *Forward*: given a stimulus, is the report less extreme? (slope of report on true value). *Reverse*: given a report, was the stimulus less extreme? (the exaggeration claim: extreme experiences overstate the world). Pure noise produces reverse RttM but leaves the forward slope at 1, so a forward slope below 1 needs more than noise.
+
+# Bottom line
+
+`r N$bottom`
+
+```{r glance}
+tail_test <- function(v, side, position = FALSE, weighted = FALSE, dd = d) {
+  rc <- paste0("report_", v); sgn <- if (side == "high") -1 else 1
+  x <- dd %>% filter(if (side == "low") .data[[rc]] <= 14 else .data[[rc]] >= 36) %>% mutate(rep = .data[[rc]], ww = if (weighted) w else 1) %>%
+    group_by(rep) %>% mutate(dev = sgn * (meanVal - weighted.mean(meanVal, ww))) %>% ungroup()
+  if (position) {
+    x <- x %>% group_by(participant_id) %>% mutate(dw = dev - weighted.mean(dev, ww), pw_ = pos_c - weighted.mean(pos_c, ww)) %>% ungroup()
+    b <- coef(lm(dw ~ pw_ + level, data = x, weights = ww))["pw_"]; x$dev <- x$dev - b * x$pos_c
+  }
+  pl <- x %>% group_by(participant_id, level) %>% summarise(e = weighted.mean(dev, ww), .groups = "drop") %>% tidyr::pivot_wider(names_from = level, values_from = e)
+  if (!all(c(LO, HI) %in% names(pl))) return(c(NA, NA))
+  t <- t.test(pl[[HI]], pl[[LO]], paired = TRUE); c(unname(t$estimate), t$p.value)
+}
+gl <- tibble::tibble(
+  Question = c("Do reports track the stimulus less tightly at higher noise? (correlation)",
+               "Does the forward slope change with noise? (strict model)",
+               "Same, participant-level ANOVA",
+               "Do reports narrow at higher noise (SD ratio, lowest vs highest level)?",
+               sprintf("Same extreme high report: stimulus less extreme at %s than %s? (as given)", HI, LO),
+               sprintf("Same extreme low report: stimulus less extreme at %s than %s? (shift removed)", HI, LO)),
+  Result = c(sprintf("r %s; p %s", paste(n2(unlist(cr$summary %>% group_by(.data[[NV]]) %>% summarise(r = mean(mean_r)) %>% pull(r))), collapse = " / "),
+                     p_(cr$anova$p[cr$anova$effect == NV])),
+             sprintf("slopes %s; p %s", paste(n2(sl_fwd$meanVal_c.trend), collapse = " / "), p_(slx[["Pr(>F)"]])),
+             sprintf("p %s", p_(a2["level", "Pr(>F)"])),
+             sprintf("ratio %s; p %s", paste(n2(spl$sd_ratio), collapse = " / "), p_(spl$paired_p_sd_ratio[1])),
+             { r <- tail_test("raw", "high"); sprintf("%+.2f units, p %s", r[1], p_(r[2])) },
+             { r <- tail_test("shift_removed", "low"); sprintf("%+.2f units, p %s", r[1], p_(r[2])) }))
+tab(gl, caption = if (NV == "variance_level") "Key results at a glance (levels in order of increasing noise)" else "Key results at a glance (levels in design order; array size is not the order of colour dispersion, see section 2)")
+```
+
+# 1. Sample and data quality
+
+```{r sample}
+ex <- prep$exclusions %>% tidyr::pivot_wider(names_from = condition, values_from = n_participants)
+ex$stage <- c("Started", "Second session (already did the other condition)", "Incomplete session",
+              "Kept < 85% of trials", "Did not track the stimulus (Spearman r ≤ .30)", "**Analysed**")
+desc <- d %>% group_by(condition) %>% summarise(trials = n(), per_person = n() / n_distinct(participant_id), mae = mean(abs(indexSelected - meanVal)))
+tab(ex, col.names = c("Stage", tools::toTitleCase(names(ex)[-1])), caption = "Participant flow")
+```
+
+- Trials analysed: `r paste(sprintf("%s %s (about %.0f per participant, mean absolute error %.2f units)", desc$condition, format(desc$trials, big.mark = ","), desc$per_person, desc$mae), collapse = "; ")`.
+- Cleaning, identical for all experiments: second sessions dropped; reports of **0** treated as missing (the response scale's starting value, saved when someone clicks without crossing the scale); RT < 200 ms or > 8 s; ±2.5 SD RT trimming per participant; errors ≥ 30 units; participants keeping < 85% of trials or with Spearman r ≤ .30.
+
+# 2. Does the manipulation work?
+
+```{r manip}
+chk <- d %>%
+  group_by(level) %>% summarise(`Spread within arrays (SD)` = mean(item_sd, na.rm = TRUE), `Spread of true means (SD)` = sd(meanVal),
+                                `Mean true value` = mean(meanVal))
+tab(chk %>% mutate(across(where(is.double), n2)), col.names = c("Level", names(chk)[-1]), caption = "Stimulus checks (true value = mean of the squares shown)")
+mods <- cfg$models
+```
+
+The spread of true means across trials is the same at every level, so only the arrays themselves differ between levels. `r if (all(is.na(mods$slope_with))) "Each level always used the same template of offsets, so the array make-up does not vary within a level and cannot be tested against the report." else sprintf("At a fixed true mean, the make-up of an array does not predict the report; adding it changes the slopes by at most %s.", n2(max(abs(mods$slope_with - mods$slope_without), na.rm = TRUE), 3))`
+
+**Problems found.**
+
+`r paste(paste0(seq_along(N$problems), ". ", N$problems), collapse = "\n")`
+
+```{r orderfig, fig.height = 4.6, fig.cap = "Where in each colour block the levels were shown (dashed = equal share)"}
+ord <- posi %>% mutate(level = lv_of(raw_to_level(array_length)), decile = ceiling(10 * pos / n_block)) %>% filter(!is.na(level)) %>%
+  count(decile, level) %>% group_by(decile) %>% mutate(share = n / sum(n))
+ggplot(ord, aes(decile, share, colour = level, shape = level)) +
+  geom_hline(yintercept = 1 / length(LABS), linetype = "dashed", colour = "grey55") + geom_line(linewidth = .9) + geom_point(size = 2.4) +
+  scale_colour_manual(values = COLS, name = NULL) + scale_shape_manual(values = c(16, 17, 15, 18)[seq_along(LABS)], name = NULL) +
+  scale_x_continuous(breaks = 1:10, labels = paste0(seq(0, 90, 10), "–", seq(10, 100, 10), "%")) +
+  scale_y_continuous(labels = scales::percent) + labs(x = "Position within the colour block", y = "Share of trials") +
+  theme_minimal(base_size = 11) + theme(legend.position = "top", panel.grid.minor = element_blank())
+```
+
+# 3. Tracking: how closely reports follow the stimulus
+
+```{r corr}
+cs <- cr$summary %>% mutate(level = lv_of(.data[[NV]])) %>% select(condition, level, mean_r) %>% tidyr::pivot_wider(names_from = level, values_from = mean_r)
+tab(cs %>% mutate(across(where(is.double), n2)), col.names = c("Condition", LABS), caption = "Mean within-participant correlation between true mean and report")
+ca <- cr$anova
+eff <- function(e) ca[ca$effect == e, ]
+```
+
+Effect of `r UNIT` on the correlation: F(`r n2(eff(NV)$df1)`, `r n2(eff(NV)$df2, 1)`) = `r n2(eff(NV)$F)`, p `r p_(eff(NV)$p)`; condition p `r p_(eff("condition")$p)`; interaction p `r p_(eff(paste0("condition:", NV))$p)`.
+
+```{r hist, fig.height = 5.2, fig.cap = "Stimuli shown (blue) vs reports given (orange) at each level"}
+hd <- bind_rows(d %>% transmute(level, value = meanVal, what = "True mean shown"), d %>% transmute(level, value = indexSelected, what = "Report"))
+hd$what <- factor(hd$what, levels = c("Report", "True mean shown"))
+ggplot(hd, aes(value, fill = what)) + geom_histogram(binwidth = 1, colour = "white", linewidth = .15) + facet_grid(what ~ level) +
+  scale_fill_manual(values = c("True mean shown" = "#2a78d6", "Report" = "#eb6834"), guide = "none") + scale_x_continuous(breaks = seq(0, 50, 10)) +
+  labs(x = "Value on the colour scale", y = "Trials") + theme_minimal(base_size = 11) + theme(panel.grid.minor = element_blank(), strip.text = element_text(face = "bold"))
+```
+
+```{r corr2}
+t3 <- d %>% group_by(participant_id, level) %>% summarise(mae = mean(abs(indexSelected - meanVal)), shift = mean(indexSelected - meanVal),
+        sd_rep = sd(indexSelected), sd_true = sd(meanVal), .groups = "drop") %>%
+  group_by(level) %>% summarise(`Mean absolute error` = mean(mae), `Shift (report − true)` = mean(shift), `SD of reports` = mean(sd_rep), `SD of true values` = mean(sd_true))
+tab(t3 %>% mutate(across(where(is.double), n2)), col.names = c("Level", names(t3)[-1]), caption = "Per-participant accuracy, overall shift and spread (averaged over participants)")
+```
+
+# 4. Forward regression
+
+```{r fwd}
+tab(sl_c %>% transmute(Condition = condition, Level = lv_of(.data[[NV]]), Slope = n2(meanVal_c.trend), `95% CI` = sprintf("[%s, %s]", n2(lower.CL), n2(upper.CL))),
+    caption = "Forward slopes (report on true mean), strict model: each participant has their own slope at each level")
+m_pos <- lmerTest::lmer(as.formula(sprintf("indexSelected ~ meanVal_c * %s * condition + meanVal_c * pos_c + %s", NV, re_fwd)),
+                        data = d %>% mutate(!!NV := factor(.data[[NV]], levels = exp$levels)), control = ctl)
+a_pos <- anova(m_pos); spx <- a_pos[paste0("meanVal_c:", NV), ]
+rob <- tibble::tibble(Check = c("Strict mixed model", "Participant-level ANOVA of each person's slopes", "Strict model + trial position", paste("Slope ×", UNIT, "× condition")),
+  Result = c(sprintf("F(%d, %s) = %s, p %s", slx$NumDF, n2(slx$DenDF, 0), n2(slx[["F value"]]), p_(slx[["Pr(>F)"]])),
+             sprintf("F(%s, %s) = %s, p %s", n2(a2["level", "num Df"]), n2(a2["level", "den Df"], 1), n2(a2["level", "F"]), p_(a2["level", "Pr(>F)"])),
+             sprintf("F(%d, %s) = %s, p %s", spx$NumDF, n2(spx$DenDF, 0), n2(spx[["F value"]]), p_(spx[["Pr(>F)"]])),
+             sprintf("p %s", p_(slxc[["Pr(>F)"]]))))
+tab(rob, caption = paste0("Does the slope change with ", UNIT, "? Robustness checks"))
+thirds <- d %>% group_by(participant_id, third, level) %>% filter(n() >= 5) %>% summarise(b = coef(lm(indexSelected ~ meanVal))[2], .groups = "drop") %>%
+  group_by(third, level) %>% summarise(b = mean(b), .groups = "drop") %>% tidyr::pivot_wider(names_from = level, values_from = b)
+tab(thirds %>% mutate(across(where(is.double), n2)), col.names = c("Part of block", names(thirds)[-1]), caption = "Mean participant slopes within each third of the colour block")
+```
+
+A slope of 1 keeps the stimulus differences in full; below 1 means extreme stimuli are reported as less extreme.
+
+**The same question value by value: the average report for each true value.** Each cell shows the mean report (SD of the reports, trials); the SD includes differences between participants.
+
+```{r t2rtab}
+t2w <- t2r$values %>% mutate(cell = sprintf("%.1f (%.1f, %d)", mean_report, sd_report, n)) %>% select(true, level, cell) %>%
+  tidyr::pivot_wider(names_from = level, values_from = cell)
+tab(t2w, col.names = c("True value", names(t2w)[-1]), caption = "Average report for each true value (true values rounded)")
+t2z <- t2r$zones %>% select(zone, level, sd_report, bias) %>% tidyr::pivot_wider(names_from = level, values_from = c(sd_report, bias))
+tab(t2z %>% mutate(across(where(is.double), ~ sprintf("%.2f", .x))), col.names = c("True values", paste("SD of reports,", LABS), paste("Bias,", LABS)),
+    caption = "Summary by zone (bias = report − true value)")
+tab(t2r$tests %>% transmute(`Extreme true values` = extreme_true, Comparison = comparison, People = n_participants,
+      `Pulled further toward the middle` = ifelse(is.na(p), "n/a", sprintf("%+.2f, p %s", pulled_to_middle_more, p_(p)))),
+    caption = "Same extreme true value: was the report pulled further toward the middle at the higher level? (participant-level, paired)")
+```
+
+Compression shows up as positive values at **both** ends (reports move toward the middle from both sides); opposite signs at the two ends mean an overall shift of the reports at one level rather than compression.
+
+# 5. Why the forward slope changes: noise and narrowing
+
+```{r split}
+tab(tibble::tibble(Level = spl$level, `Within-array SD` = n2(spl$mean_item_sd), r = n2(spl$r, 3), `SD true` = n2(spl$sd_objective), `SD reports` = n2(spl$sd_report),
+                   `SD ratio` = n2(spl$sd_ratio), Slope = n2(spl$slope), `Calibrated slope (r²)` = n2(spl$r^2), `Reverse slope` = n2(spl$r / spl$sd_ratio)),
+    caption = "Slope = correlation × (SD of reports / SD of true values); values centred within participant")
+```
+
+From `r LO` to `r HI`: log change in slope `r sprintf("%+.3f", spl$log_change_slope[1])`, of which `r sprintf("%.0f%%", 100 * spl$share_from_r[1])` from the correlation and `r sprintf("%.0f%%", 100 * spl$share_from_sd_ratio[1])` from the SD ratio (within participants: correlation p `r p_(spl$paired_p_r[1])`, ratio p `r p_(spl$paired_p_sd_ratio[1])`). Pure noise would *raise* the ratio as the correlation falls; a falling ratio is a genuine narrowing of the reports. A calibrated observer's forward slope would equal r²; slopes above that mean people correct less than their noise warrants, which leaves extreme reports exaggerated (reverse slope = r² / forward slope).
+
+```{r splitpos}
+rat <- dc %>% group_by(third, level) %>% summarise(ratio = sd(y) / sd(x), .groups = "drop") %>% tidyr::pivot_wider(names_from = level, values_from = ratio)
+tab(rat %>% mutate(across(where(is.double), n2)), col.names = c("Part of block", names(rat)[-1]), caption = "SD ratio within each third of the block (trial order held constant)")
+```
+
+```{r panelsfig, out.width = "100%", fig.cap = "Regression lines per level: forward and reverse, in z-scores (both slopes equal r) and raw units"}
+include_graphics(file.path(FIG, "exploratory", "regression_panels.png"))
+```
+
+# 6. Reverse regression
+
+```{r rev}
+dr <- dat %>% group_by(participant_id) %>% mutate(resp_c = indexSelected - mean(indexSelected)) %>% ungroup()
+m_revE <- lmerTest::lmer(as.formula(sprintf("meanVal ~ resp_c * %s * condition + %s", NV, Ilev("resp_c"))), data = dr, control = ctl)
+sE <- as.data.frame(summary(emtrends(m_revE, as.formula(paste("~", NV)), var = "resp_c"), infer = TRUE))
+pl_rev <- d %>% group_by(participant_id, condition, level) %>% summarise(b = coef(lm(meanVal ~ indexSelected))[2], .groups = "drop")
+a_rev <- suppressMessages(afex::aov_ez("participant_id", "b", as.data.frame(pl_rev), within = "level", between = "condition"))$anova_table
+tab(tibble::tibble(Level = lv_of(sE[[NV]]), `Reverse slope` = n2(sE$resp_c.trend), `95% CI` = sprintf("[%s, %s]", n2(sE$lower.CL), n2(sE$upper.CL))),
+    caption = "One straight reverse line (true value on report); each participant's own slope per level, no participant intercept (zero by design)")
+```
+
+Change in the straight-line reverse slope with `r UNIT`: mixed model p `r p_(anova(m_revE)[paste0("resp_c:", NV), "Pr(>F)"])`, participant level p `r p_(a_rev["level", "Pr(>F)"])`. A straight line mixes the middle of the range with the nearly flat ends (true means only span about 14–36), so the piecewise model below separates them.
+
+```{r pwtab}
+pws <- pw$slopes %>% filter(version == "raw") %>% select(segment, level, slope) %>% tidyr::pivot_wider(names_from = level, values_from = slope)
+tab(pws %>% mutate(across(where(is.double), ~ n2(.x, 3))), col.names = c("Segment", names(pws)[-1]), caption = "Piecewise reverse slopes (reports as given)")
+tab(pw$tests %>% transmute(Version = ifelse(version == "raw", "As given", "Shift removed"), Segment = segment,
+      `Level effect` = sprintf("F = %s, p %s", n2(level_F), p_(level_p)), `Lowest − highest level` = sprintf("%+.3f, p %s", lowest_minus_highest, p_(lowest_minus_highest_p))) %>%
+      left_join(pw$participant %>% transmute(Version = ifelse(version == "raw", "As given", "Shift removed"), Segment = segment,
+                `Participant-level` = ifelse(is.na(p), "n/a", sprintf("%+.3f, p %s", lowest_minus_highest, p_(p)))), by = c("Version", "Segment")),
+    caption = "Do the piecewise slopes differ between levels? (low and high segments use trial-level df; rely on the participant-level column there)")
+```
+
+```{r pwfig, out.width = "100%", fig.cap = "Piecewise reverse model per level (shaded: low and high report segments)"}
+include_graphics(file.path(FIG, "exploratory", "piecewise_reverse.png"))
+```
+
+# 7. Exaggeration at the extremes
+
+```{r r2tfig, out.width = "100%", fig.cap = "Average true value behind each report value, all levels (reports as given)"}
+include_graphics(file.path(FIG, "exploratory", "report_to_true_raw_all_levels.png"))
+```
+
+```{r r2tfig2, out.width = "100%", fig.cap = "Lowest vs highest level, each participant's constant shift removed"}
+include_graphics(file.path(FIG, "exploratory", "report_to_true_shift_removed_extremes.png"))
+```
+
+```{r tails}
+tt <- expand.grid(side = c("high", "low"), v = c("raw", "shift_removed"), stringsAsFactors = FALSE)
+fmt_t <- function(r) if (any(is.na(r))) "n/a" else sprintf("%+.2f, p %s", r[1], p_(r[2]))
+tt$pl  <- mapply(function(v, s) fmt_t(tail_test(v, s)), tt$v, tt$side)
+tt$pos <- mapply(function(v, s) fmt_t(tail_test(v, s, position = TRUE)), tt$v, tt$side)
+tt$rw  <- mapply(function(v, s) fmt_t(tail_test(v, s, position = TRUE, weighted = TRUE)), tt$v, tt$side)
+tab(tt %>% transmute(`Extreme reports` = paste(ifelse(side == "high", "High (≥ 36)", "Low (≤ 14)"), ifelse(v == "raw", "as given", "shift removed")),
+                     `Participant-level` = pl, `+ trial position` = pos, `+ position, reweighted` = rw),
+    caption = sprintf("How much more the same extreme report exaggerated its stimulus at %s than at %s (positive = more exaggeration at the higher level)", HI, LO))
+```
+
+Only trials with the same report value are compared. "Shift removed" subtracts each participant's average reporting error at each level first, so a general tendency to answer high or low at one level cannot look like exaggeration at one end; it removes only a constant, not the regression itself. "Reweighted" gives every level the same distribution of true values.
+
+```{r bandtab}
+tab(bd$table %>% filter(version == "raw") %>% transmute(Band = band, Level = level, Trials = n_trials, People = n_participants,
+      `Report mean (SD)` = sprintf("%s (%s)", n2(mean_report), n2(sd_report)), `True mean (SD)` = sprintf("%s (%s)", n2(mean_objective), n2(sd_objective)), Gap = n2(gap)),
+    caption = "Extreme reports in four bands (as given); gap = how much less extreme the stimulus was than the report")
+tab(bd$tests %>% transmute(Version = ifelse(version == "raw", "As given", "Shift removed"), Band = band, People = n_participants,
+      `Gap difference` = ifelse(is.na(gap_p), "n/a", sprintf("%+.2f, p %s", gap_diff, p_(gap_p))),
+      `Same-report difference` = ifelse(is.na(same_report_p), "n/a", sprintf("%+.2f, p %s", same_report_diff, p_(same_report_p)))),
+    caption = sprintf("%s vs %s within each band (participant-level, paired)", HI, LO))
+sdt <- d %>% group_by(level, report = indexSelected) %>% summarise(n = n(), sd = sd(meanVal), .groups = "drop") %>% filter(n >= 3) %>%
+  mutate(zone = case_when(report <= 14 ~ "Low (≤ 14)", report >= 36 ~ "High (≥ 36)", TRUE ~ "Middle")) %>%
+  group_by(zone, level) %>% summarise(sd = weighted.mean(sd, n), .groups = "drop") %>% tidyr::pivot_wider(names_from = level, values_from = sd)
+tab(sdt %>% mutate(across(where(is.double), n2)), caption = "SD of the true values behind a report (averaged over report values, weighted by trials)")
+```
+
+The absolute size of the gap depends on the range of stimuli presented (true values here span about 14–36), so it describes observer and stimulus set together; the differences between levels, which share the same stimulus distribution, carry the claim.
+
+# 8. Average vs experience condition
+
+```{r cond}
+cond_tail <- function(cn, v, side) fmt_t(tail_test(v, side, dd = d %>% filter(condition == cn)))
+sl_cc <- sl_c %>% group_by(condition) %>% summarise(s = paste(n2(meanVal_c.trend), collapse = " / "))
+ctab <- tibble::tibble(Result = c("Correlation by level", "Forward slope by level (strict model)",
+                                  "Same-report exaggeration, high reports as given", "Same-report exaggeration, low reports shift removed"),
+  Average = c(paste(n2(unlist(cs[cs$condition == "average", -1])), collapse = " / "), sl_cc$s[sl_cc$condition == "average"],
+              cond_tail("average", "raw", "high"), cond_tail("average", "shift_removed", "low")),
+  Experience = c(paste(n2(unlist(cs[cs$condition == "experience", -1])), collapse = " / "), sl_cc$s[sl_cc$condition == "experience"],
+                 cond_tail("experience", "raw", "high"), cond_tail("experience", "shift_removed", "low")))
+tab(ctab, caption = "The two conditions side by side")
+```
+
+Condition differences: correlation p `r p_(eff("condition")$p)`; slope change × condition p `r p_(slxc[["Pr(>F)"]])`; participant-level slopes × condition p `r p_(a2["condition:level", "Pr(>F)"])`.

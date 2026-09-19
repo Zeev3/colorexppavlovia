@@ -1,0 +1,4 @@
+"comparison","contrast","array_length","estimate","SE","df","t.ratio","p.value"
+"compare_exp2_exp3","no frame - Mondrian frame","X2",0.0109361345385415,0.0424753798158246,243,0.257469964623299,0.797033892671618
+"compare_exp2_exp3","no frame - Mondrian frame","X10",-0.0163224937057987,0.0425186099362333,243,-0.383890577097373,0.70139523508608
+"compare_exp2_exp3","no frame - Mondrian frame","X20",-0.0140587246795399,0.0388699933601727,243,-0.361685800902268,0.717901137080592

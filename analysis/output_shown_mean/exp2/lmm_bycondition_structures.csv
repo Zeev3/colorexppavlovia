@@ -1,0 +1,3 @@
+"experiment","condition","formula","rand_used","singular"
+"exp2","experience","indexSelected ~ meanVal_c * array_length + (1 + array_length | participant_id)","noise_slope",FALSE
+"exp2","average","indexSelected ~ meanVal_c * array_length + (1 + array_length | participant_id)","noise_slope",FALSE

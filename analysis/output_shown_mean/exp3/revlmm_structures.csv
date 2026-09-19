@@ -1,0 +1,4 @@
+"experiment","model","formula","rand_used","singular"
+"exp3","combined","meanVal ~ resp_c * array_length * condition + (1 + array_length | participant_id)","noise_slope",FALSE
+"exp3","experience","meanVal ~ resp_c * array_length + (1 + array_length | participant_id)","noise_slope",FALSE
+"exp3","average","meanVal ~ resp_c * array_length + (1 + array_length | participant_id)","noise_slope",FALSE

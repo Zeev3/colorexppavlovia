@@ -1,0 +1,236 @@
+pooled model: indexSelected ~ meanVal_c * array_length * frame * condition + (1 + array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 136596.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.2694 -0.6295 -0.0039  0.6188  4.9839 
+
+Random effects:
+ Groups         Name          Variance Std.Dev. Corr       
+ participant_id (Intercept)    7.1531  2.6745              
+                array_length1  1.3905  1.1792   -0.24      
+                array_length2  0.2205  0.4696    0.42 -0.29
+ Residual                     22.3497  4.7275              
+Number of obs: 22742, groups:  participant_id, 247
+
+Fixed effects:
+                                            Estimate Std. Error         df
+(Intercept)                                2.245e+01  1.833e-01  2.431e+02
+meanVal_c                                  8.065e-01  5.099e-03  2.230e+04
+array_length1                             -1.034e+00  9.234e-02  2.432e+02
+array_length2                              1.202e+00  5.664e-02  2.409e+02
+frame1                                     3.202e-01  1.833e-01  2.431e+02
+condition1                                -4.645e-01  1.833e-01  2.431e+02
+meanVal_c:array_length1                    5.246e-02  7.253e-03  2.219e+04
+meanVal_c:array_length2                   -5.602e-02  7.216e-03  2.219e+04
+meanVal_c:frame1                           2.755e-03  5.099e-03  2.230e+04
+array_length1:frame1                       2.516e-01  9.234e-02  2.432e+02
+array_length2:frame1                       2.878e-02  5.664e-02  2.409e+02
+meanVal_c:condition1                      -5.691e-02  5.099e-03  2.230e+04
+array_length1:condition1                   2.730e-01  9.234e-02  2.432e+02
+array_length2:condition1                  -1.155e-01  5.664e-02  2.409e+02
+frame1:condition1                         -2.130e-01  1.833e-01  2.431e+02
+meanVal_c:array_length1:frame1             5.194e-03  7.253e-03  2.219e+04
+meanVal_c:array_length2:frame1             1.863e-03  7.216e-03  2.219e+04
+meanVal_c:array_length1:condition1         1.532e-02  7.253e-03  2.219e+04
+meanVal_c:array_length2:condition1        -2.958e-03  7.216e-03  2.219e+04
+meanVal_c:frame1:condition1               -7.827e-03  5.099e-03  2.230e+04
+array_length1:frame1:condition1           -2.724e-02  9.234e-02  2.432e+02
+array_length2:frame1:condition1           -3.684e-02  5.664e-02  2.409e+02
+meanVal_c:array_length1:frame1:condition1 -5.260e-03  7.253e-03  2.219e+04
+meanVal_c:array_length2:frame1:condition1 -6.638e-03  7.216e-03  2.219e+04
+                                          t value Pr(>|t|)    
+(Intercept)                               122.496  < 2e-16 ***
+meanVal_c                                 158.178  < 2e-16 ***
+array_length1                             -11.195  < 2e-16 ***
+array_length2                              21.226  < 2e-16 ***
+frame1                                      1.747  0.08187 .  
+condition1                                 -2.534  0.01190 *  
+meanVal_c:array_length1                     7.233 4.86e-13 ***
+meanVal_c:array_length2                    -7.763 8.64e-15 ***
+meanVal_c:frame1                            0.540  0.58901    
+array_length1:frame1                        2.725  0.00690 ** 
+array_length2:frame1                        0.508  0.61189    
+meanVal_c:condition1                      -11.162  < 2e-16 ***
+array_length1:condition1                    2.956  0.00342 ** 
+array_length2:condition1                   -2.038  0.04260 *  
+frame1:condition1                          -1.162  0.24626    
+meanVal_c:array_length1:frame1              0.716  0.47389    
+meanVal_c:array_length2:frame1              0.258  0.79629    
+meanVal_c:array_length1:condition1          2.112  0.03466 *  
+meanVal_c:array_length2:condition1         -0.410  0.68189    
+meanVal_c:frame1:condition1                -1.535  0.12476    
+array_length1:frame1:condition1            -0.295  0.76824    
+array_length2:frame1:condition1            -0.650  0.51611    
+meanVal_c:array_length1:frame1:condition1  -0.725  0.46827    
+meanVal_c:array_length2:frame1:condition1  -0.920  0.35770    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+===== experience =====
+formula: indexSelected ~ meanVal_c * array_length * frame + (1 + array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 64905.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.9798 -0.6331 -0.0044  0.6160  4.7249 
+
+Random effects:
+ Groups         Name          Variance Std.Dev. Corr       
+ participant_id (Intercept)    7.3660  2.7140              
+                array_length1  1.7325  1.3162   -0.19      
+                array_length2  0.3187  0.5645    0.52 -0.36
+ Residual                     24.9266  4.9927              
+Number of obs: 10614, groups:  participant_id, 115
+
+Fixed effects:
+                                 Estimate Std. Error         df t value
+(Intercept)                     2.292e+01  2.739e-01  1.130e+02  83.661
+meanVal_c                       8.634e-01  7.934e-03  1.040e+04 108.818
+array_length1                  -1.307e+00  1.495e-01  1.131e+02  -8.743
+array_length2                   1.318e+00  9.181e-02  1.120e+02  14.354
+frame1                          5.333e-01  2.739e-01  1.130e+02   1.947
+meanVal_c:array_length1         3.719e-02  1.136e-02  1.034e+04   3.275
+meanVal_c:array_length2        -5.311e-02  1.116e-02  1.034e+04  -4.758
+meanVal_c:frame1                1.075e-02  7.934e-03  1.040e+04   1.355
+array_length1:frame1            2.787e-01  1.495e-01  1.131e+02   1.864
+array_length2:frame1            6.565e-02  9.181e-02  1.120e+02   0.715
+meanVal_c:array_length1:frame1  1.044e-02  1.136e-02  1.034e+04   0.920
+meanVal_c:array_length2:frame1  8.544e-03  1.116e-02  1.034e+04   0.765
+                               Pr(>|t|)    
+(Intercept)                     < 2e-16 ***
+meanVal_c                       < 2e-16 ***
+array_length1                  2.43e-14 ***
+array_length2                   < 2e-16 ***
+frame1                          0.05404 .  
+meanVal_c:array_length1         0.00106 ** 
+meanVal_c:array_length2        1.99e-06 ***
+meanVal_c:frame1                0.17552    
+array_length1:frame1            0.06485 .  
+array_length2:frame1            0.47607    
+meanVal_c:array_length1:frame1  0.35776    
+meanVal_c:array_length2:frame1  0.44410    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c arry_1 arry_2 frame1 mnV_:_1 mnV_:_2 mnV_:1 ar_1:1
+meanVal_c    0.000                                                          
+arry_lngth1 -0.166  0.001                                                   
+arry_lngth2  0.309 -0.008 -0.385                                            
+frame1      -0.339  0.000  0.056 -0.105                                     
+mnVl_c:rr_1  0.000  0.028  0.001  0.004 -0.001                              
+mnVl_c:rr_2 -0.002 -0.027  0.003 -0.005  0.001 -0.502                       
+mnVl_c:frm1  0.000 -0.341 -0.003  0.004  0.000 -0.022   0.016               
+arry_lng1:1  0.056 -0.003 -0.339  0.131 -0.166 -0.002   0.000   0.001       
+arry_lng2:1 -0.105  0.004  0.131 -0.339  0.309  0.000   0.003  -0.008 -0.385
+mnVl_c:_1:1 -0.001 -0.022 -0.002  0.000  0.000 -0.351   0.177   0.028  0.001
+mnVl_c:_2:1  0.001  0.016  0.000  0.003 -0.002  0.177  -0.338  -0.027  0.003
+            ar_2:1 mV_:_1:
+meanVal_c                 
+arry_lngth1               
+arry_lngth2               
+frame1                    
+mnVl_c:rr_1               
+mnVl_c:rr_2               
+mnVl_c:frm1               
+arry_lng1:1               
+arry_lng2:1               
+mnVl_c:_1:1  0.004        
+mnVl_c:_2:1 -0.005 -0.502 
+
+===== average =====
+formula: indexSelected ~ meanVal_c * array_length * frame + (1 + array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 71535.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.4394 -0.6333 -0.0058  0.6262  4.0324 
+
+Random effects:
+ Groups         Name          Variance Std.Dev. Corr       
+ participant_id (Intercept)    6.9675  2.6396              
+                array_length1  1.0920  1.0450   -0.29      
+                array_length2  0.1336  0.3656    0.30 -0.17
+ Residual                     20.0949  4.4827              
+Number of obs: 12128, groups:  participant_id, 132
+
+Fixed effects:
+                                 Estimate Std. Error         df t value
+(Intercept)                     2.199e+01  2.449e-01  1.300e+02  89.797
+meanVal_c                       7.496e-01  6.537e-03  1.191e+04 114.669
+array_length1                  -7.604e-01  1.130e-01  1.300e+02  -6.728
+array_length2                   1.086e+00  6.914e-02  1.288e+02  15.714
+frame1                          1.070e-01  2.449e-01  1.300e+02   0.437
+meanVal_c:array_length1         6.762e-02  9.229e-03  1.186e+04   7.327
+meanVal_c:array_length2        -5.906e-02  9.316e-03  1.185e+04  -6.339
+meanVal_c:frame1               -5.179e-03  6.537e-03  1.191e+04  -0.792
+array_length1:frame1            2.244e-01  1.130e-01  1.300e+02   1.986
+array_length2:frame1           -8.266e-03  6.914e-02  1.288e+02  -0.120
+meanVal_c:array_length1:frame1 -4.441e-05  9.229e-03  1.186e+04  -0.005
+meanVal_c:array_length2:frame1 -4.870e-03  9.316e-03  1.185e+04  -0.523
+                               Pr(>|t|)    
+(Intercept)                     < 2e-16 ***
+meanVal_c                       < 2e-16 ***
+array_length1                  4.94e-10 ***
+array_length2                   < 2e-16 ***
+frame1                           0.6628    
+meanVal_c:array_length1        2.51e-13 ***
+meanVal_c:array_length2        2.39e-10 ***
+meanVal_c:frame1                 0.4282    
+array_length1:frame1             0.0492 *  
+array_length2:frame1             0.9050    
+meanVal_c:array_length1:frame1   0.9962    
+meanVal_c:array_length2:frame1   0.6011    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c arry_1 arry_2 frame1 mnV_:_1 mnV_:_2 mnV_:1 ar_1:1
+meanVal_c    0.000                                                          
+arry_lngth1 -0.242 -0.015                                                   
+arry_lngth2  0.141  0.009 -0.305                                            
+frame1      -0.303  0.000  0.074 -0.043                                     
+mnVl_c:rr_1 -0.005 -0.011 -0.011  0.011  0.003                              
+mnVl_c:rr_2  0.002  0.007  0.007  0.007  0.001 -0.499                       
+mnVl_c:frm1  0.000 -0.315  0.009  0.004  0.000  0.019  -0.011               
+arry_lng1:1  0.074  0.009 -0.304  0.093 -0.242  0.006  -0.008  -0.015       
+arry_lng2:1 -0.043  0.004  0.093 -0.306  0.141 -0.013   0.003   0.009 -0.305
+mnVl_c:_1:1  0.003  0.019  0.006 -0.013 -0.005 -0.305   0.153  -0.011 -0.011
+mnVl_c:_2:1  0.001 -0.011 -0.008  0.003  0.002  0.153  -0.322   0.007  0.007
+            ar_2:1 mV_:_1:
+meanVal_c                 
+arry_lngth1               
+arry_lngth2               
+frame1                    
+mnVl_c:rr_1               
+mnVl_c:rr_2               
+mnVl_c:frm1               
+arry_lng1:1               
+arry_lng2:1               
+mnVl_c:_1:1  0.011        
+mnVl_c:_2:1  0.007 -0.499 

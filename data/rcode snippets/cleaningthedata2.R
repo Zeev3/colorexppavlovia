@@ -4,7 +4,7 @@
 library(dplyr)
 
 # 1. read & tag rows
-setwd("/Users/zeevbenamos/Documents/GitHub/colorexppavlovia/data/colorsquersexpgreaternoise")
+setwd("//Users/zeevbenamos/Documents/GitHub/colorexppavlovia/data/colorsquersexpgreaternoise/tryingnewdatacleaning")
 df <- read.csv("summary_all_participants.csv", stringsAsFactors = FALSE) %>%
   mutate(row_id = seq_len(nrow(.)))
 
@@ -65,22 +65,6 @@ df_p_sd <- df_p_sd %>% filter(participant_id %in% valid_ids)
 removed_over15 <- df_rb %>%
   filter(!participant_id %in% valid_ids) %>%
   mutate(stage = "too_many_trials_removed")
-#––––––––––––––––––––––––––––––––––––––––––––
-# Stage 4: low-corr filter last
-#   drop any participant whose corr(meanVal,indexSelected) < 0.3
-#––––––––––––––––––––––––––––––––––––––––––––
-good_ids <- df_g_sd %>%
-  group_by(participant_id) %>%
-  summarize(c = cor(meanVal, indexSelected, use = "complete.obs")) %>%
-  filter(c >= 0.3) %>%
-  pull(participant_id)
-
-df_final     <- df_g_sd %>% filter(participant_id %in% good_ids)
-removed_corr <- df_g_sd %>% 
-  filter(!participant_id %in% good_ids) %>% 
-  mutate(stage = "low_corr")
-
-
 
 #––––––––––––––––––––––––––––––––––––––––––––
 # Stage 3: Remove participants with mean RT outside global ±2.5 SD

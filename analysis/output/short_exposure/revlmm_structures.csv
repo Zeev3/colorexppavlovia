@@ -1,0 +1,2 @@
+"experiment","model","formula","rand_used","singular"
+"short_exposure","experience","meanVal ~ resp_c * array_length + (1 + resp_c | participant_id)","mean_slope",FALSE

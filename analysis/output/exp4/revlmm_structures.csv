@@ -1,0 +1,4 @@
+"experiment","model","formula","rand_used","singular"
+"exp4","combined","meanVal ~ resp_c * variance_level * condition + (1 + resp_c + variance_level | participant_id)","mean_plus_noise",TRUE
+"exp4","experience","meanVal ~ resp_c * variance_level + (1 + resp_c + variance_level | participant_id)","mean_plus_noise",TRUE
+"exp4","average","meanVal ~ resp_c * variance_level + (1 + resp_c + variance_level | participant_id)","mean_plus_noise",TRUE

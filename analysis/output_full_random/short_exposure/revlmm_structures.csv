@@ -1,0 +1,2 @@
+"experiment","model","formula","rand_used","singular"
+"short_exposure","experience","meanVal ~ resp_c * array_length + (1 | participant_id) + (0 + I(resp_c * (array_length == ""2"")) | participant_id) + (0 + I(resp_c * (array_length == ""10"")) | participant_id) + (0 + I(resp_c * (array_length == ""20"")) | participant_id)","slope_by_level_nocorr",FALSE

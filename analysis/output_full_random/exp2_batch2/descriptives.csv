@@ -1,0 +1,3 @@
+"experiment","condition","n_participants","n_trials","trials_per_part","mean_rt","mean_abs_error"
+"exp2_batch2","average",57,5266,92.4,2631,5.24
+"exp2_batch2","experience",47,4343,92.4,2484,4.83

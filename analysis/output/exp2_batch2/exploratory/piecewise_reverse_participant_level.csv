@@ -1,0 +1,7 @@
+"experiment","version","segment","n_participants","lowest_minus_highest","p"
+"exp2_batch2","raw","low",90,0.136440156200179,0.476035969998747
+"exp2_batch2","raw","mid",104,0.00285077088154362,0.900953184076563
+"exp2_batch2","raw","high",40,-0.449791796473388,0.442728083331422
+"exp2_batch2","shift_removed","low",55,-0.194607066079651,0.752149258075198
+"exp2_batch2","shift_removed","mid",104,-0.00090517382488714,0.964386461720558
+"exp2_batch2","shift_removed","high",72,0.255850790027146,0.377944536992746

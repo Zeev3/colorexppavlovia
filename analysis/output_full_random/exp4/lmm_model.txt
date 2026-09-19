@@ -1,0 +1,80 @@
+formula: indexSelected ~ meanVal_c * variance_level * condition + (1 | participant_id) + (0 + I(meanVal_c * (variance_level == "3")) | participant_id) + (0 + I(meanVal_c * (variance_level == "5")) | participant_id) + (0 + I(meanVal_c * (variance_level == "7")) | participant_id) 
+random structure used: slope_by_level_nocorr 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: dat
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 129441.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.4759 -0.6067 -0.0035  0.6024  5.1432 
+
+Random effects:
+ Groups           Name                                   Variance Std.Dev.
+ participant_id   (Intercept)                             4.71365 2.1711  
+ participant_id.1 I(meanVal_c * (variance_level == "3"))  0.05401 0.2324  
+ participant_id.2 I(meanVal_c * (variance_level == "5"))  0.04074 0.2018  
+ participant_id.3 I(meanVal_c * (variance_level == "7"))  0.04626 0.2151  
+ Residual                                                26.01112 5.1001  
+Number of obs: 21077, groups:  participant_id, 101
+
+Fixed effects:
+                                       Estimate Std. Error         df t value
+(Intercept)                           2.402e+01  2.190e-01  9.901e+01 109.722
+meanVal_c                             9.466e-01  1.368e-02  2.937e+02  69.175
+variance_level1                      -4.870e-01  5.025e-02  2.079e+04  -9.691
+variance_level2                       5.024e-02  5.013e-02  2.082e+04   1.002
+condition1                           -2.537e-01  2.190e-01  9.901e+01  -1.159
+meanVal_c:variance_level1             1.376e-01  1.995e-02  1.840e+02   6.898
+meanVal_c:variance_level2            -7.095e-03  1.883e-02  2.102e+02  -0.377
+meanVal_c:condition1                 -2.499e-02  1.368e-02  2.937e+02  -1.827
+variance_level1:condition1            8.018e-02  5.025e-02  2.079e+04   1.596
+variance_level2:condition1            6.983e-02  5.013e-02  2.082e+04   1.393
+meanVal_c:variance_level1:condition1  1.443e-02  1.995e-02  1.840e+02   0.723
+meanVal_c:variance_level2:condition1 -7.735e-04  1.883e-02  2.102e+02  -0.041
+                                     Pr(>|t|)    
+(Intercept)                           < 2e-16 ***
+meanVal_c                             < 2e-16 ***
+variance_level1                       < 2e-16 ***
+variance_level2                        0.3163    
+condition1                             0.2494    
+meanVal_c:variance_level1            8.23e-11 ***
+meanVal_c:variance_level2              0.7067    
+meanVal_c:condition1                   0.0688 .  
+variance_level1:condition1             0.1106    
+variance_level2:condition1             0.1637    
+meanVal_c:variance_level1:condition1   0.4704    
+meanVal_c:variance_level2:condition1   0.9673    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c vrnc_1 vrnc_2 cndtn1 mnV_:_1 mnV_:_2 mnV_:1 vr_1:1
+meanVal_c    0.000                                                          
+varinc_lvl1  0.001  0.009                                                   
+varinc_lvl2 -0.002  0.007 -0.497                                            
+condition1  -0.010  0.000  0.000  0.000                                     
+mnVl_c:vr_1  0.002  0.083  0.006 -0.013  0.000                              
+mnVl_c:vr_2  0.001 -0.079 -0.012  0.005  0.000 -0.505                       
+mnVl_c:cnd1  0.000 -0.010 -0.001  0.001  0.000  0.002  -0.001               
+vrnc_lvl1:1  0.000 -0.001 -0.006  0.004  0.001 -0.002   0.000   0.009       
+vrnc_lvl2:1  0.000  0.001  0.004 -0.009 -0.002  0.002   0.000   0.007 -0.497
+mnVl_c:_1:1  0.000  0.002 -0.002  0.002  0.002 -0.008   0.004   0.083  0.006
+mnVl_c:_2:1  0.000 -0.001  0.000  0.000  0.001  0.004  -0.011  -0.079 -0.012
+            vr_2:1 mV_:_1:
+meanVal_c                 
+varinc_lvl1               
+varinc_lvl2               
+condition1                
+mnVl_c:vr_1               
+mnVl_c:vr_2               
+mnVl_c:cnd1               
+vrnc_lvl1:1               
+vrnc_lvl2:1               
+mnVl_c:_1:1 -0.013        
+mnVl_c:_2:1  0.005 -0.505 

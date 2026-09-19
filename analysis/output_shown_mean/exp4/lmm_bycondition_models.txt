@@ -1,0 +1,94 @@
+
+===== experience condition =====
+formula: indexSelected ~ meanVal_c * variance_level + (1 + meanVal_c + variance_level | participant_id) 
+singular: TRUE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 64635.5
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.5747 -0.6159 -0.0024  0.6087  4.7349 
+
+Random effects:
+ Groups         Name            Variance  Std.Dev. Corr             
+ participant_id (Intercept)      4.005440 2.00136                   
+                meanVal_c        0.045214 0.21264   0.25            
+                variance_level1  0.491140 0.70081  -0.46 -0.24      
+                variance_level2  0.007459 0.08636  -0.70 -0.62  0.86
+ Residual                       27.008639 5.19698                   
+Number of obs: 10475, groups:  participant_id, 50
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)                2.426e+01  2.876e-01  4.901e+01  84.375  < 2e-16 ***
+meanVal_c                  9.742e-01  3.118e-02  4.884e+01  31.246  < 2e-16 ***
+variance_level1           -5.655e-01  1.229e-01  4.963e+01  -4.603 2.91e-05 ***
+variance_level2           -1.097e-02  7.309e-02  7.264e+02  -0.150    0.881    
+meanVal_c:variance_level1  1.227e-01  1.154e-02  1.034e+04  10.635  < 2e-16 ***
+meanVal_c:variance_level2 -8.934e-03  1.168e-02  1.037e+04  -0.765    0.444    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c vrnc_1 vrnc_2 mV_:_1
+meanVal_c    0.233                            
+varinc_lvl1 -0.368 -0.181                     
+varinc_lvl2 -0.116 -0.095 -0.172              
+mnVl_c:vr_1  0.005 -0.006  0.010 -0.029       
+mnVl_c:vr_2  0.003  0.002 -0.017  0.010 -0.491
+optimizer (bobyqa) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+
+
+===== average condition =====
+formula: indexSelected ~ meanVal_c * variance_level + (1 + meanVal_c + variance_level | participant_id) 
+singular: TRUE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 64480.4
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-6.0277 -0.6060 -0.0036  0.5996  5.2307 
+
+Random effects:
+ Groups         Name            Variance Std.Dev. Corr             
+ participant_id (Intercept)      5.35313 2.3137                    
+                meanVal_c        0.04402 0.2098    0.18            
+                variance_level1  0.47170 0.6868    0.05 -0.31      
+                variance_level2  0.02159 0.1469   -0.03  0.67 -0.91
+ Residual                       24.64942 4.9648                    
+Number of obs: 10603, groups:  participant_id, 51
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)                2.378e+01  3.276e-01  4.999e+01  72.599  < 2e-16 ***
+meanVal_c                  9.218e-01  3.039e-02  4.998e+01  30.332  < 2e-16 ***
+variance_level1           -4.089e-01  1.182e-01  5.025e+01  -3.459  0.00111 ** 
+variance_level2            1.134e-01  7.143e-02  2.502e+02   1.587  0.11382    
+meanVal_c:variance_level1  1.537e-01  1.106e-02  1.047e+04  13.898  < 2e-16 ***
+meanVal_c:variance_level2 -8.503e-03  1.102e-02  1.050e+04  -0.771  0.44045    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c vrnc_1 vrnc_2 mV_:_1
+meanVal_c    0.176                            
+varinc_lvl1  0.040 -0.238                     
+varinc_lvl2 -0.008  0.191 -0.489              
+mnVl_c:vr_1  0.003  0.002  0.007 -0.025       
+mnVl_c:vr_2  0.003 -0.002 -0.016  0.012 -0.501
+optimizer (bobyqa) convergence code: 0 (OK)
+boundary (singular) fit: see help('isSingular')
+

@@ -1,0 +1,80 @@
+formula: indexSelected ~ meanVal_c * array_length * condition + (1 | participant_id) + (0 + I(meanVal_c * (array_length == "2")) | participant_id) + (0 + I(meanVal_c * (array_length == "10")) | participant_id) + (0 + I(meanVal_c * (array_length == "20")) | participant_id) 
+random structure used: slope_by_level_nocorr 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: dat
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 57654.7
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.3657 -0.6175  0.0148  0.6154  5.1056 
+
+Random effects:
+ Groups           Name                                  Variance Std.Dev.
+ participant_id   (Intercept)                            7.57357 2.7520  
+ participant_id.1 I(meanVal_c * (array_length == "2"))   0.03826 0.1956  
+ participant_id.2 I(meanVal_c * (array_length == "10"))  0.04238 0.2059  
+ participant_id.3 I(meanVal_c * (array_length == "20"))  0.03488 0.1868  
+ Residual                                               21.77959 4.6669  
+Number of obs: 9609, groups:  participant_id, 104
+
+Fixed effects:
+                                     Estimate Std. Error         df t value
+(Intercept)                         2.273e+01  2.754e-01  1.020e+02  82.542
+meanVal_c                           8.301e-01  1.337e-02  3.076e+02  62.088
+array_length1                      -9.136e-01  6.813e-02  9.284e+03 -13.411
+array_length2                       1.224e+00  6.808e-02  9.284e+03  17.976
+condition1                         -8.858e-01  2.754e-01  1.020e+02  -3.217
+meanVal_c:array_length1             6.611e-02  1.892e-02  2.039e+02   3.494
+meanVal_c:array_length2            -7.189e-02  1.925e-02  2.014e+02  -3.735
+meanVal_c:condition1               -7.142e-02  1.337e-02  3.076e+02  -5.342
+array_length1:condition1            2.460e-01  6.813e-02  9.284e+03   3.611
+array_length2:condition1           -5.508e-02  6.808e-02  9.284e+03  -0.809
+meanVal_c:array_length1:condition1  3.310e-03  1.892e-02  2.039e+02   0.175
+meanVal_c:array_length2:condition1  2.999e-03  1.925e-02  2.014e+02   0.156
+                                   Pr(>|t|)    
+(Intercept)                         < 2e-16 ***
+meanVal_c                           < 2e-16 ***
+array_length1                       < 2e-16 ***
+array_length2                       < 2e-16 ***
+condition1                         0.001736 ** 
+meanVal_c:array_length1            0.000584 ***
+meanVal_c:array_length2            0.000245 ***
+meanVal_c:condition1               1.79e-07 ***
+array_length1:condition1           0.000306 ***
+array_length2:condition1           0.418478    
+meanVal_c:array_length1:condition1 0.861297    
+meanVal_c:array_length2:condition1 0.876339    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c arry_1 arry_2 cndtn1 mnV_:_1 mnV_:_2 mnV_:1 ar_1:1
+meanVal_c    0.000                                                          
+arry_lngth1  0.000 -0.007                                                   
+arry_lngth2  0.000  0.005 -0.499                                            
+condition1  -0.096  0.000  0.001  0.000                                     
+mnVl_c:rr_1 -0.001 -0.001 -0.005  0.001 -0.001                              
+mnVl_c:rr_2  0.001  0.046  0.001  0.004  0.001 -0.524                       
+mnVl_c:cnd1  0.000 -0.101 -0.006  0.006  0.000 -0.002   0.001               
+arry_lng1:1  0.001 -0.006 -0.092  0.045  0.000 -0.004   0.000  -0.007       
+arry_lng2:1  0.000  0.006  0.045 -0.094  0.000  0.000   0.004   0.005 -0.499
+mnVl_c:_1:1 -0.001 -0.002 -0.004  0.000 -0.001 -0.102   0.050  -0.001 -0.005
+mnVl_c:_2:1  0.001  0.001  0.000  0.004  0.001  0.050  -0.097   0.046  0.001
+            ar_2:1 mV_:_1:
+meanVal_c                 
+arry_lngth1               
+arry_lngth2               
+condition1                
+mnVl_c:rr_1               
+mnVl_c:rr_2               
+mnVl_c:cnd1               
+arry_lng1:1               
+arry_lng2:1               
+mnVl_c:_1:1  0.001        
+mnVl_c:_2:1  0.004 -0.524 

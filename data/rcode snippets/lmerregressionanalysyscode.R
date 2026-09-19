@@ -3,65 +3,105 @@ library(lsr)
 library(ggeffects)
 library(ggplot2)
 library(dplyr)
-setwd("/Users/zeevbenamos/Documents/GitHub/colorexppavlovia/data/avg_data")
+setwd("/Users/zeevbenamos/Documents/GitHub/colorexppavlovia/data/variance_control_exp")
 Data_raw <- read.csv("data_cleaned.csv")
-Data_raw$row_sd <-apply(Data_raw[, 0:12], 1, function(x) sd(x, na.rm = TRUE))
 Filtered_Data <- Data_raw %>% select(participant_id, trial,fixationTime, meanVal, indexSelected, array_length, color)
 Filtered_Data$id <- as.factor(Filtered_Data$participant_id)
 red_Data <- Filtered_Data %>% filter(color == "red")
 blue_Data <- Filtered_Data %>% filter(color == "blue")
-df_split <- blue_Data %>%
-  filter(!is.na(row_sd)) %>% 
-  group_by(array_length) %>%
-  mutate(
-    Median_sd = median(row_sd),               
-    SD_Group = ifelse(row_sd <= Median_sd, "Low", "High") 
-  )
-low_sd_neg <- df_split %>% filter(SD_Group == "Low")
-high_sd_neg <- df_split %>% filter(SD_Group == "High")
 
-filt_dat=rbind(red_Data,blue_Data) %>% subset(meanVal<36 & meanVal>14)
+filt_dat=rbind(red_Data,blue_Data) #%>% subset(meanVal<36 & meanVal>14)
+filt_dat$array_length <- factor(filt_dat$array_length)
+#contrasts(filt_dat$array_length) <- contr.sum(nlevels(filt_dat$array_length))
+
 a=filt_dat %>%
   na.omit() %>% group_by(participant_id,array_length)%>%
-  summarise(corr=cor(meanVal,indexSelected),n=n(),
-            slope=coef(lm(meanVal~indexSelected))[2],
-  intercept = coef(lm(meanVal ~ indexSelected))[1]
+  summarise(corr=cor(indexSelected,meanVal),n=n(),
+            slope=coef(lm(indexSelected~meanVal))[2],
+  intercept = coef(lm(indexSelected ~ meanVal))[1]
 )
 a %>% group_by(array_length) %>%
   summarise(mean(corr),mean(slope), mean(intercept), mean(intercept))
- 
-  summary(RttM_model_all <- lmer(meanVal~indexSelected*
-                                 factor(array_length) + (1+indexSelected|participant_id), 
+  summary(RttM_model_all <- lmer(indexSelected~meanVal*
+                                 factor(array_length) + (1+ meanVal*
+                                                           factor(array_length)  |participant_id), 
                                data = filt_dat))
-summary(RttM_model_pos <- lmer(meanVal~indexSelected*
-                                 factor(array_length) + (1+indexSelected |participant_id), data = red_Data))
-summary(RttM_model_neg <- lmer(meanVal~indexSelected*
-                         factor(array_length) + (1 |participant_id), data = blue_Data))
-RttM_model_neg_low_sd <- lmer(meanVal~indexSelected*
-                         (array_length) + (1 |participant_id), data = low_sd_neg)
-RttM_model_neg_high_sd <- lmer(meanVal~indexSelected*
-                         (array_length) + (1 |participant_id), data = high_sd_neg)
-predictions_red <- ggpredict(RttM_model_pos , c("indexSelected", "array_length")) 
-predictions_blue <- ggpredict(RttM_model_neg , c("indexSelected", "array_length")) 
-prediction_lowsd_blue <- ggpredict(RttM_model_neg_low_sd , c("indexSelected", "array_length"))
-prediction_highsd_blue <- ggpredict(RttM_model_neg_high_sd , c("indexSelected", "array_length"))
+  b=filt_dat %>%
+    na.omit() %>% group_by(participant_id,array_length)%>%
+    summarise(corr=cor(indexSelected,meanVal),n=n(),
+              slope=coef(lm(meanVal~indexSelected))[2],
+              intercept = coef(lm(meanVal ~ indexSelected))[1]
+    )
+  b %>% group_by(array_length) %>%
+    summarise(mean(corr),mean(slope), mean(intercept), mean(intercept))
+  summary(RttM_model_reverse <- lmer(meanVal~indexSelected*
+                                   factor(array_length) + (1+ indexSelected*
+                                                             factor(array_length)  |participant_id), 
+                                 data = filt_dat))
+
+predictions_across <- ggpredict(RttM_model_all , c("meanVal", "array_length"))
+predictions_across_reverse <- ggpredict(RttM_model_reverse , c("indexSelected", "array_length"))
 #plotting part
-m<-lmer(indexSelected~meanVal*as.factor(array_length)+(1+meanVal|participant_id), data = blue_Data)
-  True_vauleprediction <-(ggpredict(m,c("meanVal","array_length")))
-blues <- c("#000066", "#000099", "#0000CC", "#0000FF", "#1A1AFF", "#3333FF", 
-           "#4D4DFF", "#6666FF", "#8080FF", "#9999FF", "#B2B2FF", "#CCCCFF")
-ggplot(red_Data, aes(x = indexSelected, y = meanVal)) +
-  geom_point(color = as.factor(red_Data$array_length), size = 1) +          
-  geom_abline(intercept = 0, slope = 1,           
-              color = "red", linetype = "dashed", size = 1) +
+n_participants <- filt_dat %>%
+  distinct(participant_id) %>%
+  nrow()
+
+avg_trials <- filt_dat %>%
+  count(participant_id) %>%
+  summarize(mean(n)) %>%
+  pull() %>%
+  round(1)
+
+ggplot(predictions_across, aes(x = x, y = predicted, color = group, fill = group)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2, color = NA) +
   labs(
-    title = "Scatter Plot of Truth Values vs Estimations",  
-                                         #
-  ) + geom_smooth( color = "green", se = TRUE) +
-  theme_minimal()                                      
-plot(predictions_blue, show_ci = TRUE, ) + ggtitle("negative ratings") + geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed", size = 1)
-plot(predictions_red, show_ci = TRUE, ) + ggtitle("postive ratings") + geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed", size = 1) 
-plot(prediction_lowsd_blue, show_ci = TRUE, ) + ggtitle("negative ratings with lower sd") + geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed", size = 1)
-plot(prediction_highsd_blue, show_ci = TRUE, ) + ggtitle("negative ratings with higher sd") + geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed", size = 1)
-plot(True_vauleprediction, show_ci = TRUE) + ggtitle("negative ratings true") + geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed", size = 1)
+    x = "Objective mean",
+    y = "Predicted subjective experience",
+    color = "Array length",
+    fill = "Array length",
+    title = "Experience condition"
+  ) +
+  geom_abline(
+    slope = 1, intercept = 0,
+    color = "black",
+    linetype = "dashed",
+    size = 1
+  )+
+  theme_classic()
+
+  ggplot(predictions_across, aes(x = predicted, y = x, color = group, fill = group)) +
+    geom_line(linewidth = 1) +
+    geom_ribbon(aes(xmin = conf.low, xmax = conf.high), alpha = 0.2, color = NA) +
+    labs(
+      x = "Predicted subjective experience",
+      y = "Objective mean",
+      color = "Array length",
+      fill = "Array length",
+      title = "Experience condition"
+    ) +
+    geom_abline(
+      slope = 1, intercept = 0,
+      color = "black",
+      linetype = "dashed",
+      size = 1
+    )+
+  theme_classic()
+  
+   plot(predictions_across_reverse, show_ci = TRUE) +
+     geom_abline(
+       slope = 1, intercept = 0,
+       color = "black",
+       linetype = "dashed",
+       size = 1
+     ) +
+     coord_cartesian(xlim = c(0, NA), ylim = c(0, NA)) +
+     labs(
+       title = "exp condition",
+       subtitle = paste0(
+         "N = ", n_participants,
+         ", Mean trials per participant = ", avg_trials
+       ),
+       
+     )
 

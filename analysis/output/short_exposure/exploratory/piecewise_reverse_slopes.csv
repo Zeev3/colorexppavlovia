@@ -1,0 +1,19 @@
+"experiment","version","segment","level","slope","SE","n_trials_segment"
+"short_exposure","raw","low","2 squares",0.558396526036554,0.104165339350836,401
+"short_exposure","raw","low","10 squares",0.182584833682223,0.155761931188583,401
+"short_exposure","raw","low","20 squares",0.445855606059935,0.134172338246672,401
+"short_exposure","raw","mid","2 squares",0.727316134567565,0.0281721866115581,2754
+"short_exposure","raw","mid","10 squares",0.724048756778037,0.0353884054686404,2754
+"short_exposure","raw","mid","20 squares",0.644990732982188,0.0354016920865855,2754
+"short_exposure","raw","high","2 squares",-0.169325767081297,0.134913133309224,276
+"short_exposure","raw","high","10 squares",0.147560875830167,0.11930891574746,276
+"short_exposure","raw","high","20 squares",0.228110127657637,0.125364531240204,276
+"short_exposure","shift_removed","low","2 squares",0.231790837397441,0.134839454400874,287
+"short_exposure","shift_removed","low","10 squares",-0.00203639175689822,0.105855001252545,287
+"short_exposure","shift_removed","low","20 squares",0.102291741354329,0.134449149038325,287
+"short_exposure","shift_removed","mid","2 squares",0.824702753803928,0.0281344060735472,2866
+"short_exposure","shift_removed","mid","10 squares",0.824557149348349,0.0268372801870665,2866
+"short_exposure","shift_removed","mid","20 squares",0.747521693499662,0.0268611666167561,2866
+"short_exposure","shift_removed","high","2 squares",0.0507772131291377,0.109231490754491,278
+"short_exposure","shift_removed","high","10 squares",-0.190007508746087,0.150367040495537,278
+"short_exposure","shift_removed","high","20 squares",0.291340670929109,0.121339789256695,278

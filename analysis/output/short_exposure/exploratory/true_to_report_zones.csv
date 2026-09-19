@@ -1,0 +1,10 @@
+"experiment","zone","level","n_trials","sd_report","bias"
+"short_exposure","high (>= 32)","2 squares",269,5.73247221779344,-3.15985130111524
+"short_exposure","high (>= 32)","10 squares",231,5.17994993507227,-0.606060606060606
+"short_exposure","high (>= 32)","20 squares",256,6.08780890147867,-2.1015625
+"short_exposure","low (<= 17)","2 squares",212,4.89906516532547,-0.966981132075472
+"short_exposure","low (<= 17)","10 squares",225,5.55840371811593,2.64888888888889
+"short_exposure","low (<= 17)","20 squares",183,5.25253525865648,1.04918032786885
+"short_exposure","middle","2 squares",663,4.82455081303652,-2.21719457013575
+"short_exposure","middle","10 squares",692,5.33825970582803,0.475433526011561
+"short_exposure","middle","20 squares",700,5.63024001543181,-0.877142857142857

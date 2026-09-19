@@ -1,0 +1,19 @@
+"experiment","version","segment","level","slope","SE","n_trials_segment"
+"exp2_batch2","raw","low","2 squares",0.624819182851119,0.0610685823541685,1542
+"exp2_batch2","raw","low","10 squares",0.247315139291372,0.075037784508461,1542
+"exp2_batch2","raw","low","20 squares",0.61110077194105,0.0575266910763201,1542
+"exp2_batch2","raw","mid","2 squares",0.675757987566123,0.0212566397281725,7485
+"exp2_batch2","raw","mid","10 squares",0.647654093661706,0.0224168363496982,7485
+"exp2_batch2","raw","mid","20 squares",0.616733425059388,0.0226071637912313,7485
+"exp2_batch2","raw","high","2 squares",-0.208157735325871,0.10082966422176,582
+"exp2_batch2","raw","high","10 squares",0.229235711363579,0.0850523703252926,582
+"exp2_batch2","raw","high","20 squares",0.030964471593738,0.099002923254358,582
+"exp2_batch2","shift_removed","low","2 squares",0.109635039936495,0.0917795756276282,612
+"exp2_batch2","shift_removed","low","10 squares",0.00497427645307005,0.0832918304144731,612
+"exp2_batch2","shift_removed","low","20 squares",0.205363008056255,0.0914455761043286,612
+"exp2_batch2","shift_removed","mid","2 squares",0.802004227657738,0.0153962409708212,8259
+"exp2_batch2","shift_removed","mid","10 squares",0.784872903593476,0.0191955047867755,8259
+"exp2_batch2","shift_removed","mid","20 squares",0.795274210298319,0.0179242602915568,8259
+"exp2_batch2","shift_removed","high","2 squares",0.0690695877577887,0.069746684294963,738
+"exp2_batch2","shift_removed","high","10 squares",0.27081475249863,0.0919490261388697,738
+"exp2_batch2","shift_removed","high","20 squares",0.0878459013972405,0.0685018024203683,738

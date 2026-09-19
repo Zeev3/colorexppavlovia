@@ -1,0 +1,3 @@
+"experiment","condition","formula","rand_used","singular"
+"exp4","experience","indexSelected ~ meanVal_c * variance_level + (1 | participant_id) + (0 + I(meanVal_c * (variance_level == ""3"")) | participant_id) + (0 + I(meanVal_c * (variance_level == ""5"")) | participant_id) + (0 + I(meanVal_c * (variance_level == ""7"")) | participant_id)","slope_by_level_nocorr",FALSE
+"exp4","average","indexSelected ~ meanVal_c * variance_level + (1 | participant_id) + (0 + I(meanVal_c * (variance_level == ""3"")) | participant_id) + (0 + I(meanVal_c * (variance_level == ""5"")) | participant_id) + (0 + I(meanVal_c * (variance_level == ""7"")) | participant_id)","slope_by_level_nocorr",FALSE
