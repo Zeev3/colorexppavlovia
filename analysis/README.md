@@ -276,8 +276,19 @@ that moves both tails the same way. Output goes to `output/<exp>/exploratory/`
 `output/exploratory/all_report_to_true_tests.csv`; nothing from it enters
 `results.md` or the main cross-experiment tables. The same module runs the
 question on the Goldenberg data (faces grouped 1-4 / 5-8 / 9-12, ratings <= 110
-and >= 140): a rating-to-objective map and the mean exaggeration on each side
-per cluster, in `output/exp0_goldenberg/exploratory/`.
+and >= 140): a rating-to-objective map, the amplification over all trials, and
+the gap on each tail per cluster, in `output/exp0_goldenberg/exploratory/`.
+
+**That scale is not bipolar, and the two tails are not two extremes.** Faces
+were morphed along a neutral-to-angry or a neutral-to-happy continuum and rated
+on a 1-50 intensity scale, stored as 100 + that value; 101 is neutral, 150 is
+maximum intensity, and `condition` says which emotion rather than which side of
+a midpoint. So a rating of 140 means "very emotional" and 110 means "barely
+emotional". Until 2026-09-25 this module flipped the sign of the low tail and
+reported both as "exaggeration", which made understatement of faint crowds read
+as amplification; the two are now reported separately and never pooled. The
+amplification column reproduces the paper's own Study 1 measure (b = 2.87 over
+all trials, rating - objective).
 
 The module also splits the change in slope across noise levels into its two
 parts: slope = correlation x (SD of reports / SD of objective values), so on a

@@ -153,11 +153,27 @@ epoc_report_to_true <- function(dat, exp, dir) {
 
 # ---------------------------------------------------------
 # Goldenberg et al. (2021), Exp. 1 (data/amit_exp1.csv) -- same question on
-# the face-valence data. numberFaces is stored 0-11 and is 1-12 faces shown.
-# Set sizes are grouped into three clusters; the tails are ratings <= 110 and
-# >= 140 on the 100-150 scale, and "exaggeration" is how much more extreme the
-# rating was than the group behind it (objective - rating on the low side,
-# rating - objective on the high side), averaged within participant first.
+# the crowd-emotion data. numberFaces is stored 0-11 and is 1-12 faces shown.
+#
+# THE SCALE IS NOT BIPOLAR. Faces were morphed along a neutral-to-angry or a
+# neutral-to-happy continuum and rated on a 1-50 intensity scale, stored here
+# as 100 + that value. So 101 is neutral and 150 is maximum intensity;
+# `condition` says which emotion, not which side of a midpoint. 125 is simply
+# the middle of the intensity range, and the two tails are NOT two extremes:
+#   high tail (rating >= 140) = "the crowd looked very emotional"
+#   low  tail (rating <= 110) = "the crowd looked barely emotional"
+# An earlier version of this module flipped the sign of the low tail and called
+# both "exaggeration". Only the high tail is amplification; on the low tail a
+# positive `gap` means the participant UNDERSTATED the crowd's intensity. The
+# two are reported separately and never pooled.
+#
+# `gap` is how far the rating sat beyond the group in that tail's own
+# direction (rating - objective on the high side, objective - rating on the
+# low side), averaged within participant first. On both tails it rises with
+# set size, which is the regression signature: condition on an extreme report
+# and the stimulus behind it sits closer to the centre, at either end.
+# `amplification` is the paper's own measure, rating - objective, positive =
+# more intense than the crowd (Study 1: b = 2.87 over all trials).
 # ---------------------------------------------------------
 GB_TAIL_LOW  <- 110
 GB_TAIL_HIGH <- 140
@@ -182,32 +198,44 @@ epoc_goldenberg_report_to_true <- function(dir = file.path(OUT, "exp0_goldenberg
   values <- d %>% group_by(cluster, rating) %>%
     summarise(mean_objective = mean(meanGroup), n = n(), .groups = "drop")
 
+  # the paper's own measure, over all trials: rating - objective, + = more intense
+  amplification <- d %>%
+    group_by(cluster, id) %>% summarise(a = mean(rating - meanGroup), .groups = "drop") %>%
+    group_by(cluster) %>%
+    summarise(mean_amplification = mean(a), se = sd(a) / sqrt(n()), n_participants = n(), .groups = "drop") %>%
+    left_join(d %>% count(cluster, name = "n_trials"), by = "cluster")
+
   tails <- d %>%
     mutate(side = case_when(rating <= GB_TAIL_LOW ~ "low", rating >= GB_TAIL_HIGH ~ "high")) %>%
     filter(!is.na(side)) %>%
-    mutate(exaggeration = ifelse(side == "low", meanGroup - rating, rating - meanGroup))
+    # distance beyond the group in this tail's own direction; on the low tail
+    # this is understatement of intensity, not amplification (see the note above)
+    mutate(gap = ifelse(side == "low", meanGroup - rating, rating - meanGroup))
 
   exaggeration <- tails %>%
     group_by(side, cluster, id) %>%
-    summarise(ex = mean(exaggeration), .groups = "drop") %>%
+    summarise(ex = mean(gap), .groups = "drop") %>%
     group_by(side, cluster) %>%
-    summarise(mean_exaggeration = mean(ex), se = sd(ex) / sqrt(n()), n_participants = n(), .groups = "drop") %>%
+    summarise(mean_gap = mean(ex), se = sd(ex) / sqrt(n()), n_participants = n(), .groups = "drop") %>%
     left_join(tails %>% group_by(side, cluster) %>%
                 summarise(n_trials = n(), mean_rating = mean(rating), mean_objective = mean(meanGroup), .groups = "drop"),
-              by = c("side", "cluster"))
+              by = c("side", "cluster")) %>%
+    mutate(meaning = ifelse(side == "high", "rating more intense than the crowd",
+                            "rating less intense than the crowd"), .after = side)
 
   tests <- bind_rows(lapply(c("low", "high"), function(s) {
     x <- tails %>% filter(side == s)
-    m  <- lmerTest::lmer(exaggeration ~ cluster + (1 | id), data = x)
+    m  <- lmerTest::lmer(gap ~ cluster + (1 | id), data = x)
     m2 <- lmerTest::lmer(meanGroup ~ factor(rating) + cluster + (1 | id), data = x)   # same-rating check
     as.data.frame(summary(pairs(emmeans(m, ~ cluster, lmer.df = "satterthwaite"), reverse = TRUE))) %>%
       mutate(side = s, cluster_effect_p = anova(m)["cluster", "Pr(>F)"],
              same_rating_cluster_effect_p = anova(m2)["cluster", "Pr(>F)"], .before = 1)
   }))
 
-  write.csv(values,       file.path(dir, "rating_to_true_values.csv"),        row.names = FALSE)
-  write.csv(exaggeration, file.path(dir, "exaggeration_by_side_cluster.csv"), row.names = FALSE)
-  write.csv(tests,        file.path(dir, "exaggeration_tests.csv"),           row.names = FALSE)
+  write.csv(values,        file.path(dir, "rating_to_true_values.csv"),        row.names = FALSE)
+  write.csv(exaggeration,  file.path(dir, "exaggeration_by_side_cluster.csv"), row.names = FALSE)
+  write.csv(tests,         file.path(dir, "exaggeration_tests.csv"),           row.names = FALSE)
+  write.csv(amplification, file.path(dir, "amplification_all_trials.csv"),     row.names = FALSE)
 
   cols <- setNames(c("#2a78d6", "#eb6834", "#1baf7a"), labs_)
   fig <- ggplot(values %>% filter(n >= EXPL_MIN_CELL), aes(rating, mean_objective, colour = cluster, shape = cluster)) +
@@ -236,21 +264,46 @@ epoc_goldenberg_report_to_true <- function(dir = file.path(OUT, "exp0_goldenberg
   w("")
   w("_Not part of the main write-up. Generated by analysis/run_all.R on ", format(Sys.time(), "%Y-%m-%d %H:%M"), "._")
   w("")
-  w("N = ", n_distinct(d$id), " participants, ", nrow(d), " trials; positive and negative arrays pooled. ",
-    "Exaggeration = how much more extreme the rating was than the group behind it, on the low side ",
-    "(rating <= ", GB_TAIL_LOW, ") and the high side (rating >= ", GB_TAIL_HIGH, "), averaged within participant first.")
+  w("N = ", n_distinct(d$id), " participants, ", nrow(d), " trials; the anger and happiness continua pooled.")
   w("")
-  w("| Number of faces | Low side: exaggeration (SE) | High side: exaggeration (SE) |")
+  w("The scale is intensity, not valence: faces were morphed from neutral to angry or from neutral ",
+    "to happy and rated 1-50 (stored as 100 + that value), so 101 is neutral and 150 is the most ",
+    "intense. 125 is only the middle of the range. A rating of ", GB_TAIL_HIGH, " or more means the ",
+    "crowd looked very emotional; ", GB_TAIL_LOW, " or less means it looked barely emotional. The two ",
+    "tails are therefore not two extremes and are never pooled.")
+  w("")
+  w("**Amplification over all trials** (the paper's measure: rating - objective, ",
+    "positive = rated more intense than the crowd; Study 1 reports b = 2.87).")
+  w("")
+  w("| Number of faces | Amplification (SE) | Trials |")
+  w("|---|---|---|")
+  for (cl in labs_) {
+    a <- amplification %>% filter(cluster == cl)
+    w("| ", cl, " | ", sprintf("%+.2f (%.2f)", a$mean_amplification, a$se), " | ", a$n_trials, " |")
+  }
+  w("")
+  w("**Conditioning on an extreme rating.** `Gap` is how far the rating sat beyond the crowd behind ",
+    "it, in that tail's own direction, averaged within participant first. On the high tail a positive ",
+    "gap means the rating was more intense than the crowd; on the low tail it means the rating was ",
+    "*less* intense than the crowd, which is understatement, not amplification.")
+  w("")
+  w("| Number of faces | High tail: rated more intense by (SE) | Low tail: rated less intense by (SE) |")
   w("|---|---|---|")
   for (cl in labs_) {
     lo <- exaggeration %>% filter(side == "low", cluster == cl)
     hi <- exaggeration %>% filter(side == "high", cluster == cl)
-    w("| ", cl, " | ", sprintf("%.1f (%.2f)", lo$mean_exaggeration, lo$se), " | ", sprintf("%.1f (%.2f)", hi$mean_exaggeration, hi$se), " |")
+    w("| ", cl, " | ", sprintf("%.1f (%.2f)", hi$mean_gap, hi$se), " | ", sprintf("%.1f (%.2f)", lo$mean_gap, lo$se), " |")
   }
+  w("")
+  w("Both tails grow with set size. That two-sided pattern is the regression signature - condition on ",
+    "an extreme report and the stimulus behind it sits closer to the centre, at either end - and it is ",
+    "not what an attentional amplification account predicts, since that account gives no reason for ",
+    "people to increasingly understate faint crowds as faces are added.")
   w("")
   for (s in c("low", "high")) {
     tt <- tests %>% filter(side == s)
-    w("- ", s, " side: effect of number of faces ", fmt_p(tt$cluster_effect_p[1]),
+    w("- ", if (s == "high") "high tail (rated more intense)" else "low tail (rated less intense)",
+      ": effect of number of faces ", fmt_p(tt$cluster_effect_p[1]),
       "; comparing only equal rating values ", fmt_p(tt$same_rating_cluster_effect_p[1]), ".")
     for (i in seq_len(nrow(tt)))
       w("  - ", tt$contrast[i], ": ", sprintf("%+.2f", tt$estimate[i]), ", ", fmt_p(tt$p.value[i]), ".")
@@ -260,7 +313,8 @@ epoc_goldenberg_report_to_true <- function(dir = file.path(OUT, "exp0_goldenberg
     "this gap even with no bias (in an ad hoc noise-only simulation, not part of this pipeline, noise alone ",
     "reproduced most of the growth). The pattern alone does not show that people inflate more.")
 
-  invisible(list(values = values, exaggeration = exaggeration, tests = tests))
+  invisible(list(values = values, exaggeration = exaggeration, tests = tests,
+                 amplification = amplification))
 }
 
 # ---------------------------------------------------------
