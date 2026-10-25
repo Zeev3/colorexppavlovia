@@ -1,0 +1,43 @@
+"version","condition","test","est","F","p"
+"as_analysed","average","linked forward","1.074 / 0.914 / 0.775",85.8565416633016,4.13207543200051e-19
+"as_analysed","average","linked reverse","0.626 / 0.661 / 0.628",4.03485553094254,0.0217203299623767
+"as_analysed","average","per-person ANOVA slope_fwd","",96.2192400540288,4.04255331357332e-22
+"as_analysed","average","per-person ANOVA slope_rev","",3.79790999257334,0.0303761978196537
+"as_analysed","experience","linked forward","1.095 / 0.965 / 0.856",41.0663922960967,9.19005106433593e-13
+"as_analysed","experience","linked reverse","0.629 / 0.619 / 0.598",1.80417465852191,0.171344016159264
+"as_analysed","experience","per-person ANOVA slope_fwd","",43.4516900736118,1.06281764717571e-12
+"as_analysed","experience","per-person ANOVA slope_rev","",2.3348204687523,0.117754288860775
+"dropped","average","linked forward","1.074 / 0.914 / 0.778",83.0638556170539,6.96317328912574e-19
+"dropped","average","linked reverse","0.626 / 0.661 / 0.629",4.02390642465384,0.0219305888045672
+"dropped","average","per-person ANOVA slope_fwd","",93.8246315040152,7.74042243891866e-22
+"dropped","average","per-person ANOVA slope_rev","",3.74487516612255,0.0315682035882526
+"dropped","experience","linked forward","1.095 / 0.965 / 0.857",40.5113313381119,1.23288609677428e-12
+"dropped","experience","linked reverse","0.630 / 0.620 / 0.599",1.79480552887838,0.173261160780065
+"dropped","experience","per-person ANOVA slope_fwd","",42.7188259459306,1.58928686324912e-12
+"dropped","experience","per-person ANOVA slope_rev","",2.24928817384282,0.125809513410979
+"corrected","average","linked forward","1.074 / 0.914 / 0.777",83.6565594559428,6.43728325493711e-19
+"corrected","average","linked reverse","0.626 / 0.661 / 0.628",4.06402244485825,0.0211494483440355
+"corrected","average","per-person ANOVA slope_fwd","",94.4136238014172,6.99374532013747e-22
+"corrected","average","per-person ANOVA slope_rev","",3.82914420830343,0.0294202260595204
+"corrected","experience","linked forward","1.095 / 0.965 / 0.858",40.3621499582406,1.2908009379623e-12
+"corrected","experience","linked reverse","0.629 / 0.619 / 0.597",1.89075731316916,0.157820667336469
+"corrected","experience","per-person ANOVA slope_fwd","",42.6660215696791,1.66957978875156e-12
+"corrected","experience","per-person ANOVA slope_rev","",2.4053199260161,0.111508203868151
+"as_analysed","pooled","same report 7 vs 3, pale","+0.59 [-0.11, 1.17]",NA,0.123
+"as_analysed","pooled","same report 7 vs 3, vivid","+0.95 [0.55, 1.36]",NA,0
+"as_analysed","average","same report 7 vs 3, pale","+0.43 [-0.31, 1.01]",NA,0.289
+"as_analysed","average","same report 7 vs 3, vivid","+1.06 [0.58, 1.66]",NA,0
+"as_analysed","experience","same report 7 vs 3, pale","+0.57 [-0.31, 1.54]",NA,0.225
+"as_analysed","experience","same report 7 vs 3, vivid","+0.97 [0.43, 1.51]",NA,0
+"dropped","pooled","same report 7 vs 3, pale","+0.60 [-0.15, 1.15]",NA,0.138
+"dropped","pooled","same report 7 vs 3, vivid","+0.87 [0.49, 1.25]",NA,0
+"dropped","average","same report 7 vs 3, pale","+0.44 [-0.29, 0.99]",NA,0.256
+"dropped","average","same report 7 vs 3, vivid","+1.01 [0.49, 1.59]",NA,0
+"dropped","experience","same report 7 vs 3, pale","+0.58 [-0.29, 1.54]",NA,0.232
+"dropped","experience","same report 7 vs 3, vivid","+0.88 [0.35, 1.33]",NA,0.003
+"corrected","pooled","same report 7 vs 3, pale","+0.60 [-0.10, 1.18]",NA,0.103
+"corrected","pooled","same report 7 vs 3, vivid","+0.93 [0.52, 1.36]",NA,0
+"corrected","average","same report 7 vs 3, pale","+0.44 [-0.28, 1.04]",NA,0.284
+"corrected","average","same report 7 vs 3, vivid","+1.04 [0.53, 1.62]",NA,0
+"corrected","experience","same report 7 vs 3, pale","+0.60 [-0.29, 1.54]",NA,0.194
+"corrected","experience","same report 7 vs 3, vivid","+0.95 [0.40, 1.47]",NA,0.002

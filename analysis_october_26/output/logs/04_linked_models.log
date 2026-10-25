@@ -1,0 +1,16 @@
+exp1 average forward clean=TRUE dropped= p=0.0251
+exp1 average reverse clean=TRUE dropped=2,6,8,12 p=0.653
+exp1 experience forward clean=TRUE dropped=2,6,8 p=0.02
+exp1 experience reverse clean=TRUE dropped=2,6,8,12 p=0.15
+exp2 average forward clean=TRUE dropped=10 p=1.03e-06
+exp2 average reverse clean=TRUE dropped=2,10,20 p=0.676
+exp2 experience forward clean=TRUE dropped= p=0.00381
+exp2 experience reverse clean=TRUE dropped= p=0.133
+exp3 average forward clean=TRUE dropped= p=0.000803
+exp3 average reverse clean=TRUE dropped=2 p=0.713
+exp3 experience forward clean=TRUE dropped= p=0.0253
+exp3 experience reverse clean=TRUE dropped=2,20 p=0.0487
+exp4 average forward clean=TRUE dropped=5 p=4.13e-19
+exp4 average reverse clean=TRUE dropped=3 p=0.0217
+exp4 experience forward clean=TRUE dropped=5 p=9.19e-13
+exp4 experience reverse clean=TRUE dropped=5 p=0.171

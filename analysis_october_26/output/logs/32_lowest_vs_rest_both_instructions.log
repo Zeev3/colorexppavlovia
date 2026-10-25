@@ -1,0 +1,34 @@
+   experiment  condition   measure low_level  n mean_low mean_rest    diff
+1        exp1    average slope_fwd         2 23    0.914     0.760 0.15399
+2        exp1    average         r         2 23    0.758     0.692 0.06627
+3        exp1 experience slope_fwd         2 21    0.894     0.849 0.04453
+4        exp1 experience         r         2 21    0.791     0.720 0.07122
+5        exp2    average slope_fwd         2 86    0.815     0.709 0.10682
+6        exp2    average         r         2 86    0.784     0.730 0.05393
+7        exp2 experience slope_fwd         2 77    0.920     0.853 0.06634
+8        exp2 experience         r         2 77    0.780     0.751 0.02959
+9        exp3    average slope_fwd         2 46    0.828     0.717 0.11076
+10       exp3    average         r         2 46    0.789     0.709 0.07979
+11       exp3 experience slope_fwd         2 38    0.886     0.838 0.04771
+12       exp3 experience         r         2 38    0.775     0.769 0.00606
+13       exp4    average slope_fwd         3 51    1.076     0.846 0.23019
+14       exp4    average         r         3 51    0.809     0.726 0.08249
+15       exp4 experience slope_fwd         3 50    1.100     0.910 0.18994
+16       exp4 experience         r         3 50    0.817     0.727 0.08932
+        t df        p
+1   2.721 22 1.25e-02
+2   2.206 22 3.81e-02
+3   1.122 20 2.75e-01
+4   3.249 20 4.02e-03
+5   4.424 85 2.86e-05
+6   4.073 85 1.04e-04
+7   2.790 76 6.66e-03
+8   2.369 76 2.04e-02
+9   3.498 45 1.07e-03
+10  4.218 45 1.18e-04
+11  1.416 37 1.65e-01
+12  0.322 37 7.49e-01
+13 11.443 50 1.42e-15
+14  8.235 50 7.21e-11
+15  7.962 49 2.18e-10
+16  8.475 49 3.62e-11

@@ -1,0 +1,79 @@
+"experiment","condition","direction","grp","var1","var2","sdcor"
+"exp1","average","forward","participant_id","(Intercept)",NA,3.07527864074181
+"exp1","average","forward","participant_id","meanVal_c",NA,0.188886240965508
+"exp1","average","forward","participant_id","(Intercept)","meanVal_c",-0.342338914072371
+"exp1","average","forward","participant_id.1","I(meanVal_c * (array_length == ""2""))",NA,0.0837127830620999
+"exp1","average","forward","participant_id.2","I(meanVal_c * (array_length == ""6""))",NA,0.150478136485297
+"exp1","average","forward","participant_id.3","I(meanVal_c * (array_length == ""8""))",NA,0.174568069875722
+"exp1","average","forward","participant_id.4","I(meanVal_c * (array_length == ""12""))",NA,0.161169619820357
+"exp1","average","forward","Residual",NA,NA,5.30970557669063
+"exp1","average","reverse","participant_id","resp_c",NA,0.166883632967316
+"exp1","average","reverse","Residual",NA,NA,4.63753133272721
+"exp1","experience","forward","participant_id","(Intercept)",NA,2.70457575109644
+"exp1","experience","forward","participant_id","meanVal_c",NA,0.251694422329877
+"exp1","experience","forward","participant_id","(Intercept)","meanVal_c",0.19251880981338
+"exp1","experience","forward","participant_id.1","I(meanVal_c * (array_length == ""12""))",NA,0.118520792503117
+"exp1","experience","forward","Residual",NA,NA,5.14210746065803
+"exp1","experience","reverse","participant_id","resp_c",NA,0.130584991614064
+"exp1","experience","reverse","Residual",NA,NA,4.56039613391167
+"exp2","average","forward","participant_id","(Intercept)",NA,2.6749459609973
+"exp2","average","forward","participant_id","meanVal_c",NA,0.175325400209968
+"exp2","average","forward","participant_id","(Intercept)","meanVal_c",0.231141118349484
+"exp2","average","forward","participant_id.1","I(meanVal_c * (array_length == ""2""))",NA,0.151368291166391
+"exp2","average","forward","participant_id.2","I(meanVal_c * (array_length == ""20""))",NA,0.0752777666998391
+"exp2","average","forward","Residual",NA,NA,4.36134207298926
+"exp2","average","reverse","participant_id","resp_c",NA,0.141479626736346
+"exp2","average","reverse","Residual",NA,NA,4.45957446764623
+"exp2","experience","forward","participant_id","(Intercept)",NA,2.51177200082405
+"exp2","experience","forward","participant_id","meanVal_c",NA,0.213146730567492
+"exp2","experience","forward","participant_id","(Intercept)","meanVal_c",0.414822068893274
+"exp2","experience","forward","participant_id.1","I(meanVal_c * (array_length == ""2""))",NA,0.112237674208748
+"exp2","experience","forward","participant_id.2","I(meanVal_c * (array_length == ""10""))",NA,0.0468568773513593
+"exp2","experience","forward","participant_id.3","I(meanVal_c * (array_length == ""20""))",NA,0.0254573329761061
+"exp2","experience","forward","Residual",NA,NA,5.00503950585783
+"exp2","experience","reverse","participant_id","resp_c",NA,0.157528311245012
+"exp2","experience","reverse","participant_id.1","I(resp_c * (array_length == ""2""))",NA,0.0487020310618367
+"exp2","experience","reverse","participant_id.2","I(resp_c * (array_length == ""10""))",NA,0.020426479424618
+"exp2","experience","reverse","participant_id.3","I(resp_c * (array_length == ""20""))",NA,0.0280840946150781
+"exp2","experience","reverse","Residual",NA,NA,4.31483791955963
+"exp3","average","forward","participant_id","(Intercept)",NA,2.55655262747157
+"exp3","average","forward","participant_id","meanVal_c",NA,0.217215202682513
+"exp3","average","forward","participant_id","(Intercept)","meanVal_c",0.476308770297709
+"exp3","average","forward","participant_id.1","I(meanVal_c * (array_length == ""2""))",NA,0.108041388903694
+"exp3","average","forward","participant_id.2","I(meanVal_c * (array_length == ""10""))",NA,0.0380741126897637
+"exp3","average","forward","participant_id.3","I(meanVal_c * (array_length == ""20""))",NA,0.108453764572041
+"exp3","average","forward","Residual",NA,NA,4.36359205058929
+"exp3","average","reverse","participant_id","resp_c",NA,0.109016658170016
+"exp3","average","reverse","participant_id.1","I(resp_c * (array_length == ""10""))",NA,0.0598613676457892
+"exp3","average","reverse","participant_id.2","I(resp_c * (array_length == ""20""))",NA,0.00918943805040353
+"exp3","average","reverse","Residual",NA,NA,4.46445226339499
+"exp3","experience","forward","participant_id","(Intercept)",NA,3.10711798059268
+"exp3","experience","forward","participant_id","meanVal_c",NA,0.231831661078209
+"exp3","experience","forward","participant_id","(Intercept)","meanVal_c",0.169042109369124
+"exp3","experience","forward","participant_id.1","I(meanVal_c * (array_length == ""2""))",NA,0.0999168510537432
+"exp3","experience","forward","participant_id.2","I(meanVal_c * (array_length == ""10""))",NA,0.0735254173816913
+"exp3","experience","forward","participant_id.3","I(meanVal_c * (array_length == ""20""))",NA,0.0569576128355449
+"exp3","experience","forward","Residual",NA,NA,4.60663730180487
+"exp3","experience","reverse","participant_id","resp_c",NA,0.15489788880282
+"exp3","experience","reverse","participant_id.1","I(resp_c * (array_length == ""10""))",NA,0.0564900031871575
+"exp3","experience","reverse","Residual",NA,NA,4.16455084537818
+"exp4","average","forward","participant_id","(Intercept)",NA,2.3156795589378
+"exp4","average","forward","participant_id","meanVal_c",NA,0.20662240403103
+"exp4","average","forward","participant_id","(Intercept)","meanVal_c",0.187950867121355
+"exp4","average","forward","participant_id.1","I(meanVal_c * (variance_level == ""3""))",NA,0.0718220349547523
+"exp4","average","forward","participant_id.2","I(meanVal_c * (variance_level == ""7""))",NA,0.0502002487263002
+"exp4","average","forward","Residual",NA,NA,4.98455945986192
+"exp4","average","reverse","participant_id","resp_c",NA,0.134163298549242
+"exp4","average","reverse","participant_id.1","I(resp_c * (variance_level == ""5""))",NA,0.0225352736620326
+"exp4","average","reverse","participant_id.2","I(resp_c * (variance_level == ""7""))",NA,0.0825139376757307
+"exp4","average","reverse","Residual",NA,NA,4.03791275623782
+"exp4","experience","forward","participant_id","(Intercept)",NA,2.00353675062648
+"exp4","experience","forward","participant_id","meanVal_c",NA,0.210639274368579
+"exp4","experience","forward","participant_id","(Intercept)","meanVal_c",0.243573805571495
+"exp4","experience","forward","participant_id.1","I(meanVal_c * (variance_level == ""3""))",NA,0.0814727199174464
+"exp4","experience","forward","participant_id.2","I(meanVal_c * (variance_level == ""7""))",NA,0.0895967337500488
+"exp4","experience","forward","Residual",NA,NA,5.21902552401545
+"exp4","experience","reverse","participant_id","resp_c",NA,0.136377610170416
+"exp4","experience","reverse","participant_id.1","I(resp_c * (variance_level == ""3""))",NA,0.0483746818392216
+"exp4","experience","reverse","participant_id.2","I(resp_c * (variance_level == ""7""))",NA,0.0633710701475188
+"exp4","experience","reverse","Residual",NA,NA,4.00269554326276

@@ -1,0 +1,79 @@
+=== exp1
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+  average forward: shared_plus_dev
+  average reverse: by_level_nocorr
+  experience forward: by_level_nocorr
+  experience reverse: by_level_nocorr
+=== exp2
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+  average forward: by_level_nocorr
+  average reverse: by_level_nocorr
+  experience forward: by_level_corr
+  experience reverse: shared_plus_dev
+=== exp3
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+  average forward: shared_plus_dev
+  average reverse: by_level_nocorr
+  experience forward: shared_plus_dev
+  experience reverse: by_level_nocorr
+=== exp4
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+NOTE: Results may be misleading due to involvement in interactions
+NOTE: Results may be misleading due to involvement in interactions
+Contrasts set to contr.sum for the following variables: condition
+  average forward: by_level_nocorr
+  average reverse: by_level_nocorr
+  experience forward: by_level_nocorr
+  experience reverse: by_level_nocorr

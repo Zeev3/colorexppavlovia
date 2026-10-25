@@ -1,0 +1,9 @@
+"comparison","model","comparison_set","contrast","array_length","condition","estimate","SE","df","t.ratio","p.value"
+"compare_exp2_exp3","both conditions","frame_at_each_noise_level","no frame - Mondrian frame","2","average",-0.0137563007974876,0.0468999458229847,241.125619760061,-0.293311656465622,0.769536226183131
+"compare_exp2_exp3","both conditions","frame_at_each_noise_level","no frame - Mondrian frame","10","average",-0.023128151654958,0.0462405451507557,248.710859008357,-0.500170393310772,0.617397363326246
+"compare_exp2_exp3","both conditions","frame_at_each_noise_level","no frame - Mondrian frame","20","average",-0.00385908840886086,0.0457406447313907,244.737655417182,-0.0843689115342194,0.932832096066595
+"compare_exp2_exp3","both conditions","frame_at_each_noise_level","no frame - Mondrian frame","2","experience",0.0364217034207751,0.0513193435012146,248.920543259856,0.709707118913418,0.478550049614372
+"compare_exp2_exp3","both conditions","frame_at_each_noise_level","no frame - Mondrian frame","10","experience",0.0274701561168204,0.0498835621719206,243.159073287219,0.550685534889153,0.582354831678502
+"compare_exp2_exp3","both conditions","frame_at_each_noise_level","no frame - Mondrian frame","20","experience",-0.0106044728121094,0.0496624006921279,245.067895639427,-0.213531216057188,0.831090180138656
+"compare_exp2_exp3","both conditions","frame_overall","no frame - Mondrian frame",NA,"average",-0.0135811802871021,0.0400018138115896,243.487607452405,-0.339514111811782,0.734515129256715
+"compare_exp2_exp3","both conditions","frame_overall","no frame - Mondrian frame",NA,"experience",0.0177624622418287,0.0434379107985992,244.023082527044,0.408916126841015,0.682959860722049

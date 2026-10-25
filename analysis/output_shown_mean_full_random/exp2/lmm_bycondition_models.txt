@@ -1,0 +1,88 @@
+
+===== experience condition =====
+formula: indexSelected ~ meanVal_c * array_length + (1 | participant_id) + (0 + meanVal_c:array_length | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 43522.7
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.1664 -0.6012  0.0056  0.5983  4.7715 
+
+Random effects:
+ Groups           Name                     Variance Std.Dev. Corr     
+ participant_id   (Intercept)               6.29116 2.5082            
+ participant_id.1 meanVal_c:array_length2   0.05552 0.2356            
+                  meanVal_c:array_length10  0.05307 0.2304   0.89     
+                  meanVal_c:array_length20  0.04237 0.2058   0.85 0.97
+ Residual                                  25.05170 5.0052            
+Number of obs: 7107, groups:  participant_id, 77
+
+Fixed effects:
+                          Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)               23.45659    0.29206   76.10304  80.313  < 2e-16 ***
+meanVal_c                  0.87399    0.02634   76.84954  33.187  < 2e-16 ***
+array_length1             -1.43019    0.08480 6893.48717 -16.866  < 2e-16 ***
+array_length2              0.81975    0.08493 6885.49056   9.652  < 2e-16 ***
+meanVal_c:array_length1    0.04518    0.01553   75.89366   2.910  0.00474 ** 
+meanVal_c:array_length2   -0.04512    0.01375   74.85199  -3.281  0.00157 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c arry_1 arry_2 mV_:_1
+meanVal_c    0.000                            
+arry_lngth1 -0.001 -0.019                     
+arry_lngth2 -0.001 -0.025 -0.493              
+mnVl_c:rr_1 -0.009  0.052 -0.031  0.074       
+mnVl_c:rr_2 -0.014  0.074  0.085 -0.047 -0.524
+
+===== average condition =====
+formula: indexSelected ~ meanVal_c * array_length + (1 | participant_id) + (0 + I(meanVal_c * (array_length == "2")) | participant_id) + (0 + I(meanVal_c * (array_length == "10")) | participant_id) + (0 + I(meanVal_c * (array_length == "20")) | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 46492
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-5.6112 -0.6267  0.0081  0.6244  4.1299 
+
+Random effects:
+ Groups           Name                                  Variance Std.Dev.
+ participant_id   (Intercept)                            7.10248 2.6650  
+ participant_id.1 I(meanVal_c * (array_length == "2"))   0.04286 0.2070  
+ participant_id.2 I(meanVal_c * (array_length == "10"))  0.03449 0.1857  
+ participant_id.3 I(meanVal_c * (array_length == "20"))  0.03387 0.1841  
+ Residual                                               18.99606 4.3584  
+Number of obs: 7927, groups:  participant_id, 86
+
+Fixed effects:
+                          Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)               22.10235    0.29164   84.98654  75.786  < 2e-16 ***
+meanVal_c                  0.74322    0.01413  253.68349  52.599  < 2e-16 ***
+array_length1             -0.88932    0.07018 7666.50787 -12.672  < 2e-16 ***
+array_length2              0.62974    0.07010 7670.25342   8.984  < 2e-16 ***
+meanVal_c:array_length1    0.06770    0.02058  157.77658   3.289  0.00124 ** 
+meanVal_c:array_length2   -0.06430    0.01976  177.26893  -3.254  0.00136 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) mnVl_c arry_1 arry_2 mV_:_1
+meanVal_c    0.000                            
+arry_lngth1  0.000 -0.033                     
+arry_lngth2 -0.001 -0.024 -0.496              
+mnVl_c:rr_1 -0.006  0.079 -0.023  0.040       
+mnVl_c:rr_2 -0.004 -0.036  0.041 -0.017 -0.524

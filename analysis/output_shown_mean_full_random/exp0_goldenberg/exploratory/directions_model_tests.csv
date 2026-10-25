@@ -1,0 +1,5 @@
+"direction","valence","change_per_face","SE","df","p","fit_notes_linear","fit_notes_by_set_size"
+"forward","positive",-0.0167491308330601,0.00437051983865844,3737.93808229443,0.000129039342394421,"",""
+"forward","negative",-0.0153451345973576,0.00424345474476219,3447.14276327108,0.000303253682020073,"",""
+"reverse","positive",-0.0333346380454845,0.00332878776580334,3762.3143197187,2.58324506018316e-23,"boundary (singular) fit: see help('isSingular'); singular","boundary (singular) fit: see help('isSingular'); singular"
+"reverse","negative",-0.0287546563410174,0.00351665819155481,3505.21655790598,4.03433629897608e-16,"","unable to evaluate scaled gradient; Model failed to converge: degenerate  Hessian with 1 negative eigenvalues"

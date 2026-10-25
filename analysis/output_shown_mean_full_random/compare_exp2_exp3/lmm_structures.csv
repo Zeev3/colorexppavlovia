@@ -1,0 +1,3 @@
+"comparison","model","formula","rand_used","singular"
+"compare_exp2_exp3","experience","indexSelected ~ meanVal_c * array_length * frame + (1 + meanVal_c * array_length | participant_id)","max",FALSE
+"compare_exp2_exp3","average","indexSelected ~ meanVal_c * array_length * frame + (1 + meanVal_c * array_length | participant_id)","max",FALSE

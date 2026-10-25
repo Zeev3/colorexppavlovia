@@ -1,0 +1,9 @@
+"experiment","extreme_true","comparison","n_participants","pulled_to_middle_more","p"
+"exp1","low","12 squares vs 2 squares",43,4.20766009099885,1.64084334707145e-07
+"exp1","high","12 squares vs 2 squares",44,-3.22385107610716,1.85373810114821e-05
+"exp2","low","20 squares vs 2 squares",163,1.66790625061099,7.34958419650411e-09
+"exp2","high","20 squares vs 2 squares",162,-1.13345213490569,0.00103783955587776
+"exp3","low","20 squares vs 2 squares",83,2.21744017636741,2.53167547852234e-08
+"exp3","high","20 squares vs 2 squares",84,-1.50768625474255,0.000718486590445528
+"exp4","low","SD 7 vs SD 3",100,2.35027030728041,3.2750067346545e-14
+"exp4","high","SD 7 vs SD 3",100,1.80405408444878,3.09365380216401e-08

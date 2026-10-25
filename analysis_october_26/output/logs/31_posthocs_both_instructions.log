@@ -1,0 +1,162 @@
+exp1 average done
+exp1 experience done
+exp2 average done
+exp2 experience done
+exp3 average done
+exp3 experience done
+exp4 average done
+exp4 experience done
+ experiment  condition           source         kind          contrast estimate
+       exp1    average per-person ANOVA     pairwise           X6 - X2   -0.094
+       exp1    average per-person ANOVA     pairwise           X8 - X2   -0.161
+       exp1    average per-person ANOVA     pairwise           X8 - X6   -0.068
+       exp1    average per-person ANOVA     pairwise          X12 - X2   -0.207
+       exp1    average per-person ANOVA     pairwise          X12 - X6   -0.113
+       exp1    average per-person ANOVA     pairwise          X12 - X8   -0.045
+       exp1    average per-person ANOVA linear trend            linear   -0.688
+       exp1    average     linked model     pairwise   level6 - level2   -0.093
+       exp1    average     linked model     pairwise   level8 - level2   -0.151
+       exp1    average     linked model     pairwise   level8 - level6   -0.058
+       exp1    average     linked model     pairwise  level12 - level2   -0.196
+       exp1    average     linked model     pairwise  level12 - level6   -0.103
+       exp1    average     linked model     pairwise  level12 - level8   -0.046
+       exp1    average     linked model linear trend            linear   -0.646
+       exp1 experience per-person ANOVA     pairwise           X6 - X2   -0.051
+       exp1 experience per-person ANOVA     pairwise           X8 - X2   -0.132
+       exp1 experience per-person ANOVA     pairwise           X8 - X6   -0.081
+       exp1 experience per-person ANOVA     pairwise          X12 - X2    0.050
+       exp1 experience per-person ANOVA     pairwise          X12 - X6    0.102
+       exp1 experience per-person ANOVA     pairwise          X12 - X8    0.182
+       exp1 experience per-person ANOVA linear trend            linear    0.070
+       exp1 experience     linked model     pairwise   level6 - level2   -0.059
+       exp1 experience     linked model     pairwise   level8 - level2   -0.126
+       exp1 experience     linked model     pairwise   level8 - level6   -0.067
+       exp1 experience     linked model     pairwise  level12 - level2    0.037
+       exp1 experience     linked model     pairwise  level12 - level6    0.096
+       exp1 experience     linked model     pairwise  level12 - level8    0.163
+       exp1 experience     linked model linear trend            linear    0.045
+       exp2    average per-person ANOVA     pairwise          X10 - X2   -0.136
+       exp2    average per-person ANOVA     pairwise          X20 - X2   -0.077
+       exp2    average per-person ANOVA     pairwise         X20 - X10    0.059
+       exp2    average per-person ANOVA linear trend            linear   -0.077
+       exp2    average     linked model     pairwise  level10 - level2   -0.134
+       exp2    average     linked model     pairwise  level20 - level2   -0.073
+       exp2    average     linked model     pairwise level20 - level10    0.061
+       exp2    average     linked model linear trend            linear   -0.073
+       exp2 experience per-person ANOVA     pairwise          X10 - X2   -0.091
+       exp2 experience per-person ANOVA     pairwise          X20 - X2   -0.042
+       exp2 experience per-person ANOVA     pairwise         X20 - X10    0.049
+       exp2 experience per-person ANOVA linear trend            linear   -0.042
+       exp2 experience     linked model     pairwise  level10 - level2   -0.090
+       exp2 experience     linked model     pairwise  level20 - level2   -0.044
+       exp2 experience     linked model     pairwise level20 - level10    0.046
+       exp2 experience     linked model linear trend            linear   -0.044
+       exp3    average per-person ANOVA     pairwise          X10 - X2   -0.130
+       exp3    average per-person ANOVA     pairwise          X20 - X2   -0.092
+       exp3    average per-person ANOVA     pairwise         X20 - X10    0.038
+       exp3    average per-person ANOVA linear trend            linear   -0.092
+       exp3    average     linked model     pairwise  level10 - level2   -0.124
+       exp3    average     linked model     pairwise  level20 - level2   -0.084
+       exp3    average     linked model     pairwise level20 - level10    0.040
+       exp3    average     linked model linear trend            linear   -0.084
+       exp3 experience per-person ANOVA     pairwise          X10 - X2   -0.088
+       exp3 experience per-person ANOVA     pairwise          X20 - X2   -0.007
+       exp3 experience per-person ANOVA     pairwise         X20 - X10    0.081
+       exp3 experience per-person ANOVA linear trend            linear   -0.007
+       exp3 experience     linked model     pairwise  level10 - level2   -0.081
+       exp3 experience     linked model     pairwise  level20 - level2    0.005
+       exp3 experience     linked model     pairwise level20 - level10    0.086
+       exp3 experience     linked model linear trend            linear    0.005
+       exp4    average per-person ANOVA     pairwise           X5 - X3   -0.162
+       exp4    average per-person ANOVA     pairwise           X7 - X3   -0.299
+       exp4    average per-person ANOVA     pairwise           X7 - X5   -0.137
+       exp4    average per-person ANOVA linear trend            linear   -0.299
+       exp4    average     linked model     pairwise   level5 - level3   -0.160
+       exp4    average     linked model     pairwise   level7 - level3   -0.299
+       exp4    average     linked model     pairwise   level7 - level5   -0.139
+       exp4    average     linked model linear trend            linear   -0.299
+       exp4 experience per-person ANOVA     pairwise           X5 - X3   -0.134
+       exp4 experience per-person ANOVA     pairwise           X7 - X3   -0.245
+       exp4 experience per-person ANOVA     pairwise           X7 - X5   -0.111
+       exp4 experience per-person ANOVA linear trend            linear   -0.245
+       exp4 experience     linked model     pairwise   level5 - level3   -0.130
+       exp4 experience     linked model     pairwise   level7 - level3   -0.239
+       exp4 experience     linked model     pairwise   level7 - level5   -0.109
+       exp4 experience     linked model linear trend            linear   -0.239
+    SE         df       t       p
+ 0.072   22.00000  -1.304 6.2e-01
+ 0.078   22.00000  -2.075 2.5e-01
+ 0.053   22.00000  -1.282 6.2e-01
+ 0.054   22.00000  -3.827 5.5e-03
+ 0.070   22.00000  -1.614 4.8e-01
+ 0.077   22.00000  -0.591 6.2e-01
+ 0.170   22.00000  -4.058 5.2e-04
+ 0.062   28.52546  -1.488 5.6e-01
+ 0.065   28.92676  -2.300 1.4e-01
+ 0.070   31.41858  -0.826 8.3e-01
+ 0.063   28.59211  -3.095 2.6e-02
+ 0.068   30.88434  -1.519 5.6e-01
+ 0.071   31.65109  -0.641 8.3e-01
+ 0.203   36.99333  -3.190 2.9e-03
+ 0.040   20.00000  -1.295 4.2e-01
+ 0.045   20.00000  -2.967 3.8e-02
+ 0.041   20.00000  -1.962 2.6e-01
+ 0.060   20.00000   0.832 4.2e-01
+ 0.061   20.00000   1.671 3.3e-01
+ 0.045   20.00000   4.091 3.4e-03
+ 0.201   20.00000   0.345 7.3e-01
+ 0.050 1867.59732  -1.188 5.4e-01
+ 0.050 1862.75220  -2.513 6.0e-02
+ 0.050 1867.15850  -1.346 5.4e-01
+ 0.057   37.51570   0.651 5.4e-01
+ 0.057   36.56585   1.697 3.9e-01
+ 0.057   37.28123   2.859 4.2e-02
+ 0.178   44.08237   0.251 8.0e-01
+ 0.024   85.00000  -5.600 7.7e-07
+ 0.027   85.00000  -2.828 5.8e-03
+ 0.019   85.00000   3.163 4.3e-03
+ 0.027   85.00000  -2.828 5.8e-03
+ 0.025  117.48229  -5.432 9.2e-07
+ 0.026  109.60936  -2.815 5.8e-03
+ 0.020  130.00185   3.038 5.8e-03
+ 0.026  109.60936  -2.815 5.8e-03
+ 0.026   76.00000  -3.521 2.2e-03
+ 0.027   76.00000  -1.543 1.3e-01
+ 0.023   76.00000   2.084 8.1e-02
+ 0.027   76.00000  -1.543 1.3e-01
+ 0.026   88.91002  -3.416 2.9e-03
+ 0.026   88.33714  -1.697 1.0e-01
+ 0.023   83.83881   1.970 1.0e-01
+ 0.026   88.33714  -1.697 9.3e-02
+ 0.032   45.00000  -4.097 5.2e-04
+ 0.038   45.00000  -2.423 3.9e-02
+ 0.029   45.00000   1.310 2.0e-01
+ 0.038   45.00000  -2.423 2.0e-02
+ 0.031   50.01601  -4.056 5.3e-04
+ 0.034   54.74106  -2.475 3.3e-02
+ 0.031   50.61674   1.299 2.0e-01
+ 0.034   54.74106  -2.475 1.6e-02
+ 0.039   37.00000  -2.262 5.9e-02
+ 0.036   37.00000  -0.206 8.4e-01
+ 0.032   37.00000   2.483 5.3e-02
+ 0.036   37.00000  -0.206 8.4e-01
+ 0.036   41.82168  -2.255 5.9e-02
+ 0.035   41.29749   0.131 9.0e-01
+ 0.033   40.22666   2.602 3.9e-02
+ 0.035   41.29749   0.131 9.0e-01
+ 0.020   50.00000  -8.136 2.0e-10
+ 0.025   50.00000 -12.098 5.4e-16
+ 0.020   50.00000  -6.943 7.4e-09
+ 0.025   50.00000 -12.098 1.8e-16
+ 0.022   75.50297  -7.385 3.4e-10
+ 0.023   60.44729 -13.099 7.8e-19
+ 0.020   76.93836  -6.816 1.9e-09
+ 0.023   60.44729 -13.099 2.6e-19
+ 0.022   49.00000  -6.000 4.7e-07
+ 0.031   49.00000  -7.954 6.7e-10
+ 0.025   49.00000  -4.418 5.5e-05
+ 0.031   49.00000  -7.954 2.2e-10
+ 0.023   70.30531  -5.615 7.3e-07
+ 0.026   61.53895  -9.016 2.2e-12
+ 0.024   69.42748  -4.519 2.5e-05
+ 0.026   61.53895  -9.016 7.4e-13

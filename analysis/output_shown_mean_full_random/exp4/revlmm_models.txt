@@ -1,0 +1,166 @@
+
+===== combined =====
+formula: meanVal ~ resp_c * variance_level * condition + (0 + resp_c:variance_level | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 118888.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.4447 -0.6593  0.0002  0.6551  4.3894 
+
+Random effects:
+ Groups         Name                   Variance Std.Dev. Corr     
+ participant_id resp_c:variance_level3  0.01554 0.1247            
+                resp_c:variance_level5  0.02083 0.1443   0.98     
+                resp_c:variance_level7  0.02886 0.1699   0.86 0.94
+ Residual                              16.16860 4.0210            
+Number of obs: 21078, groups:  participant_id, 101
+
+Fixed effects:
+                                    Estimate Std. Error         df t value
+(Intercept)                        2.434e+01  2.786e-02  2.092e+04 873.759
+resp_c                             6.274e-01  1.468e-02  9.743e+01  42.741
+variance_level1                    1.883e-01  3.954e-02  2.092e+04   4.762
+variance_level2                   -1.130e-01  3.938e-02  2.095e+04  -2.869
+condition1                         8.151e-03  2.786e-02  2.092e+04   0.293
+resp_c:variance_level1            -3.016e-03  6.345e-03  9.209e+01  -0.475
+resp_c:variance_level2             1.468e-02  5.214e-03  9.762e+01   2.815
+resp_c:condition1                  1.165e-02  1.468e-02  9.743e+01   0.793
+variance_level1:condition1        -1.792e-02  3.954e-02  2.092e+04  -0.453
+variance_level2:condition1        -4.846e-02  3.938e-02  2.095e+04  -1.231
+resp_c:variance_level1:condition1 -1.185e-02  6.345e-03  9.209e+01  -1.868
+resp_c:variance_level2:condition1  8.577e-03  5.214e-03  9.762e+01   1.645
+                                  Pr(>|t|)    
+(Intercept)                        < 2e-16 ***
+resp_c                             < 2e-16 ***
+variance_level1                   1.93e-06 ***
+variance_level2                    0.00412 ** 
+condition1                         0.76984    
+resp_c:variance_level1             0.63566    
+resp_c:variance_level2             0.00590 ** 
+resp_c:condition1                  0.42949    
+variance_level1:condition1         0.65029    
+variance_level2:condition1         0.21848    
+resp_c:variance_level1:condition1  0.06500 .  
+resp_c:variance_level2:condition1  0.10322    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) resp_c vrnc_1 vrnc_2 cndtn1 rs_:_1 rs_:_2 rsp_:1 vr_1:1
+resp_c      -0.002                                                        
+varinc_lvl1  0.001  0.014                                                 
+varinc_lvl2 -0.008  0.003 -0.496                                          
+condition1  -0.007  0.000  0.000  0.001                                   
+rsp_c:vrn_1  0.046 -0.363  0.026 -0.035 -0.007                            
+rsp_c:vrn_2  0.009  0.026 -0.041 -0.001 -0.003 -0.225                     
+rsp_c:cndt1  0.000 -0.007 -0.002 -0.001 -0.002  0.000  0.001              
+vrnc_lvl1:1  0.000 -0.002 -0.007  0.003  0.001 -0.004  0.008  0.014       
+vrnc_lvl2:1  0.001 -0.001  0.003 -0.007 -0.008  0.007 -0.001  0.003 -0.496
+rsp_c:v_1:1 -0.007  0.000 -0.004  0.007  0.046  0.018 -0.014 -0.363  0.026
+rsp_c:v_2:1 -0.003  0.001  0.008 -0.001  0.009 -0.014  0.044  0.026 -0.041
+            vr_2:1 r_:_1:
+resp_c                   
+varinc_lvl1              
+varinc_lvl2              
+condition1               
+rsp_c:vrn_1              
+rsp_c:vrn_2              
+rsp_c:cndt1              
+vrnc_lvl1:1              
+vrnc_lvl2:1              
+rsp_c:v_1:1 -0.035       
+rsp_c:v_2:1 -0.001 -0.225
+
+===== experience =====
+formula: meanVal ~ resp_c * variance_level + (0 + I(resp_c * (variance_level == "3")) | participant_id) + (0 + I(resp_c * (variance_level == "5")) | participant_id) + (0 + I(resp_c * (variance_level == "7")) | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 59090.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.1331 -0.6541  0.0098  0.6618  4.4759 
+
+Random effects:
+ Groups           Name                                Variance Std.Dev.
+ participant_id   I(resp_c * (variance_level == "3"))  0.01720 0.1312  
+ participant_id.1 I(resp_c * (variance_level == "5"))  0.01998 0.1413  
+ participant_id.2 I(resp_c * (variance_level == "7"))  0.02359 0.1536  
+ Residual                                             16.02418 4.0030  
+Number of obs: 10475, groups:  participant_id, 50
+
+Fixed effects:
+                         Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)             2.434e+01  3.956e-02  1.038e+04 615.233  < 2e-16 ***
+resp_c                  6.122e-01  1.273e-02  1.387e+02  48.092  < 2e-16 ***
+variance_level1         2.157e-01  5.599e-02  1.038e+04   3.853 0.000118 ***
+variance_level2        -7.126e-02  5.576e-02  1.037e+04  -1.278 0.201230    
+resp_c:variance_level1  1.456e-02  1.733e-02  1.076e+02   0.840 0.402763    
+resp_c:variance_level2  2.897e-03  1.796e-02  9.320e+01   0.161 0.872216    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) resp_c vrnc_1 vrnc_2 rs_:_1
+resp_c      -0.003                            
+varinc_lvl1  0.002  0.027                     
+varinc_lvl2 -0.010  0.007 -0.496              
+rsp_c:vrn_1  0.028 -0.107  0.016 -0.023       
+rsp_c:vrn_2  0.007 -0.006 -0.022  0.002 -0.440
+
+===== average =====
+formula: meanVal ~ resp_c * variance_level + (0 + I(resp_c * (variance_level == "3")) | participant_id) + (0 + I(resp_c * (variance_level == "5")) | participant_id) + (0 + I(resp_c * (variance_level == "7")) | participant_id) 
+singular: FALSE 
+
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: f
+   Data: d
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e+05))
+
+REML criterion at convergence: 59995.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.4114 -0.6530 -0.0024  0.6444  4.5437 
+
+Random effects:
+ Groups           Name                                Variance Std.Dev.
+ participant_id   I(resp_c * (variance_level == "3"))  0.01255 0.1120  
+ participant_id.1 I(resp_c * (variance_level == "5"))  0.01929 0.1389  
+ participant_id.2 I(resp_c * (variance_level == "7"))  0.03307 0.1819  
+ Residual                                             16.32499 4.0404  
+Number of obs: 10603, groups:  participant_id, 51
+
+Fixed effects:
+                         Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)             2.435e+01  3.966e-02  1.052e+04 614.116  < 2e-16 ***
+resp_c                  6.360e-01  1.308e-02  1.317e+02  48.618  < 2e-16 ***
+variance_level1         1.704e-01  5.613e-02  1.052e+04   3.037  0.00240 ** 
+variance_level2        -1.586e-01  5.591e-02  1.050e+04  -2.836  0.00458 ** 
+resp_c:variance_level1 -1.523e-02  1.666e-02  1.257e+02  -0.914  0.36240    
+resp_c:variance_level2  2.448e-02  1.810e-02  1.028e+02   1.352  0.17922    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) resp_c vrnc_1 vrnc_2 rs_:_1
+resp_c      -0.002                            
+varinc_lvl1  0.002  0.019                     
+varinc_lvl2 -0.009  0.003 -0.497              
+rsp_c:vrn_1  0.021 -0.296  0.012 -0.016       
+rsp_c:vrn_2  0.003 -0.061 -0.015  0.000 -0.305

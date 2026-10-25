@@ -1,0 +1,313 @@
+cells: exp4 303 rows
+
+================= slope_fwd =================
+Anova Table (Type 3 tests)
+
+Response: slope_fwd
+                         num Df den Df    MSE      F    ges Pr(>F)    
+condition                  1.00     99 0.1437   1.37 0.0114   0.24    
+variance_level             1.78    176 0.0164 128.44 0.1797 <2e-16 ***
+condition:variance_level   1.78    176 0.0164   1.23 0.0021   0.29    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# A tibble: 6 x 4
+  condition  variance_level     M    SD
+  <fct>      <fct>          <dbl> <dbl>
+1 average    3              1.08  0.243
+2 average    5              0.914 0.226
+3 average    7              0.777 0.231
+4 experience 3              1.10  0.256
+5 experience 5              0.966 0.229
+6 experience 7              0.855 0.255
+-- post hoc: levels, pooled over instruction (Holm)
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.148 0.0150 99   9.899  <.0001
+ X3 - X7     0.272 0.0197 99  13.798  <.0001
+ X5 - X7     0.124 0.0160 99   7.780  <.0001
+
+Results are averaged over the levels of: condition 
+P value adjustment: holm method for 3 tests 
+-- post hoc: levels within each instruction (Holm)
+condition = average:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.162 0.0210 99   7.682  <.0001
+ X3 - X7     0.299 0.0278 99  10.765  <.0001
+ X5 - X7     0.137 0.0224 99   6.109  <.0001
+
+condition = experience:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.134 0.0213 99   6.324  <.0001
+ X3 - X7     0.245 0.0280 99   8.758  <.0001
+ X5 - X7     0.111 0.0227 99   4.900  <.0001
+
+P value adjustment: holm method for 3 tests 
+
+================= slope_rev =================
+Anova Table (Type 3 tests)
+
+Response: slope_rev
+                         num Df den Df    MSE    F     ges Pr(>F)  
+condition                  1.00     99 0.0689 0.83 0.00702  0.364  
+variance_level             1.67    165 0.0078 3.46 0.00554  0.042 *
+condition:variance_level   1.67    165 0.0078 2.58 0.00413  0.089 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# A tibble: 6 x 4
+  condition  variance_level     M    SD
+  <fct>      <fct>          <dbl> <dbl>
+1 average    3              0.629 0.128
+2 average    5              0.668 0.156
+3 average    7              0.634 0.198
+4 experience 3              0.631 0.144
+5 experience 5              0.622 0.161
+6 experience 7              0.596 0.193
+-- post hoc: levels, pooled over instruction (Holm)
+ contrast estimate      SE df t.ratio p.value
+ X3 - X5   -0.0153 0.00876 99  -1.744  0.1684
+ X3 - X7    0.0146 0.01326 99   1.105  0.2718
+ X5 - X7    0.0299 0.01164 99   2.571  0.0349
+
+Results are averaged over the levels of: condition 
+P value adjustment: holm method for 3 tests 
+-- post hoc: levels within each instruction (Holm)
+condition = average:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5  -0.03943 0.0123 99  -3.198  0.0056
+ X3 - X7  -0.00532 0.0187 99  -0.285  0.7762
+ X5 - X7   0.03412 0.0164 99   2.082  0.0798
+
+condition = experience:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5   0.00886 0.0125 99   0.712  0.4783
+ X3 - X7   0.03461 0.0188 99   1.837  0.2075
+ X5 - X7   0.02575 0.0165 99   1.556  0.2458
+
+P value adjustment: holm method for 3 tests 
+
+================= z =================
+Anova Table (Type 3 tests)
+
+Response: z
+                         num Df den Df    MSE      F    ges Pr(>F)    
+condition                  1.00     99 0.1605   0.02 0.0002   0.88    
+variance_level             1.88    186 0.0172 136.36 0.1876 <2e-16 ***
+condition:variance_level   1.88    186 0.0172   0.91 0.0015   0.40    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# A tibble: 6 x 4
+  condition  variance_level     M    SD
+  <fct>      <fct>          <dbl> <dbl>
+1 average    3              1.17  0.248
+2 average    5              1.06  0.248
+3 average    7              0.888 0.272
+4 experience 3              1.20  0.261
+5 experience 5              1.04  0.248
+6 experience 7              0.898 0.243
+-- post hoc: levels, pooled over instruction (Holm)
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.138 0.0160 99   8.658  <.0001
+ X3 - X7     0.295 0.0198 99  14.884  <.0001
+ X5 - X7     0.157 0.0177 99   8.893  <.0001
+
+Results are averaged over the levels of: condition 
+P value adjustment: holm method for 3 tests 
+-- post hoc: levels within each instruction (Holm)
+condition = average:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.114 0.0225 99   5.087  <.0001
+ X3 - X7     0.286 0.0279 99  10.235  <.0001
+ X5 - X7     0.171 0.0248 99   6.899  <.0001
+
+condition = experience:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.162 0.0227 99   7.147  <.0001
+ X3 - X7     0.305 0.0282 99  10.811  <.0001
+ X5 - X7     0.143 0.0251 99   5.683  <.0001
+
+P value adjustment: holm method for 3 tests 
+
+================= sd_response =================
+Anova Table (Type 3 tests)
+
+Response: sd_response
+                         num Df den Df  MSE     F    ges  Pr(>F)    
+condition                  1.00     99 7.07  1.50 0.0128    0.22    
+variance_level             1.62    160 0.73 47.70 0.0648 9.2e-15 ***
+condition:variance_level   1.62    160 0.73  0.24 0.0003    0.74    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# A tibble: 6 x 4
+  condition  variance_level     M    SD
+  <fct>      <fct>          <dbl> <dbl>
+1 average    3               8.18  1.53
+2 average    5               7.41  1.44
+3 average    7               7.08  1.68
+4 experience 3               8.47  1.95
+5 experience 5               7.84  1.60
+6 experience 7               7.49  1.70
+-- post hoc: levels, pooled over instruction (Holm)
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5     0.701 0.0947 99   7.405  <.0001
+ X3 - X7     1.039 0.1321 99   7.860  <.0001
+ X5 - X7     0.338 0.0943 99   3.581  0.0005
+
+Results are averaged over the levels of: condition 
+P value adjustment: holm method for 3 tests 
+-- post hoc: levels within each instruction (Holm)
+condition = average:
+ contrast estimate    SE df t.ratio p.value
+ X3 - X5     0.770 0.133 99   5.781  <.0001
+ X3 - X7     1.098 0.186 99   5.905  <.0001
+ X5 - X7     0.328 0.133 99   2.473  0.0151
+
+condition = experience:
+ contrast estimate    SE df t.ratio p.value
+ X3 - X5     0.632 0.135 99   4.698  <.0001
+ X3 - X7     0.979 0.188 99   5.214  <.0001
+ X5 - X7     0.347 0.134 99   2.591  0.0110
+
+P value adjustment: holm method for 3 tests 
+
+================= sd_objective =================
+Anova Table (Type 3 tests)
+
+Response: sd_objective
+                         num Df den Df   MSE    F     ges Pr(>F)
+condition                  1.00     99 0.297 0.15 0.00075   0.70
+variance_level             1.98    196 0.158 1.20 0.00619   0.30
+condition:variance_level   1.98    196 0.158 1.84 0.00943   0.16
+# A tibble: 6 x 4
+  condition  variance_level     M    SD
+  <fct>      <fct>          <dbl> <dbl>
+1 average    3               6.18 0.314
+2 average    5               6.23 0.294
+3 average    7               6.19 0.379
+4 experience 3               6.28 0.559
+5 experience 5               6.16 0.436
+6 experience 7               6.10 0.627
+-- post hoc: levels, pooled over instruction (Holm)
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5    0.0333 0.0531 99   0.627  0.7045
+ X3 - X7    0.0856 0.0577 99   1.483  0.4242
+ X5 - X7    0.0523 0.0560 99   0.935  0.7045
+
+Results are averaged over the levels of: condition 
+P value adjustment: holm method for 3 tests 
+-- post hoc: levels within each instruction (Holm)
+condition = average:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5   -0.0531 0.0747 99  -0.710  1.0000
+ X3 - X7   -0.0118 0.0813 99  -0.145  1.0000
+ X5 - X7    0.0413 0.0788 99   0.525  1.0000
+
+condition = experience:
+ contrast estimate     SE df t.ratio p.value
+ X3 - X5    0.1197 0.0755 99   1.585  0.2322
+ X3 - X7    0.1830 0.0821 99   2.230  0.0841
+ X5 - X7    0.0633 0.0795 99   0.796  0.4281
+
+P value adjustment: holm method for 3 tests 
+
+================= bias =================
+Anova Table (Type 3 tests)
+
+Response: bias
+                         num Df den Df   MSE     F     ges  Pr(>F)    
+condition                  1.00     99 14.37  1.38 0.01217    0.24    
+variance_level             1.45    143  1.34 18.86 0.02214 1.5e-06 ***
+condition:variance_level   1.45    143  1.34  1.64 0.00197    0.20    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# A tibble: 6 x 4
+  condition  variance_level      M    SD
+  <fct>      <fct>           <dbl> <dbl>
+1 average    3              0.0276  2.52
+2 average    5              0.564   2.40
+3 average    7              0.621   2.35
+4 experience 3              0.355   1.94
+5 experience 5              0.976   2.05
+6 experience 7              1.42    2.65
+-- post hoc: levels, pooled over instruction (Holm)
+ contrast estimate    SE df t.ratio p.value
+ X3 - X5    -0.579 0.114 99  -5.083  <.0001
+ X3 - X7    -0.829 0.176 99  -4.706  <.0001
+ X5 - X7    -0.250 0.116 99  -2.150  0.0340
+
+Results are averaged over the levels of: condition 
+P value adjustment: holm method for 3 tests 
+-- post hoc: levels within each instruction (Holm)
+condition = average:
+ contrast estimate    SE df t.ratio p.value
+ X3 - X5   -0.5367 0.160 99  -3.347  0.0035
+ X3 - X7   -0.5938 0.248 99  -2.395  0.0370
+ X5 - X7   -0.0571 0.164 99  -0.349  0.7280
+
+condition = experience:
+ contrast estimate    SE df t.ratio p.value
+ X3 - X5   -0.6218 0.162 99  -3.840  0.0004
+ X3 - X7   -1.0647 0.250 99  -4.252  0.0001
+ X5 - X7   -0.4430 0.165 99  -2.680  0.0086
+
+P value adjustment: holm method for 3 tests 
+
+================= linked forward model, average =================
+              Estimate Std. Error         df t value Pr(>|t|)
+(Intercept)    24.7766     0.3279    49.9849 75.5658   0.0000
+true_c          0.9207     0.0302    50.1864 30.4492   0.0000
+level1         -0.4080     0.0690 10496.8641 -5.9107   0.0000
+level2          0.1175     0.0688 10505.7262  1.7083   0.0876
+true_c:level1   0.1529     0.0132    53.5274 11.6026   0.0000
+true_c:level2  -0.0070     0.0118   355.5062 -0.5958   0.5517
+Type III Analysis of Variance Table with Satterthwaite's method
+              Sum Sq Mean Sq NumDF   DenDF F value    Pr(>F)    
+true_c       23035.8 23035.8     1    50.2 927.151 < 2.2e-16 ***
+level          917.9   459.0     2 10487.8  18.472 9.813e-09 ***
+true_c:level  4266.4  2133.2     2    66.2  85.856 < 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+-- slopes per level and pairwise (Holm)
+ level true_c.trend     SE   df lower.CL upper.CL
+ 3            1.074 0.0335 65.5    1.007    1.140
+ 5            0.914 0.0319 62.4    0.850    0.977
+ 7            0.775 0.0327 61.8    0.709    0.840
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+ contrast        estimate     SE   df t.ratio p.value
+ level3 - level5    0.160 0.0217 75.5   7.385  <.0001
+ level3 - level7    0.299 0.0228 60.5  13.099  <.0001
+ level5 - level7    0.139 0.0204 76.9   6.816  <.0001
+
+Degrees-of-freedom method: kenward-roger 
+P value adjustment: holm method for 3 tests 
+
+================= linked forward model, experience =================
+              Estimate Std. Error         df t value Pr(>|t|)
+(Intercept)    25.2701     0.2880    49.0289 87.7576   0.0000
+true_c          0.9718     0.0314    49.0650 30.9293   0.0000
+level1         -0.5675     0.0728 10369.1903 -7.7997   0.0000
+level2         -0.0176     0.0726 10375.6459 -0.2424   0.8085
+true_c:level1   0.1230     0.0145    54.9832  8.4648   0.0000
+true_c:level2  -0.0072     0.0130   305.3480 -0.5534   0.5804
+Type III Analysis of Variance Table with Satterthwaite's method
+              Sum Sq Mean Sq NumDF   DenDF F value    Pr(>F)    
+true_c       26056.7 26056.7     1    49.1 956.623 < 2.2e-16 ***
+level         2269.0  1134.5     2 10375.3  41.651 < 2.2e-16 ***
+true_c:level  2237.2  1118.6     2    74.8  41.066  9.19e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+-- slopes per level and pairwise (Holm)
+ level true_c.trend     SE   df lower.CL upper.CL
+ 3            1.095 0.0349 63.9    1.025    1.165
+ 5            0.965 0.0331 60.8    0.898    1.031
+ 7            0.856 0.0354 65.9    0.785    0.927
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+ contrast        estimate     SE   df t.ratio p.value
+ level3 - level5    0.130 0.0232 70.3   5.615  <.0001
+ level3 - level7    0.239 0.0265 61.5   9.016  <.0001
+ level5 - level7    0.109 0.0240 69.4   4.519  <.0001
+
+Degrees-of-freedom method: kenward-roger 
+P value adjustment: holm method for 3 tests 

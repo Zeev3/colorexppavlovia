@@ -1,0 +1,14 @@
+exp1 done
+exp2 done
+exp3 done
+exp4 done
+Warning messages:
+1: Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`). 
+2: Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`). 
+3: Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`). 
+4: Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`). 
+figures: 58 

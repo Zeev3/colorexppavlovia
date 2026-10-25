@@ -1,0 +1,31 @@
+arrays with a 0: 16  zeros per array: 16  arrays with >= 50: 0 
+of these in the clean analysed data: 12 
+# A tibble: 12 x 8
+   participant_id                      condition  variance_level trial meanVal
+   <chr>                               <fct>      <fct>          <int>   <dbl>
+ 1 average.606f9bca353fc36aba9ccb8b    average    7                139    15.1
+ 2 average.65ebbd5d9188410923b21986    average    7                190    14  
+ 3 average.673feeafa80a279f5cc63e33    average    7                149    14  
+ 4 average.698a3d827015c99ab3f87957    average    7                 76    15  
+ 5 average.6998845b8b98b147215b19e5    average    7                183    14  
+ 6 average.69a54b53983c2fc21935a276    average    7                 62    13.9
+ 7 experience.5a5aabd3acc75b00017a5300 experience 7                168    15  
+ 8 experience.5e991aaac7bc1615ea5b3eb8 experience 7                 75    13.9
+ 9 experience.5ebb96b6cd673a0008ace9ce experience 7                 40    18  
+10 experience.6599b15ac5bd63ec64f8b1f5 experience 7                136    14.1
+11 experience.66573c811d17794993965781 experience 7                 61    15  
+12 experience.699085db00ce46f1d7f46540 experience 7                 72    16.1
+   corrected_mean indexSelected vals                        
+            <dbl>         <int> <chr>                       
+ 1           20.1            41 10 14 21 17 10 15 23 19 0 22
+ 2           19              27 13 20 5 17 19 22 0 11 19 14 
+ 3           19              24 7 21 23 20 9 14 15 17 0 14  
+ 4           20              22 17 10 19 0 15 9 21 21 15 23 
+ 5           19              15 18 12 22 18 7 15 9 0 20 19  
+ 6           18.9            13 9 24 17 14 17 18 11 0 8 21  
+ 7           20              44 16 19 16 23 23 8 18 16 0 11 
+ 8           18.9            15 0 21 4 20 15 12 15 18 21 13 
+ 9           23              22 24 17 22 15 23 23 0 17 18 21
+10           19.1            11 8 25 19 20 9 13 13 0 16 18  
+11           20              11 0 25 12 13 13 22 11 19 18 17
+12           21.1            24 13 23 11 0 15 25 20 19 17 18

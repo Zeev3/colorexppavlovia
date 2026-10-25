@@ -1,0 +1,18 @@
+# A tibble: 6 x 3
+  condition  level     r
+  <chr>      <fct> <dbl>
+1 average    3     0.825
+2 average    5     0.785
+3 average    7     0.710
+4 experience 3     0.834
+5 experience 5     0.778
+6 experience 7     0.715
+# A tibble: 6 x 6
+  condition  level    bf    br    mt    mr
+  <chr>      <fct> <dbl> <dbl> <dbl> <dbl>
+1 average    3     1.07  0.594  24.1  24.5
+2 average    5     0.909 0.622  24.1  25.0
+3 average    7     0.784 0.576  24.6  25.6
+4 experience 3     1.10  0.583  24.1  24.2
+5 experience 5     0.966 0.577  24.2  24.9
+6 experience 7     0.850 0.550  24.7  25.9
